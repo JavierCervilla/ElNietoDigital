@@ -39,6 +39,11 @@ RE_MAIL='[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
 # Ficheros que por naturaleza llevan dominios o correos de ejemplo legítimos se declaran aquí, no se
 # apagan con un flag: el propio gate lista las excepciones.
 PRIV_EXCLUDE='^(scripts/gate-contenido\.sh|docs/diagrams/.*)$'
+# Números PÚBLICOS de ayuda que los guiones deben decir (no son datos personales). Excepción declarada aquí,
+# en el gate, no apagada con un flag: 017 (INCIBE) y su WhatsApp 900 116 117. Cualquier otro teléfono sigue en rojo.
+# Se BORRA el número permitido de la línea antes de buscar (no se excluye la línea entera: un teléfono
+# personal al lado de uno permitido tiene que seguir en rojo — lo cazó el self-test).
+RE_TEL_ALLOW='900[[:space:].-]?116[[:space:].-]?117'
 
 gate() {
   local root="$1" rojo=0 f
@@ -50,7 +55,7 @@ gate() {
   tracked="$( { git ls-files; git ls-files --others --exclude-standard; } | sort -u | grep -Ev "$PRIV_EXCLUDE" | grep -Ev '\.(png|jpg|jpeg|gif|webp|svg|ico)$' || true)"
   while IFS= read -r f; do
     [ -n "$f" ] && [ -f "$f" ] || continue
-    if grep -nE "$RE_TEL" "$f" | grep -vE 'https?://|[0-9]{10,}' | head -n 3 | sed "s|^|  ✗ $f: teléfono → |" | grep .; then rojo=1; fi
+    if sed -E "s/$RE_TEL_ALLOW/ /g" "$f" | grep -nE "$RE_TEL" | grep -vE 'https?://|[0-9]{10,}' | head -n 3 | sed "s|^|  ✗ $f: teléfono → |" | grep .; then rojo=1; fi
     if grep -nE "$RE_DNI" "$f" | head -n 3 | sed "s|^|  ✗ $f: DNI/NIE → |" | grep .; then rojo=1; fi
     if grep -nE "$RE_MAIL" "$f" | head -n 3 | sed "s|^|  ✗ $f: email → |" | grep .; then rojo=1; fi
   done <<< "$tracked"
@@ -104,6 +109,11 @@ self_test() {
   # Teléfono → 1
   local t1="$tmp/tel"; cp -r "$ok" "$t1"; printf 'Llama al 612 345 678\n' > "$t1/nota.md"
   ( gate "$t1" ) >/dev/null 2>&1; espera 1 "teléfono versionable" $?
+  # Número público permitido (017 por WhatsApp) → 0; y un teléfono al lado sigue en rojo → 1
+  local t1b="$tmp/tel-ok"; cp -r "$ok" "$t1b"; printf 'Guarde el 900 116 117 en contactos\n' > "$t1b/nota.md"
+  ( gate "$t1b" ) >/dev/null 2>&1; espera 0 "número público permitido" $?
+  local t1c="$tmp/tel-mix"; cp -r "$ok" "$t1c"; printf 'Guarde el 900 116 117 o llame al 612 345 678\n' > "$t1c/nota.md"
+  ( gate "$t1c" ) >/dev/null 2>&1; espera 1 "teléfono junto a uno permitido" $?
   # Email → 1
   local t2="$tmp/mail"; cp -r "$ok" "$t2"; printf 'escribe a alguien@ejemplo.es\n' > "$t2/nota.md"
   ( gate "$t2" ) >/dev/null 2>&1; espera 1 "email" $?
