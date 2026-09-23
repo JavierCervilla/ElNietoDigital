@@ -4,7 +4,7 @@
 - [x] Repo creado y metodología de trabajo fijada (`CLAUDE.md`, trayectoria NIETO-1)
 - [ ] Labels de issues configurados (`pilar:*`, `plat:*`, `formato:*`, `prio:*`, `necesita-consentimiento`)
 - [ ] Handles registrados el mismo día: YouTube, Instagram, TikTok, Facebook (`elnietodigital`; en Instagram `elnietodigital.es`)
-- [ ] Dominio elnietodigital.com comprado; comprobar .es en dominios.es
+- [x] Dominios elnietodigital.com y elnietodigital.es comprados
 - [ ] Kit mínimo de grabación listo (micro de solapa, luz, trípode, grabación de pantalla)
 - [x] Identidad visual: logo, paleta y tipografía (`marca/`); plantilla de miniatura en el lienzo de diseño
 - [ ] Guiones de los 4 primeros vídeos largos + 8 cortos
