@@ -1,0 +1,14 @@
+# Changelog — El Nieto Digital
+
+Lo más reciente arriba. Una entrada por trayectoria cerrada, en lenguaje de la persona que no vio el PR.
+
+## 2026-09-23 — NIETO-1 · el repo entra en el framework con metodología propia
+- Repo creado a partir del paquete de arranque del canal (dosier, guía de estilo, plan de contenido,
+  producción, redes, comunidad, ética/legal, marca, plantillas, bitácora).
+- Metodología de trabajo escrita en `CLAUDE.md`: un vídeo = una trayectoria `NIETO-n` (el issue queda como
+  ficha), los seis pasos del kanban como TODOs, lote mensual = épica, una sola convención de ramas.
+- Gate de contenido determinista (`scripts/gate-contenido.sh`) y CI: privacidad, frontmatter de guiones
+  publicados, mensajes de responsabilidad, formato de roadmap y changelog.
+- Diagrama de arquitectura del proyecto en `docs/diagrams/`.
+- Plantillas de guion con el campo `responsabilidad:`; PR template separa lo que verifica el gate de lo que es
+  juicio humano.

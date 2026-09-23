@@ -1,0 +1,391 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "El Nieto Digital — forma del proyecto",
+    "output": "el-nieto-digital.architecture.html",
+    "quality_profile": "showcase",
+    "visual_preset": "editorial",
+    "views": [
+      {
+        "id": "camino-principal",
+        "label": "Del guion al mayor",
+        "focus": [
+          "creador",
+          "produccion",
+          "youtube",
+          "familiar",
+          "mayores"
+        ],
+        "note": "YouTube es el ancla; el familiar de 35-55 es quien reenvía por WhatsApp."
+      },
+      {
+        "id": "redes",
+        "label": "Redes y cross-posting",
+        "focus": [
+          "produccion",
+          "instagram",
+          "facebook",
+          "tiktok",
+          "mayores"
+        ],
+        "note": "Un solo vertical exportado sin marca de agua; Facebook es la red donde está el mayor."
+      },
+      {
+        "id": "comunidad",
+        "label": "Comunidad y presencial",
+        "focus": [
+          "mayores",
+          "whatsapp",
+          "talleres",
+          "web"
+        ],
+        "note": "El que aprende, enseña: los nietos adoptivos nacen en la comunidad y en los talleres."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "framework",
+      "type": "security",
+      "label": "AgenticFramework",
+      "sublabel": "vault + Dashboard",
+      "pos": [
+        40,
+        110
+      ],
+      "size": [
+        140,
+        60
+      ],
+      "tag": "NIETO-n"
+    },
+    {
+      "id": "repo",
+      "type": "database",
+      "label": "Repo ElNietoDigital",
+      "sublabel": "docs · guiones · marca",
+      "pos": [
+        280,
+        110
+      ],
+      "size": [
+        140,
+        60
+      ],
+      "tag": "gate-contenido"
+    },
+    {
+      "id": "creador",
+      "type": "external",
+      "label": "Creador",
+      "sublabel": "nombre de pila · 4-6 h/sem",
+      "pos": [
+        40,
+        320
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "produccion",
+      "type": "backend",
+      "label": "Producción",
+      "sublabel": "guion · lote · edición",
+      "pos": [
+        280,
+        320
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "youtube",
+      "type": "cloud",
+      "label": "YouTube",
+      "sublabel": "ancla: largos + Shorts",
+      "pos": [
+        520,
+        320
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "familiar",
+      "type": "external",
+      "label": "Familiar distribuidor",
+      "sublabel": "35-55 · reenvía",
+      "pos": [
+        760,
+        320
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "mayores",
+      "type": "external",
+      "label": "Personas mayores",
+      "sublabel": "50+ / 65+",
+      "pos": [
+        1000,
+        320
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "tiktok",
+      "type": "cloud",
+      "label": "TikTok",
+      "sublabel": "cross-posting",
+      "pos": [
+        280,
+        530
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "instagram",
+      "type": "cloud",
+      "label": "Instagram",
+      "sublabel": "Reels · carruseles",
+      "pos": [
+        520,
+        530
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "facebook",
+      "type": "cloud",
+      "label": "Facebook",
+      "sublabel": "página + grupos",
+      "pos": [
+        760,
+        530
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "whatsapp",
+      "type": "messagebus",
+      "label": "Comunidad WhatsApp",
+      "sublabel": "nietos adoptivos",
+      "pos": [
+        1000,
+        530
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "talleres",
+      "type": "backend",
+      "label": "Talleres presenciales",
+      "sublabel": "Madrid · consentimiento",
+      "pos": [
+        760,
+        740
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "web",
+      "type": "frontend",
+      "label": "elnietodigital.com",
+      "sublabel": "enlaces (pendiente)",
+      "pos": [
+        1000,
+        740
+      ],
+      "size": [
+        140,
+        60
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Redes: un vertical, archivo original sin marca de agua",
+      "wraps": [
+        "youtube",
+        "tiktok",
+        "instagram",
+        "facebook"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "label": "Framework: trayectorias, TODOs y gate (privado)",
+      "wraps": [
+        "framework",
+        "repo"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "creador-produccion",
+      "from": "creador",
+      "to": "produccion",
+      "label": "guion · lote",
+      "variant": "emphasis"
+    },
+    {
+      "id": "framework-creador",
+      "from": "framework",
+      "to": "creador",
+      "label": "trayectorias",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelDy": 24
+    },
+    {
+      "id": "repo-produccion",
+      "from": "repo",
+      "to": "produccion",
+      "label": "guiones · marca",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelDy": 24
+    },
+    {
+      "id": "produccion-youtube",
+      "from": "produccion",
+      "to": "youtube",
+      "label": "largos · Shorts",
+      "variant": "emphasis"
+    },
+    {
+      "id": "produccion-instagram",
+      "from": "produccion",
+      "to": "instagram",
+      "label": "Reels",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "produccion-tiktok",
+      "from": "produccion",
+      "to": "tiktok",
+      "label": "cross-posting",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelDy": 24,
+      "labelDx": -64
+    },
+    {
+      "id": "instagram-facebook",
+      "from": "instagram",
+      "to": "facebook",
+      "label": "Meta Suite"
+    },
+    {
+      "id": "youtube-familiar",
+      "from": "youtube",
+      "to": "familiar",
+      "label": "reenviable",
+      "variant": "emphasis"
+    },
+    {
+      "id": "familiar-mayores",
+      "from": "familiar",
+      "to": "mayores",
+      "label": "WhatsApp",
+      "variant": "emphasis"
+    },
+    {
+      "id": "facebook-mayores",
+      "from": "facebook",
+      "to": "mayores",
+      "label": "grupos",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "mayores-whatsapp",
+      "from": "mayores",
+      "to": "whatsapp",
+      "label": "se unen",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelDy": 24
+    },
+    {
+      "id": "talleres-whatsapp",
+      "from": "talleres",
+      "to": "whatsapp",
+      "label": "miembros",
+      "variant": "dashed",
+      "fromSide": "right",
+      "toSide": "bottom"
+    },
+    {
+      "id": "web-whatsapp",
+      "from": "web",
+      "to": "whatsapp",
+      "label": "bio",
+      "variant": "dashed",
+      "fromSide": "top",
+      "toSide": "bottom"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "orange",
+      "title": "Distribución",
+      "items": [
+        "YouTube evergreen como ancla",
+        "El familiar de 35-55 reenvía por WhatsApp",
+        "Facebook es donde está el mayor"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Producción",
+      "items": [
+        "Lote de grabación un sábado al mes",
+        "Un vídeo = una trayectoria NIETO-n",
+        "Gate de contenido en cada PR"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Límites",
+      "items": [
+        "Nombre de pila, sin Universelle en el feed",
+        "Consentimiento firmado, fuera del repo",
+        "Sin consejo médico ni financiero"
+      ]
+    }
+  ]
+}

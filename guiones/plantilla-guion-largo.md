@@ -7,6 +7,7 @@ issue: #
 fecha_grabacion: 
 fecha_publicacion: 
 estado: idea | guion | grabado | editado | publicado
+responsabilidad: ninguno   # ninguno | salud | dinero | ia — si no es ninguno, rellena «Mensaje de responsabilidad»
 ---
 
 # [TÍTULO]

@@ -1,12 +1,14 @@
 # Roadmap — El Nieto Digital
 
 ## Fase 0 — Preparación (2 semanas)
-- [ ] Repo creado, tablero de GitHub Projects y labels configurados
+- [x] Repo creado y metodología de trabajo fijada (`CLAUDE.md`, trayectoria NIETO-1)
+- [ ] Labels de issues configurados (`pilar:*`, `plat:*`, `formato:*`, `prio:*`, `necesita-consentimiento`)
 - [ ] Handles registrados el mismo día: YouTube, Instagram, TikTok, Facebook (`elnietodigital`)
 - [ ] Dominio elnietodigital.com comprado; comprobar .es en dominios.es
 - [ ] Kit mínimo de grabación listo (micro de solapa, luz, trípode, grabación de pantalla)
 - [x] Identidad visual: logo, paleta y tipografía (`marca/`); plantilla de miniatura en el lienzo de diseño
 - [ ] Guiones de los 4 primeros vídeos largos + 8 cortos
+- [ ] Web elnietodigital.com como página de enlaces (estática, en `web/`; lienzo antes de implementar)
 - **Umbral para pasar a Fase 1:** primer lote grabado y en cola.
 
 ## Fase 1 — Lanzamiento (90 días)
