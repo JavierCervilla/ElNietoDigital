@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate-contenido:
+    name: Gate de contenido (privacidad · guiones · roadmap/changelog)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # El gate demuestra primero que sabe ponerse rojo; un gate que no lo demuestra es teatro.
+      - name: Self-test del gate
+        run: bash scripts/gate-contenido.sh --self-test
+      - name: Gate sobre el repo
+        run: bash scripts/gate-contenido.sh --root .

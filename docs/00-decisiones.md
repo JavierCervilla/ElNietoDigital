@@ -32,3 +32,18 @@ Formato tipo ADR: qué se decidió, por qué, y qué haría cambiar la decisión
 **Decisión:** símbolo de un móvil con cara amable, en naranja tostado sobre crema, con logotipo en Nunito ExtraBold.
 **Por qué:** es el concepto que un mayor entiende sin explicación ("el móvil no muerde"), funciona en tamaño pequeño y en un solo color. Descartados "Burbujas" (dos generaciones) y "El toque" (dedo que pulsa).
 **Archivos:** `marca/`. Editable en el lienzo de diseño de Claude.
+
+## D8 — Se trabaja con el AgenticFramework; el Dashboard es el kanban (2026-09-23)
+**Decisión:** el proyecto se gestiona con el AgenticFramework (un vídeo = una trayectoria `NIETO-n`; el issue
+queda como ficha pública). El tablero de GitHub Projects y los milestones **se retiran de momento**: el
+kanban es el Dashboard del framework y la bitácora es la vista pública (build in public).
+**Por qué:** un solo tablero. Dos tableros en paralelo es la forma de que ninguno esté al día con 4-6 h/semana.
+**Cambiaría si:** hiciera falta una vista pública del estado de los vídeos que la bitácora no cubra.
+**Detalle operativo:** `CLAUDE.md`; trayectoria NIETO-1 del vault.
+
+## D9 — La web vive en este mismo repositorio (2026-09-23)
+**Decisión:** la web `elnietodigital.com` (página de enlaces) se construye en `web/` de este repo, no en un
+repo aparte.
+**Por qué:** un solo CI, un solo `ROADMAP.md`, un solo `CHANGELOG.md`; el gate de contenido y el gate de
+código conviven en el mismo pipeline.
+**Cambiaría si:** la web creciera hasta necesitar su propio ciclo de despliegue independiente del contenido.

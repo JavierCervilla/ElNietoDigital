@@ -24,16 +24,22 @@ Este repo es el almacén de trabajo del canal: dosier, guiones, plantillas y una
 | `bitacora/` | Diario semanal "build in public" |
 | `recursos/` | Hashtags, contactos (los datos personales NO se suben) |
 | `marca/` | Logo (SVG/PNG), foto de perfil y reglas de uso de la marca |
-| `.github/` | Plantillas de issue: un vídeo = un issue |
+| `.github/` | Plantillas de issue y PR, y el CI con el gate de contenido |
+| `scripts/` | `gate-contenido.sh`: el gate determinista que corre el CI |
 
-Empieza por `docs/00-decisiones.md` y `ROADMAP.md`.
+Empieza por `docs/00-decisiones.md`, `ROADMAP.md` y `CLAUDE.md` (cómo se trabaja).
 
 ## Cómo se trabaja
-- **Un vídeo = un issue** (plantilla `Nuevo vídeo`). Tablero kanban en GitHub Projects: `Idea → Guion → Grabado → Editado → Publicado → Métricas`.
+- **Un vídeo = una trayectoria** del AgenticFramework (`NIETO-n`, con su rama y su PR) **y un issue** como ficha
+  pública (plantilla `Nuevo vídeo`). El kanban `Idea → Guion → Grabado → Editado → Publicado → Métricas` son
+  los seis TODOs de cada trayectoria en el Dashboard del framework; no hay tablero de GitHub Projects.
 - Labels: `pilar:*`, `plat:*`, `formato:*`, `prio:*`, `necesita-consentimiento`.
-- Milestones por mes (`2026-10`, `2026-11`...).
-- Ramas: `video/slug`, `docs/nombre`. Archivos: `AAAA-MM-DD-slug.md`.
+- Lote mensual de grabación = épica; cada pieza del lote, una trayectoria-hija.
+- Ramas: `claude/NIETO-n-<formato>-<slug>`. Archivos de guion publicado: `AAAA-MM-DD-slug.md`.
+- Cada PR pasa el gate de contenido (`scripts/gate-contenido.sh`: privacidad, frontmatter de guiones,
+  mensajes de responsabilidad, roadmap/changelog) y actualiza `CHANGELOG.md` y `ROADMAP.md`.
 - Presupuesto de tiempo: **4-6 h/semana**. Es un hobby; si no cabe en ese tiempo, se recorta el plan, no la vida.
+- Detalle operativo (para agentes y humano): `CLAUDE.md`.
 
 ## Lo que NO es
 No es un canal de humor a costa de los mayores, no da consejo médico ni financiero, no vende cursos ni promete dinero fácil, y no sustituye a las personas: la IA acompaña, no reemplaza.

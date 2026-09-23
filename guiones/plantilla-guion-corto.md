@@ -5,6 +5,7 @@ duracion: 30-60 s
 plataformas: [reels, facebook, shorts, tiktok]
 issue: #
 fecha: 
+responsabilidad: ninguno   # ninguno | salud | dinero | ia — si no es ninguno, rellena «Mensaje de responsabilidad»
 ---
 
 # Corto: [gancho]
