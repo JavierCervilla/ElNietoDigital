@@ -2,6 +2,10 @@
 
 Lo más reciente arriba. Una entrada por trayectoria cerrada, en lenguaje de la persona que no vio el PR.
 
+## 2026-09-23 — NIETO-4 · TikTok registrado
+- Cuenta de TikTok creada con `@elnietodigital`; tachada en la checklist de nombre y marca. Del registro de
+  handles solo queda Facebook.
+
 ## 2026-09-23 — NIETO-3 · dominios comprados
 - `elnietodigital.com` y `elnietodigital.es` están comprados: tachados en el roadmap (Fase 0) y en la
   checklist de registro de nombre y marca.
