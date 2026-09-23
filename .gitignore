@@ -1,0 +1,15 @@
+# Datos personales y documentos firmados: NUNCA al repo
+recursos/contactos-asociaciones.md
+consentimientos/
+*.pdf
+*.xlsx
+# Guiones aún no publicados (opcional: mover a repo privado)
+guiones/borradores/
+# Vídeo y audio
+*.mp4
+*.mov
+*.wav
+*.mp3
+# Sistema
+.DS_Store
+Thumbs.db
