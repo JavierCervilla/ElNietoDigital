@@ -40,6 +40,8 @@
 
 Orden de publicación sugerido para el primer lote: 1, 3, 7, 5 (seguridad + utilidad + seguridad + trámite).
 
+**Lote 1 (aprobado 2026-09-23, épica NIETO-5):** largos 1, 3, 7 y 5; cortos 1, 10, 4, 12, 5, 13, 7, 18 y 31.
+
 ## 30 ideas de corto (la primera frase es el gancho)
 1. "Si dice hola mamá, he cambiado de número, es estafa."
 2. "Esta foto es falsa. ¿Sabe cómo lo sé?"
@@ -71,6 +73,7 @@ Orden de publicación sugerido para el primer lote: 1, 3, 7, 5 (seguridad + util
 28. "Pregunta de la semana: ¿es seguro pagar con el móvil?"
 29. "Mi vecina de 74 probó ChatGPT. Esto pasó."
 30. "Regla de oro: ante la duda, no toque nada."
+31. "Recargue el abono transportes desde el móvil." (Madrid; app oficial Tarjeta Transporte)
 
 ## Calendario sostenible (4-6 h/semana)
 - 1 largo cada 2 semanas + 2-3 cortos por semana.

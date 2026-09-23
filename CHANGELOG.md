@@ -2,6 +2,14 @@
 
 Lo más reciente arriba. Una entrada por trayectoria cerrada, en lenguaje de la persona que no vio el PR.
 
+## 2026-09-23 — NIETO-5 · primer lote de guiones (borradores para revisión)
+- Trece guiones en borrador en `guiones/` (4 largos + 9 cortos: hola mamá, ChatGPT, mensajes estafa, cita médica,
+  017, abono transporte…), escritos con las plantillas y la guía de estilo, pendientes de la validación de gancho
+  y tono del humano y de la evaluación entre pares.
+- Idea de corto 31 (recargar el abono de transporte desde el móvil) en el plan de contenido; el lote 1 queda
+  anotado allí.
+- El gate de privacidad declara como excepción los números públicos de ayuda (017 y su WhatsApp 900 116 117).
+
 ## 2026-09-23 — NIETO-4 · TikTok registrado
 - Cuenta de TikTok creada con `@elnietodigital`; tachada en la checklist de nombre y marca. Del registro de
   handles solo queda Facebook.

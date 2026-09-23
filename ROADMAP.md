@@ -2,12 +2,12 @@
 
 ## Fase 0 — Preparación (2 semanas)
 - [x] Repo creado y metodología de trabajo fijada (`CLAUDE.md`, trayectoria NIETO-1)
-- [ ] Labels de issues configurados (`pilar:*`, `plat:*`, `formato:*`, `prio:*`, `necesita-consentimiento`)
+- [x] Labels de issues configurados (`pilar:*`, `plat:*`, `formato:*`, `prio:*`; `necesita-consentimiento` al primer issue que lo necesite)
 - [ ] Handles registrados el mismo día: YouTube, Instagram, TikTok, Facebook (`elnietodigital`; en Instagram `elnietodigital.es`)
 - [x] Dominios elnietodigital.com y elnietodigital.es comprados
 - [ ] Kit mínimo de grabación listo (micro de solapa, luz, trípode, grabación de pantalla)
 - [x] Identidad visual: logo, paleta y tipografía (`marca/`); plantilla de miniatura en el lienzo de diseño
-- [ ] Guiones de los 4 primeros vídeos largos + 8 cortos
+- [x] Guiones de los 4 primeros vídeos largos + 8 cortos (lote 1: 4 largos + 9 cortos, épica NIETO-5; borradores para validar)
 - [ ] Web elnietodigital.com como página de enlaces (estática, en `web/`; lienzo antes de implementar)
 - **Umbral para pasar a Fase 1:** primer lote grabado y en cola.
 
