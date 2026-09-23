@@ -2,16 +2,16 @@
 
 ## Nombre elegido
 - Visible: **El Nieto Digital**
-- Handle: `elnietodigital`
+- Handle: `elnietodigital` (en Instagram, `elnietodigital.es`)
 - Dominio: elnietodigital.com (y .es si está libre)
 - Tagline: "La IA explicada para que no te dejen atrás"
 
 ## Comprobación realizada (23-09-2026)
 | Dónde | Estado |
 |---|---|
-| YouTube @elnietodigital | Libre |
+| YouTube @elnietodigital | Registrado (23-09-2026) |
 | TikTok @elnietodigital | Probablemente libre (no se encontró cuenta) |
-| Instagram elnietodigital | Por confirmar (no verificable sin sesión) |
+| Instagram | Registrado como `elnietodigital.es` (23-09-2026); `elnietodigital` no estaba disponible |
 | Facebook "El Nieto Digital" | Por confirmar |
 | elnietodigital.com | Libre |
 | elnietodigital.es | Por confirmar en dominios.es |
@@ -23,8 +23,8 @@
 - Handles que empiezan por "ia" en minúscula: se leen "la".
 
 ## Checklist de registro (el mismo día)
-- [ ] YouTube: crear canal y fijar handle
-- [ ] Instagram: crear cuenta
+- [x] YouTube: crear canal y fijar handle (`@elnietodigital`)
+- [x] Instagram: crear cuenta (`@elnietodigital.es`)
 - [ ] TikTok: crear cuenta
 - [ ] Facebook: crear página
 - [ ] Comprar elnietodigital.com

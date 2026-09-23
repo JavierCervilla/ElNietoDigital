@@ -2,6 +2,12 @@
 
 Lo más reciente arriba. Una entrada por trayectoria cerrada, en lenguaje de la persona que no vio el PR.
 
+## 2026-09-23 — NIETO-2 · handle de Instagram y plantilla de contactos
+- El handle de Instagram es `@elnietodigital.es` (el corto no estaba disponible); YouTube sigue siendo
+  `@elnietodigital`. Actualizado en README, redes, nombre y marca, y como excepción de la decisión D5.
+- La plantilla de contactos de asociaciones se versiona sin datos (`recursos/contactos-asociaciones.plantilla.md`);
+  la copia rellenada sigue ignorada por git.
+
 ## 2026-09-23 — NIETO-1 · el repo entra en el framework con metodología propia
 - Repo creado a partir del paquete de arranque del canal (dosier, guía de estilo, plan de contenido,
   producción, redes, comunidad, ética/legal, marca, plantillas, bitácora).
