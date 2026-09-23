@@ -10,7 +10,7 @@
 | Dónde | Estado |
 |---|---|
 | YouTube @elnietodigital | Registrado (23-09-2026) |
-| TikTok @elnietodigital | Probablemente libre (no se encontró cuenta) |
+| TikTok @elnietodigital | Registrado (23-09-2026) |
 | Instagram | Registrado como `elnietodigital.es` (23-09-2026); `elnietodigital` no estaba disponible |
 | Facebook "El Nieto Digital" | Por confirmar |
 | elnietodigital.com | Comprado (23-09-2026) |
@@ -25,7 +25,7 @@
 ## Checklist de registro (el mismo día)
 - [x] YouTube: crear canal y fijar handle (`@elnietodigital`)
 - [x] Instagram: crear cuenta (`@elnietodigital.es`)
-- [ ] TikTok: crear cuenta
+- [x] TikTok: crear cuenta (`@elnietodigital`)
 - [ ] Facebook: crear página
 - [x] Comprar elnietodigital.com
 - [x] Comprobar y, si está libre, comprar elnietodigital.es
