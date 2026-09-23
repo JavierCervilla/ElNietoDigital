@@ -21,7 +21,7 @@ Formato tipo ADR: qué se decidió, por qué, y qué haría cambiar la decisión
 **Por qué:** en España, 55+: Facebook ~9,6 M > Instagram ~5,9 M > TikTok ~3,0 M (audiencia publicitaria, 2026). Facebook es la red preferida a partir de 46 años (IAB Spain 2025). El distribuidor real es el hijo/nieto de 35-55, que está en Instagram y reenvía por WhatsApp.
 
 ## D5 — Nombre: El Nieto Digital (2026-09)
-**Decisión:** nombre visible "El Nieto Digital", handle `elnietodigital` en todas las redes, dominio elnietodigital.com.
+**Decisión:** nombre visible "El Nieto Digital", handle `elnietodigital` en todas las redes, dominio elnietodigital.com. *Excepción (2026-09-23): en Instagram el handle es `elnietodigital.es`, porque el corto no estaba disponible al registrar.*
 **Por qué:** cuenta la historia intergeneracional sin explicarla, es cálido, fácil de decir por teléfono y estaba libre en YouTube, TikTok y .com (Instagram/Facebook/.es por confirmar en el momento del registro). Descartados "IA para Mayores" y "Sin miedo a la IA" (ocupados en YouTube). Evitar handles que empiecen por "ia" en minúscula (se lee "la").
 
 ## D6 — Es un hobby: 4-6 h/semana (2026-09)

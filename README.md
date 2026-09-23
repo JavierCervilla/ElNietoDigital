@@ -9,7 +9,7 @@ Nace de un principio aprendido en 42 Madrid: **no dejar a nadie atrás**.
 ## Dónde está el canal
 - YouTube: https://www.youtube.com/@elnietodigital (ancla: vídeos largos + Shorts)
 - Facebook: página "El Nieto Digital" (red principal para llegar al mayor)
-- Instagram: https://www.instagram.com/elnietodigital (para el familiar que reenvía)
+- Instagram: https://www.instagram.com/elnietodigital.es (para el familiar que reenvía; el handle corto no estaba disponible)
 - TikTok: https://www.tiktok.com/@elnietodigital (cross-posting)
 - Comunidad de WhatsApp: (enlace en la bio)
 
@@ -22,7 +22,7 @@ Este repo es el almacén de trabajo del canal: dosier, guiones, plantillas y una
 | `guiones/` | Plantillas de guion y guiones ya publicados |
 | `plantillas/` | Checklist de producción, ficha de métricas, consentimiento de imagen |
 | `bitacora/` | Diario semanal "build in public" |
-| `recursos/` | Hashtags, contactos (los datos personales NO se suben) |
+| `recursos/` | Hashtags y la plantilla de contactos (`contactos-asociaciones.plantilla.md`); la copia con datos reales está ignorada |
 | `marca/` | Logo (SVG/PNG), foto de perfil y reglas de uso de la marca |
 | `.github/` | Plantillas de issue y PR, y el CI con el gate de contenido |
 | `scripts/` | `gate-contenido.sh`: el gate determinista que corre el CI |

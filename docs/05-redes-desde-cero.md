@@ -10,7 +10,7 @@
 | WhatsApp | Comunidad | Comunidad + canal de anuncios |
 
 ## Configuración de cuentas (todas el mismo día)
-- Handle: `elnietodigital` en YouTube, Instagram, TikTok y Facebook. Si alguno estuviera ocupado: `elnietodigital_es`, `elnietodigitaltv`, `soyelnietodigital`.
+- Handle: `elnietodigital` en YouTube, TikTok y Facebook; en Instagram es **`elnietodigital.es`** (el corto no estaba disponible). Si otro estuviera ocupado: `elnietodigital_es`, `elnietodigitaltv`, `soyelnietodigital`.
 - Nombre visible: **El Nieto Digital**.
 - Foto: cara amable, fondo limpio, misma en todas las redes.
 - Bio: "IA y móvil explicados para personas mayores, sin jerga y sin miedo. Seguridad, trámites y utilidad. 👇 Únase a la comunidad."

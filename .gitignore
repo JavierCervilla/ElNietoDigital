@@ -1,4 +1,5 @@
 # Datos personales y documentos firmados: NUNCA al repo
+# (la plantilla vacía es recursos/contactos-asociaciones.plantilla.md, versionada)
 recursos/contactos-asociaciones.md
 consentimientos/
 *.pdf
