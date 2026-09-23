@@ -12,3 +12,5 @@ Lo más reciente arriba. Una entrada por trayectoria cerrada, en lenguaje de la 
 - Diagrama de arquitectura del proyecto en `docs/diagrams/`.
 - Plantillas de guion con el campo `responsabilidad:`; PR template separa lo que verifica el gate de lo que es
   juicio humano.
+- Decisiones D8 (Dashboard como kanban, sin GitHub Projects de momento) y D9 (la web en `web/` de este repo)
+  en `docs/00-decisiones.md`.
