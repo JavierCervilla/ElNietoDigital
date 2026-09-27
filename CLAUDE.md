@@ -39,6 +39,10 @@ Son el kanban del README, convertidos en TODOs del Dashboard (se crean con `todo
 | 5 | Publicado en cada red con descripción propia | humano | `verifying` |
 | 6 | Ficha de métricas a 7 y 30 días + aprendizaje | humano/agente | `done` al cerrar los 30 d |
 
+**Cortos sin cara (D10, a prueba):** en un corto, los TODOs 3 y 4 los hace el agente con el sistema de
+`videos/NIETO-23-corto-hola-mama-ia/`: voz del canal, música a imagen y animación. El veredicto de la pieza sigue
+siendo del humano y de los dos pares. Los largos no cambian.
+
 Una trayectoria de **docs** (plan, dosier, bitácora) lleva sus propios TODOs, normalmente 2-3.
 
 ## Las cinco fases, redimensionadas a 4-6 h/semana

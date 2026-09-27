@@ -2,6 +2,13 @@
 
 Lo más reciente arriba. Una entrada por trayectoria cerrada, en lenguaje de la persona que no vio el PR.
 
+## 2026-09-27 — NIETO-25 · decisión D10: los cortos, sin cara, a prueba
+- De momento, los cortos se hacen sin la cara ni la voz del creador. Llevan la voz IA del canal, música y animación,
+  como el piloto «hola mamá». Los vídeos largos siguen siendo de cara (D3).
+- La IA se sigue diciendo, y no hay avatar ni cara sintética.
+- Si los cortos no retienen, se vuelven a hacer con cara. Se mira con la retención media de las fichas de métricas
+  y está en los umbrales de la Fase 1 del roadmap.
+
 ## 2026-09-27 — NIETO-24 · la voz del canal ya no suena metálica
 - La voz sonaba «un poco metálica». En una prueba con la misma toma, sin ralentizar sonaba limpia: la culpa era
   del programa con que se ralentizaba (Rubber Band, un vocoder de fase), no de la voz.

@@ -15,6 +15,7 @@ Formato tipo ADR: qué se decidió, por qué, y qué haría cambiar la decisión
 **Decisión:** el creador sale en pantalla. Nombre de pila, sin apellido, sin enlace a Universelle en el feed de mayores, sin dirección concreta.
 **Por qué:** los mayores confían en caras; lo faceless se valoró y se descartó. Ser "persona pública" es improbable a la escala prevista y siempre se puede frenar.
 **Objetivo personal:** perder la vergüenza de hablar en público, ayudar y ocupar el tiempo, no hacerse conocido.
+*Matizada por D10 (2026-09-27): los **cortos**, de momento, sin cara. Los vídeos largos siguen siendo de cara.*
 
 ## D4 — Plataformas (2026-09)
 **Decisión:** YouTube (ancla) · Facebook (llegar al mayor) · Instagram (llegar al familiar que reenvía) · TikTok y Shorts (cross-posting) · WhatsApp (comunidad).
@@ -47,3 +48,19 @@ repo aparte.
 **Por qué:** un solo CI, un solo `ROADMAP.md`, un solo `CHANGELOG.md`; el gate de contenido y el gate de
 código conviven en el mismo pipeline.
 **Cambiaría si:** la web creciera hasta necesitar su propio ciclo de despliegue independiente del contenido.
+
+## D10 — Los cortos, sin cara (faceless), a prueba (2026-09-27)
+**Decisión:** de momento, los cortos (Reels, Shorts, TikTok) se hacen **sin la cara ni la voz del creador**. Llevan
+la voz IA del canal, música y efectos de ElevenLabs y animación con la mascota y la mano, como el piloto NIETO-23.
+Los vídeos **largos siguen siendo de cara** (D3).
+**Por qué:** el piloto gustó («Me gusta el piloto, sí»). Una vez arreglada la voz (NIETO-24: «mucho mejor, menos
+metálica»), se prueba si funcionan: «De momento vamos a dejarlos faceless a ver qué tal funciona».
+**Consecuencia:** un corto así no pasa por el sábado de grabación (D6). La voz, el montaje y la miniatura los hace el
+agente (`CLAUDE.md`).
+**Lo que no cambia:** la IA se dice. «Voz generada con IA» va en pantalla y se marca el contenido sintético en cada
+red. No se usa avatar ni cara sintética: un canal que enseña a desconfiar de los deepfakes no puede usarlos (guía de
+estilo, «Qué evitar»). Cada pieza sigue teniendo el veredicto del humano y la evaluación entre pares.
+**Cambiaría si:** los cortos no retienen: «en caso de que veamos que no tienen retención lo haremos con cara». Se
+mira con la «Retención media (%)» de las fichas de métricas a 7 y 30 días (`plantillas/ficha-video.md`) del primer
+lote publicado; el umbral lo fija el humano al revisarlas. Está también en los umbrales de la Fase 1 del `ROADMAP.md`.
+**Detalle:** trayectorias NIETO-23 (piloto), NIETO-24 (voz) y NIETO-25 (esta decisión) del vault.
