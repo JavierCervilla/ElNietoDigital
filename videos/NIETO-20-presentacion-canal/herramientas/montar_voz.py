@@ -11,7 +11,7 @@ Por cada frase del guion (su tramo [t0, t1] de voz/toma.json):
   1. la corta de la toma con un pequeño margen,
   2. le añade «respiros» de silencio tras la puntuación interior (coma, dos puntos, puntos suspensivos…),
      cortando en el hueco entre palabras que da la alineación,
-  3. la estira con Rubber Band (`tempo` < 1 ralentiza sin cambiar el tono ni los formantes),
+  3. la estira con PSOLA de Praat (`tempo` < 1 ralentiza periodo a periodo, sin cambiar el tono ni el timbre),
   4. la coloca en la línea de tiempo tras el silencio `pausa_antes` que marca el montaje.
 
 La alineación viaja con cada transformación, así que cada palabra sabe su tiempo final. Salidas:
@@ -25,9 +25,10 @@ Uso:  python3 herramientas/montar_voz.py
 import json
 import pathlib
 import subprocess
-import tempfile
 
 import numpy as np
+import parselmouth
+from parselmouth.praat import call, run
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 SR = 44100
@@ -50,12 +51,15 @@ def escribir_wav(ruta, x):
 
 
 def estirar(x, tempo):
-    """Rubber Band vía ffmpeg: tempo sin tocar el tono, formantes preservados, detector suave (voz)."""
-    with tempfile.TemporaryDirectory() as tmp:
-        escribir_wav(f"{tmp}/a.wav", x)
-        filtro = f"rubberband=tempo={tempo}:formant=preserved:pitchq=quality:detector=soft:transients=smooth"
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", f"{tmp}/a.wav", "-af", filtro, f"{tmp}/b.wav"], check=True)
-        return leer_audio(f"{tmp}/b.wav")
+    """PSOLA de Praat («Lengthen (overlap-add)»): alarga la voz repitiendo periodos de la onda, sin vocoder de fase.
+
+    Hasta NIETO-24 se estiraba con Rubber Band (vocoder de fase) y el humano oía la voz «un poco metálica»: en un
+    A/B con la misma toma, sin estirar sonaba limpia y con PSOLA a la misma razón, también. Tono de 75 a 600 Hz.
+    En los tramos sordos Praat coloca los pulsos al azar: sin semilla fija, dos montajes no salen iguales (medido).
+    """
+    run("random_initializeWithSeedUnsafelyButPredictably (2024)")
+    sonido = parselmouth.Sound(x.astype(np.float64), sampling_frequency=SR)
+    return call(sonido, "Lengthen (overlap-add)", 75, 600, 1 / tempo).values[0].astype(np.float32)
 
 
 def fundir(x, n, entrada):

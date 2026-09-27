@@ -60,7 +60,7 @@
     }
   ],
   "montaje": {
-    "_nota": "Lo decide el montaje, no la voz: tempo (Rubber Band, mantiene tono y formantes), respiros añadidos tras la puntuación interior de cada frase y silencio antes de cada frase.",
+    "_nota": "Lo decide el montaje, no la voz: tempo (PSOLA de Praat, mantiene tono y timbre), respiros añadidos tras la puntuación interior de cada frase y silencio antes de cada frase.",
     "fps": 30,
     "tempo": 0.9,
     "preroll": 1.0,

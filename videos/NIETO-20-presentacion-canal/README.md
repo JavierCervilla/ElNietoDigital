@@ -51,7 +51,11 @@ Todo se ancla a la **alineación por carácter** de la locución, no a ojo:
    sin una sola diferencia.
 3. `herramientas/montar_voz.py` afina la alineación contra el audio (la de ElevenLabs adelantaba hasta 0,5 s las
    palabras tras una pausa y derivaba un 0,3 %), añade respiros tras la puntuación, ralentiza al 90 % con
-   Rubber Band (sin cambiar el tono) y coloca cada frase en el montaje. Salen `tiempos.js` (cada palabra con su
+   PSOLA de Praat (sin cambiar el tono ni el timbre) y coloca cada frase en el montaje.
+   - Hasta NIETO-24 se ralentizaba con Rubber Band, y la voz sonaba «un poco metálica».
+   - En un A/B con la misma toma, sin estirar sonaba limpia: la culpa era del vocoder de fase, no de la voz.
+
+   Salen `tiempos.js` (cada palabra con su
    tiempo: subtítulos) y la envolvente de la voz (la onda de la etiqueta). Arranques de palabra tras pausa
    medidos contra la energía real: ±15 ms.
 4. `herramientas/banda_sonora.py` deriva los **cues** de pantalla de las palabras (`cues.js`: la animación, los
@@ -68,8 +72,9 @@ Todo se ancla a la **alineación por carácter** de la locución, no a ojo:
    - El acorde final ataca en «Suscríbase.» todavía oscuro y **se abre cuando la mano pulsa el botón**.
    - El latido grabado no aceleraba: se re-secuencia de 64 a 118 ppm.
    - Cada efecto se alinea por su ataque real, no por el inicio del fichero.
-   - La música se agacha bajo la voz con anticipación de 100 ms (−11 dB). En habla plena, la voz queda 19 dB
-     por encima de la música de mediana y 11,7 dB en el percentil 10.
+   - La música se agacha bajo la voz con anticipación de 100 ms (−11 dB).
+   - En habla plena (ventanas de 100 ms a menos de 12 dB del máximo de la voz), la voz queda 23,3 dB por encima
+     de la música de mediana y 16,8 dB en el percentil 10.
 
 La mano es el hilo: tiembla con miedo a tocar al principio, se detiene «ante la duda» y al final pulsa
 «Suscribirse» con seguridad. El móvil que asusta se convierte en la mascota, y la mascota en el logotipo.
@@ -93,7 +98,8 @@ un barajado con semilla.
 - Subtítulos siempre (Atkinson Hyperlegible 50 px), por frases, con la palabra que suena subrayada.
 
 ## Cómo regenerar el vídeo
-Necesita Node ≥ 22, FFmpeg (con rubberband), Chrome/Chromium y Python 3 con numpy y scipy.
+Necesita Node ≥ 22, FFmpeg, Chrome/Chromium y Python 3 con numpy, scipy y praat-parselmouth
+(`pip install praat-parselmouth`: el PSOLA que ralentiza la voz).
 
 ```bash
 cd videos/NIETO-20-presentacion-canal

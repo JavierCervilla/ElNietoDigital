@@ -2,6 +2,15 @@
 
 Lo más reciente arriba. Una entrada por trayectoria cerrada, en lenguaje de la persona que no vio el PR.
 
+## 2026-09-27 — NIETO-24 · la voz del canal ya no suena metálica
+- La voz sonaba «un poco metálica». En una prueba con la misma toma, sin ralentizar sonaba limpia: la culpa era
+  del programa con que se ralentizaba (Rubber Band, un vocoder de fase), no de la voz.
+- Ahora se ralentiza con PSOLA (Praat), que alarga la voz repitiendo trozos de su propia onda. Se eligió de
+  oído entre siete alternativas a la de antes.
+- Arreglado en todos los vídeos con voz: el tráiler (horizontal y vertical) y el corto «hola mamá». Mismos
+  tiempos al milisegundo, así que subtítulos, animación y música no cambian. La voz se entiende igual (Whisper
+  9/9 frases) y queda aún más por encima de la música.
+
 ## 2026-09-27 — NIETO-23 · piloto: el corto «hola mamá» hecho entero con IA
 - Prueba del primer corto del lote (guion de NIETO-10) **sin la cara ni la voz del creador**. La voz de IA es la
   del canal, la música y los efectos son de ElevenLabs y la animación es vertical, para Reels, Shorts y TikTok.
