@@ -2,6 +2,19 @@
 
 Lo más reciente arriba. Una entrada por trayectoria cerrada, en lenguaje de la persona que no vio el PR.
 
+## 2026-09-27 — NIETO-23 · piloto: el corto «hola mamá» hecho entero con IA
+- Prueba del primer corto del lote (guion de NIETO-10) **sin la cara ni la voz del creador**. La voz de IA es la
+  del canal, la música y los efectos son de ElevenLabs y la animación es vertical, para Reels, Shorts y TikTok.
+  Dura 53 s.
+- Cuenta la estafa en un chat de ejemplo con el número tapado. Las tres señales aparecen una a una: número
+  desconocido, «guarda este número», dinero con prisa. Después viene qué hacer: no conteste, no pague y llame
+  al número de siempre. Termina con la regla, «ante la duda, no toque nada», el 017 y el mensaje de
+  responsabilidad.
+- La IA se dice: «Voz generada con IA» está en pantalla todo el vídeo, y el README indica qué casilla de
+  contenido sintético marcar en cada red.
+- Es un piloto: no cambia la decisión D3 (el creador sale a cámara). Hacer así los cortos, si convence, lo decide
+  el humano con un ADR nuevo.
+
 ## 2026-09-27 — NIETO-22 · el tráiler narrado, también en vertical (Shorts, Reels, TikTok)
 - Versión 1080×1920 del tráiler, con la misma voz, la misma música y los mismos tiempos. Cada escena está
   recompuesta para el móvil y deja libres las zonas que tapan los botones y textos de Shorts, Reels y TikTok.

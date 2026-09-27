@@ -1,0 +1,1424 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>El Nieto Digital · corto «hola mamá» (piloto hecho con IA)</title>
+    <!-- GSAP y fuentes vendorizados: el Chrome headless del render no alcanza la CDN (lección de NIETO-19). -->
+    <script src="vendor/gsap.min.js"></script>
+    <!-- Generados por herramientas/: tiempos de cada palabra de la locución y cues de lo que pasa en pantalla. -->
+    <script src="tiempos.js"></script>
+    <script src="cues.js"></script>
+    <style>
+      @font-face {
+        font-family: "Nunito";
+        src: url("fonts/nunito-var-latin.woff2") format("woff2");
+        font-weight: 200 1000;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Atkinson Hyperlegible";
+        src: url("fonts/atkinson-700-latin.woff2") format("woff2");
+        font-weight: 700;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Atkinson Hyperlegible";
+        src: url("fonts/atkinson-400-latin.woff2") format("woff2");
+        font-weight: 400;
+        font-display: block;
+      }
+      /* Marca D7: naranja #C8461F, azul #1F2A44, crema #FBF7F0. Sobre azul, el naranja va DETRÁS del texto crema.
+         Zonas de interfaz de Shorts/Reels/TikTok libres: nada importante por encima de y≈240 ni por debajo de
+         y≈1500, y nada en la columna de botones (x > 920) entre y≈850 y y≈1650. */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #fbf7f0;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        font-family: "Nunito", sans-serif;
+        color: #1f2a44;
+      }
+      .full {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+      }
+      .abs {
+        position: absolute;
+      }
+      .mask {
+        position: absolute;
+        overflow: hidden;
+      }
+      .line {
+        display: block;
+        white-space: nowrap;
+      }
+      .t-l {
+        font-weight: 900;
+        font-size: 96px;
+        line-height: 1.08;
+        letter-spacing: -0.015em;
+      }
+      .naranja {
+        color: #c8461f;
+      }
+      .crema-t {
+        color: #fbf7f0;
+      }
+      .mk {
+        position: relative;
+        display: inline-block;
+      }
+      .mk-bg {
+        position: absolute;
+        left: -0.12em;
+        right: -0.12em;
+        top: 0.14em;
+        bottom: 0.04em;
+        border-radius: 0.16em;
+        background: #c8461f;
+        transform-origin: 0 50%;
+        transform: scaleX(0);
+        display: block;
+      }
+      .mk-t {
+        position: relative;
+      }
+      #paper {
+        position: absolute;
+        left: -40px;
+        top: -80px;
+        width: 1200px;
+        height: 2120px;
+        opacity: 0.07;
+      }
+
+      /* ── Nota de voz «Voz generada con IA»: visible TODO el vídeo ─────────────── */
+      #vnote {
+        position: absolute;
+        left: 40px;
+        top: 250px;
+        width: 520px;
+        height: 84px;
+        border-radius: 42px;
+        background: #fbf7f0;
+        border: 3px solid #1f2a44;
+        display: flex;
+        align-items: center;
+        padding: 0 26px 0 12px;
+        gap: 16px;
+        z-index: 60;
+      }
+      #vn-play {
+        width: 58px;
+        height: 58px;
+        flex: none;
+        display: block;
+      }
+      #vn-bars {
+        position: relative;
+        width: 142px;
+        height: 44px;
+        flex: none;
+      }
+      .vb {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        height: 44px;
+        margin: auto 0;
+        border-radius: 3px;
+        background: #1f2a44;
+        transform: scaleY(0.14);
+      }
+      #vn-txt {
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 27px;
+        white-space: nowrap;
+      }
+
+      /* ── Subtítulos: siempre, grandes, dos líneas equilibradas, fuera de la columna de botones ── */
+      #caps {
+        position: absolute;
+        left: 0;
+        top: 1324px;
+        width: 1000px;
+        height: 170px;
+        z-index: 55;
+      }
+      .chunk {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1000px;
+        text-align: center;
+        opacity: 0;
+      }
+      .chunk-in {
+        display: inline-block;
+        max-width: 860px;
+        padding: 12px 30px 18px;
+        border-radius: 26px;
+        background: rgba(251, 247, 240, 0.95);
+        border: 2px solid rgba(31, 42, 68, 0.16);
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 52px;
+        line-height: 1.25;
+        white-space: normal;
+        text-wrap: balance;
+        color: #1f2a44;
+      }
+      .w {
+        position: relative;
+        display: inline-block;
+      }
+      .w i {
+        position: absolute;
+        left: -3px;
+        right: -3px;
+        bottom: -6px;
+        height: 8px;
+        border-radius: 4px;
+        background: #c8461f;
+        transform-origin: 0 50%;
+        transform: scaleX(0);
+        display: block;
+      }
+      .hand {
+        position: absolute;
+        z-index: 50;
+      }
+      /* Girada 90°: el dedo apunta a la derecha y la yema cae en (259, 161) de su caja. */
+      #hand6 svg {
+        transform: rotate(90deg);
+      }
+
+      /* ── S1 · el gancho: el mensaje está en pantalla desde el fotograma 0 ────────── */
+      #w1 {
+        transform-origin: 540px 760px;
+      }
+      .alerta {
+        position: absolute;
+        display: inline-flex;
+        align-items: center;
+        gap: 18px;
+        padding: 12px 36px 14px 24px;
+        border-radius: 999px;
+        background: #c8461f;
+        color: #fbf7f0;
+        font-weight: 1000;
+        font-size: 46px;
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+      }
+      #al1 {
+        left: 60px;
+        top: 376px;
+      }
+      #gb {
+        position: absolute;
+        left: 60px;
+        top: 500px;
+        width: 960px;
+        padding: 34px 48px 44px;
+        border-radius: 56px 56px 56px 14px;
+        background: #fbf7f0;
+        border: 7px solid #1f2a44;
+        transform-origin: 0 0;
+      }
+      .gfrom {
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 34px;
+        color: #c8461f;
+        margin-bottom: 8px;
+      }
+      .gmsg {
+        font-weight: 900;
+        font-size: 92px;
+        line-height: 1.08;
+        letter-spacing: -0.015em;
+        text-wrap: balance;
+      }
+      .vib {
+        position: absolute;
+        width: 60px;
+        height: 150px;
+        top: 620px;
+      }
+      #estampa {
+        position: absolute;
+        left: 0;
+        top: 1010px;
+        width: 1080px;
+        text-align: center;
+      }
+      #estampa-in {
+        display: inline-block;
+        padding: 4px 44px 14px;
+        border: 12px solid #c8461f;
+        border-radius: 26px;
+        color: #c8461f;
+        background: rgba(251, 247, 240, 0.94);
+        font-weight: 1000;
+        font-size: 150px;
+        line-height: 1.1;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+        opacity: 0;
+      }
+
+      /* ── El móvil del chat (S2-S6) ─────────────────────────────────────────── */
+      #ph {
+        position: absolute;
+        left: 170px;
+        top: 640px;
+        width: 740px;
+        height: 660px;
+        border-radius: 64px;
+        background: #1f2a44;
+      }
+      #scr {
+        position: absolute;
+        left: 14px;
+        top: 14px;
+        width: 712px;
+        height: 632px;
+        border-radius: 50px;
+        background: #fbf7f0;
+        overflow: hidden;
+      }
+      #hd {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 712px;
+        height: 96px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 4px 0 0 20px;
+        border-bottom: 3px solid rgba(31, 42, 68, 0.15);
+      }
+      .chev {
+        width: 34px;
+        height: 34px;
+        flex: none;
+      }
+      #av {
+        width: 66px;
+        height: 66px;
+        flex: none;
+        border-radius: 50%;
+        background: #1f2a44;
+        color: #fbf7f0;
+        font-weight: 900;
+        font-size: 40px;
+        line-height: 66px;
+        text-align: center;
+      }
+      #num {
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 34px;
+        white-space: nowrap;
+      }
+      #enl {
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-size: 24px;
+        opacity: 0.6;
+      }
+      #r1 {
+        position: absolute;
+        left: 116px;
+        top: 8px;
+        width: 330px;
+        height: 80px;
+        border-radius: 24px;
+      }
+      .ring {
+        position: absolute;
+        border: 6px solid #c8461f;
+        opacity: 0;
+      }
+      .bub .ring {
+        left: -14px;
+        top: -14px;
+        right: -14px;
+        bottom: -14px;
+        border-radius: 38px;
+      }
+      #chat {
+        position: absolute;
+        left: 0;
+        top: 96px;
+        width: 712px;
+        height: 450px;
+        overflow: hidden;
+        background: rgba(31, 42, 68, 0.06);
+      }
+      #cc {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 712px;
+        height: 920px;
+      }
+      .bub {
+        position: absolute;
+        left: 22px;
+        padding: 12px 24px 14px;
+        border-radius: 30px 30px 30px 8px;
+        background: #fbf7f0;
+        border: 4px solid #1f2a44;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-size: 40px;
+        line-height: 50px;
+        white-space: nowrap;
+        transform-origin: 0 100%;
+        transform: scale(0);
+      }
+      .bub.two {
+        width: 500px;
+        white-space: normal;
+      }
+      #sep {
+        position: absolute;
+        left: 0;
+        width: 712px;
+        text-align: center;
+        opacity: 0;
+      }
+      #sep span {
+        display: inline-block;
+        padding: 6px 22px 8px;
+        border-radius: 999px;
+        background: rgba(31, 42, 68, 0.12);
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 26px;
+      }
+      #typ {
+        width: 130px;
+        height: 84px;
+      }
+      #typ b {
+        position: absolute;
+        top: 30px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #1f2a44;
+        opacity: 0.55;
+      }
+      #b6 {
+        width: 420px;
+        height: 196px;
+        white-space: normal;
+        padding: 14px 24px 18px;
+      }
+      #b6 .k {
+        display: block;
+        margin-bottom: 4px;
+        font-weight: 700;
+        font-size: 28px;
+        line-height: 34px;
+        opacity: 0.7;
+      }
+      #b6 .imp {
+        font-family: "Nunito", sans-serif;
+        font-weight: 900;
+        font-size: 56px;
+        line-height: 64px;
+      }
+      #env {
+        margin-top: 10px;
+        height: 54px;
+        border-radius: 16px;
+        background: #1f2a44;
+        color: #fbf7f0;
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 54px;
+        text-align: center;
+      }
+      #ib {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 712px;
+        height: 86px;
+        border-top: 3px solid rgba(31, 42, 68, 0.12);
+        background: #fbf7f0;
+      }
+      #campo {
+        position: absolute;
+        left: 18px;
+        top: 10px;
+        width: 560px;
+        height: 64px;
+        border-radius: 32px;
+        border: 3px solid rgba(31, 42, 68, 0.25);
+        padding-left: 26px;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-size: 30px;
+        line-height: 58px;
+        color: rgba(31, 42, 68, 0.55);
+      }
+      #send {
+        position: absolute;
+        right: 18px;
+        top: 10px;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: #1f2a44;
+      }
+      .xmark {
+        position: absolute;
+        width: 110px;
+        height: 110px;
+        opacity: 0;
+      }
+      #x1 {
+        left: 240px;
+        top: -12px;
+      }
+      #x2 {
+        left: 155px;
+        top: 100px;
+      }
+
+      /* Contacto: el número de siempre. */
+      #scr2 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 712px;
+        height: 632px;
+        background: #fbf7f0;
+        opacity: 0;
+      }
+      #c-top {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 712px;
+        height: 90px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 6px 0 0 20px;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 30px;
+      }
+      #c-av {
+        position: absolute;
+        left: 281px;
+        top: 96px;
+        width: 150px;
+        height: 150px;
+      }
+      .c-ring {
+        position: absolute;
+        left: 281px;
+        top: 96px;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 6px solid #c8461f;
+        opacity: 0;
+      }
+      #c-name {
+        position: absolute;
+        left: 0;
+        top: 256px;
+        width: 712px;
+        text-align: center;
+        font-weight: 900;
+        font-size: 56px;
+      }
+      #c-num {
+        position: absolute;
+        left: 0;
+        top: 340px;
+        width: 712px;
+        text-align: center;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-size: 34px;
+        white-space: nowrap;
+      }
+      #c-tag {
+        font-weight: 700;
+        margin-left: 12px;
+        color: #fbf7f0;
+      }
+      #c-tag .mk-t {
+        opacity: 0;
+      }
+      #c-guard {
+        position: absolute;
+        left: 0;
+        top: 404px;
+        width: 712px;
+        text-align: center;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        color: rgba(31, 42, 68, 0.8);
+        opacity: 0;
+      }
+      .cbtn {
+        position: absolute;
+        top: 476px;
+        width: 290px;
+        height: 96px;
+        border-radius: 48px;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 36px;
+        line-height: 90px;
+        text-align: center;
+      }
+      #c-call {
+        left: 56px;
+        background: #c8461f;
+        color: #fbf7f0;
+      }
+      #c-call span {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 290px;
+        height: 96px;
+        border-radius: 48px;
+        background: #c8461f;
+        line-height: 96px;
+      }
+      #c-call .b {
+        opacity: 0;
+      }
+      #c-msg {
+        left: 366px;
+        border: 4px solid #1f2a44;
+      }
+      #c-trash {
+        position: absolute;
+        left: 590px;
+        top: 6px;
+        width: 84px;
+        height: 84px;
+        transform: scale(0);
+      }
+      #x3 {
+        left: 636px;
+        top: 46px;
+        width: 64px;
+        height: 64px;
+      }
+
+      /* Zona de texto (S2-S6): y 356-610, por encima del móvil. */
+      .sg {
+        position: absolute;
+        left: 60px;
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
+        height: 76px;
+        padding: 0 30px 0 12px;
+        border-radius: 999px;
+        background: #c8461f;
+        color: #fbf7f0;
+        font-weight: 900;
+        font-size: 44px;
+        white-space: nowrap;
+        opacity: 0;
+      }
+      .sg .n {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        background: #fbf7f0;
+        color: #c8461f;
+        font-size: 34px;
+        line-height: 54px;
+        text-align: center;
+      }
+      .eb {
+        position: absolute;
+        left: 60px;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 38px;
+        letter-spacing: 0.16em;
+        color: #c8461f;
+        white-space: nowrap;
+      }
+      .ico-x {
+        display: inline-block;
+        width: 84px;
+        height: 84px;
+        vertical-align: -8px;
+        margin-right: 18px;
+      }
+
+      /* ── S7 · la regla ─────────────────────────────────────────────────────── */
+      .frow {
+        position: absolute;
+        left: 60px;
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        font-weight: 900;
+        font-size: 104px;
+        white-space: nowrap;
+        opacity: 0;
+      }
+      .frow .mas {
+        width: 70px;
+        text-align: center;
+        color: #c8461f;
+      }
+      .frow svg {
+        width: 124px;
+        height: 124px;
+        flex: none;
+      }
+      #f4 {
+        position: absolute;
+        left: 0;
+        top: 1000px;
+        width: 1080px;
+        text-align: center;
+      }
+      #f4-in {
+        display: inline-block;
+        padding: 2px 40px 12px;
+        border: 11px solid #c8461f;
+        border-radius: 24px;
+        color: #c8461f;
+        font-weight: 1000;
+        font-size: 128px;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+        opacity: 0;
+      }
+      #f0 {
+        position: absolute;
+        left: 60px;
+        top: 372px;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 46px;
+        white-space: nowrap;
+        color: rgba(31, 42, 68, 0.85);
+      }
+
+      /* ── S8 · ante la duda (azul) ──────────────────────────────────────────── */
+      #s8 {
+        background: #1f2a44;
+        clip-path: circle(0px at 540px 1070px);
+        z-index: 22;
+      }
+      .per {
+        position: absolute;
+        width: 170px;
+        height: 170px;
+        transform: scale(0);
+      }
+      .dq {
+        position: absolute;
+        width: 104px;
+        height: 104px;
+        border-radius: 52px 52px 52px 10px;
+        background: #fbf7f0;
+        color: #1f2a44;
+        font-weight: 1000;
+        font-size: 66px;
+        line-height: 100px;
+        text-align: center;
+        transform: scale(0);
+      }
+
+      /* ── S9 · envíeselo, y cierre ──────────────────────────────────────────── */
+      #s9 {
+        background: #fbf7f0;
+        clip-path: inset(100% 0 0 0);
+        z-index: 24;
+      }
+      #mc {
+        position: absolute;
+        left: 200px;
+        top: 800px;
+        width: 230px;
+        height: 150px;
+        border-radius: 22px;
+        background: #1f2a44;
+        color: #fbf7f0;
+        font-weight: 1000;
+        font-size: 30px;
+        line-height: 1.05;
+        padding: 22px 20px;
+        opacity: 0;
+      }
+      #mc span {
+        display: block;
+      }
+      #mc .o {
+        display: inline-block;
+        margin-top: 10px;
+        color: #fbf7f0;
+        background: #c8461f;
+        padding: 0 8px;
+        border-radius: 8px;
+      }
+      #logoLayer {
+        position: absolute;
+        left: 90px;
+        top: 410px;
+        width: 900px;
+        height: 335px;
+        opacity: 0;
+      }
+      #logo {
+        width: 900px;
+        height: 335px;
+        display: block;
+        overflow: visible;
+      }
+      #c017 {
+        position: absolute;
+        left: 90px;
+        top: 800px;
+        width: 900px;
+        height: 196px;
+        border-radius: 40px;
+        background: #1f2a44;
+        color: #fbf7f0;
+        text-align: center;
+        padding-top: 18px;
+        opacity: 0;
+      }
+      #c017 .a {
+        font-weight: 900;
+        font-size: 84px;
+        line-height: 96px;
+      }
+      #c017 .b {
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 40px;
+        opacity: 0.88;
+      }
+      #resp {
+        position: absolute;
+        left: 90px;
+        top: 1030px;
+        width: 900px;
+        text-align: center;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-size: 38px;
+        line-height: 1.34;
+        text-wrap: balance;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="53" data-width="1080" data-height="1920">
+      <audio id="banda" src="audio/banda-sonora.mp3" data-start="0" data-duration="53" data-track-index="10" data-volume="1"></audio>
+
+      <svg id="paper" viewBox="0 0 1200 2120">
+        <defs>
+          <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse">
+            <circle cx="20" cy="20" r="3" fill="#1F2A44" />
+          </pattern>
+        </defs>
+        <rect width="1200" height="2120" fill="url(#dots)" />
+      </svg>
+
+      <!-- ═══ S1 · el gancho (0 – 5 s) ═══ -->
+      <div id="s1" class="full" style="z-index: 11">
+        <div id="w1" class="full">
+          <div id="al1" class="alerta">
+            <svg viewBox="0 0 80 72" style="width: 60px; height: 54px; display: block">
+              <path d="M40 4 L76 68 H4 Z" fill="#FBF7F0" stroke="#FBF7F0" stroke-width="6" stroke-linejoin="round" />
+              <path d="M40 26 V46" stroke="#C8461F" stroke-width="8" stroke-linecap="round" />
+              <circle cx="40" cy="57" r="4.5" fill="#C8461F" />
+            </svg>
+            <span>ALERTA ESTAFA</span>
+          </div>
+          <svg class="vib" style="left: 0" viewBox="0 0 60 150">
+            <path d="M44 20 Q20 75 44 130" stroke="#C8461F" stroke-width="8" fill="none" stroke-linecap="round" />
+            <path d="M24 40 Q8 75 24 110" stroke="#C8461F" stroke-width="8" fill="none" stroke-linecap="round" />
+          </svg>
+          <svg class="vib" style="left: 1020px" viewBox="0 0 60 150">
+            <path d="M16 20 Q40 75 16 130" stroke="#C8461F" stroke-width="8" fill="none" stroke-linecap="round" />
+            <path d="M36 40 Q52 75 36 110" stroke="#C8461F" stroke-width="8" fill="none" stroke-linecap="round" />
+          </svg>
+          <div id="gb">
+            <div class="gfrom">+34 6·· ··· ···</div>
+            <div class="gmsg">Hola mamá, he cambiado de número</div>
+          </div>
+          <div id="estampa" data-layout-allow-overlap><span id="estampa-in">= ESTAFA</span></div>
+        </div>
+      </div>
+
+      <!-- ═══ S2-S6 · el móvil ═══ -->
+      <div id="phL" class="full" style="opacity: 0; z-index: 10">
+        <div id="ph">
+          <div id="scr">
+            <div id="hd">
+              <svg class="chev" viewBox="0 0 34 34"><path d="M22 6 L10 17 L22 28" stroke="#1F2A44" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              <div id="av">?</div>
+              <div>
+                <div id="num">+34 6·· ··· ···</div>
+                <div id="enl">en línea</div>
+              </div>
+              <div id="r1" class="ring"></div>
+            </div>
+            <div id="chat">
+              <div id="cc">
+                <div id="b1" class="bub two" style="top: 14px">Hola mamá, he cambiado de número</div>
+                <div id="b2" class="bub" style="top: 160px">Soy yo</div>
+                <div id="b3" class="bub" style="top: 256px">Se me ha roto el móvil</div>
+                <div id="b4" class="bub" style="top: 352px">Guarda este número nuevo<div id="r2" class="ring"></div></div>
+                <div id="sep" style="top: 450px"><span>Más tarde</span></div>
+                <div id="typ" class="bub" style="top: 512px"><b style="left: 26px"></b><b style="left: 57px"></b><b style="left: 88px"></b></div>
+                <div id="b5" class="bub" style="top: 512px">Necesito dinero, es urgente<div id="r3" class="ring"></div></div>
+                <div id="b6" class="bub" style="top: 610px">
+                  <div class="k">Bizum</div>
+                  <div class="imp">480 €</div>
+                  <div id="env">Enviar</div>
+                  <svg id="x2" class="xmark" viewBox="0 0 120 120" data-layout-allow-overlap><circle cx="60" cy="60" r="56" fill="#C8461F" /><path d="M38 38 L82 82 M82 38 L38 82" stroke="#FBF7F0" stroke-width="14" stroke-linecap="round" /></svg>
+                </div>
+                <div id="b7" class="bub" style="top: 820px">¡Rápido! Luego te lo explico</div>
+              </div>
+            </div>
+            <div id="ib">
+              <div id="campo">Mensaje</div>
+              <div id="send"><svg viewBox="0 0 64 64" style="width: 64px; height: 64px; display: block"><path d="M18 32 H44 M34 21 L45 32 L34 43" stroke="#FBF7F0" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+              <svg id="x1" class="xmark" viewBox="0 0 120 120" data-layout-allow-overlap><circle cx="60" cy="60" r="56" fill="#C8461F" /><path d="M38 38 L82 82 M82 38 L38 82" stroke="#FBF7F0" stroke-width="14" stroke-linecap="round" /></svg>
+            </div>
+
+            <div id="scr2">
+              <div id="c-top">
+                <svg class="chev" viewBox="0 0 34 34"><path d="M22 6 L10 17 L22 28" stroke="#1F2A44" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <span>Contactos</span>
+              </div>
+              <div class="c-ring"></div>
+              <div class="c-ring"></div>
+              <svg id="c-av" viewBox="0 0 150 150">
+                <circle cx="75" cy="75" r="75" fill="#1F2A44" />
+                <circle cx="75" cy="58" r="24" fill="#FBF7F0" />
+                <path d="M32 122 C38 96 54 88 75 88 C96 88 112 96 118 122 Z" fill="#FBF7F0" />
+                <circle cx="124" cy="124" r="24" fill="#C8461F" stroke="#FBF7F0" stroke-width="4" />
+                <path d="M124 136 C112 128 113 116 120 116 C122 116 124 118 124 120 C124 118 126 116 128 116 C135 116 136 128 124 136 Z" fill="#FBF7F0" />
+              </svg>
+              <div id="c-name">Mi hijo</div>
+              <div id="c-num">Móvil · 6·· ··· ···<span id="c-tag" class="mk"><span class="mk-bg"></span><span class="mk-t">de siempre</span></span></div>
+              <div id="c-guard">✓ Guardado en sus contactos</div>
+              <div id="c-call" class="cbtn"><span class="a">Llamar</span><span class="b">Llamando…</span></div>
+              <div id="c-msg" class="cbtn">Mensaje</div>
+              <svg id="c-trash" viewBox="0 0 72 72">
+                <path d="M14 20 H58 M28 20 V12 H44 V20 M20 20 L24 62 H48 L52 20" stroke="#1F2A44" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <svg id="x3" class="xmark" viewBox="0 0 120 120" data-layout-allow-overlap><circle cx="60" cy="60" r="56" fill="#C8461F" /><path d="M38 38 L82 82 M82 38 L38 82" stroke="#FBF7F0" stroke-width="14" stroke-linecap="round" /></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zona de texto de S2-S6 (y 356-610). -->
+      <div id="tz" class="full" style="z-index: 12">
+        <div id="sg1" class="sg" style="top: 356px"><span class="n">1</span>Número desconocido</div>
+        <div id="sg2" class="sg" style="top: 444px"><span class="n">2</span>«Guarda este número»</div>
+        <div id="sg3" class="sg" style="top: 532px"><span class="n">3</span>Dinero + prisa</div>
+
+        <div id="q-eb" class="eb" style="top: 360px; opacity: 0">QUÉ HACER</div>
+        <div class="mask" style="left: 40px; top: 410px; width: 1000px; height: 112px">
+          <div id="q1" class="line t-l" style="padding-left: 20px"><svg class="ico-x" viewBox="0 0 120 120"><circle cx="60" cy="60" r="56" fill="#C8461F" /><path d="M38 38 L82 82 M82 38 L38 82" stroke="#FBF7F0" stroke-width="14" stroke-linecap="round" /></svg>No conteste.</div>
+        </div>
+        <div class="mask" style="left: 40px; top: 516px; width: 1000px; height: 112px">
+          <div id="q2" class="line t-l" style="padding-left: 20px"><svg class="ico-x" viewBox="0 0 120 120"><circle cx="60" cy="60" r="56" fill="#C8461F" /><path d="M38 38 L82 82 M82 38 L38 82" stroke="#FBF7F0" stroke-width="14" stroke-linecap="round" /></svg>No pague.</div>
+        </div>
+
+        <div class="mask" style="left: 40px; top: 380px; width: 1000px; height: 112px">
+          <div id="l1" class="line t-l" style="padding-left: 20px">Llame al número</div>
+        </div>
+        <div class="mask" style="left: 40px; top: 486px; width: 1000px; height: 118px">
+          <div id="l2" class="line t-l crema-t" style="padding-left: 32px"><span class="mk"><span id="l2-mk" class="mk-bg"></span><span class="mk-t">DE SIEMPRE</span></span></div>
+        </div>
+        <div class="mask" style="left: 40px; top: 380px; width: 1000px; height: 112px">
+          <div id="n1" class="line t-l" style="padding-left: 20px">No borre el número</div>
+        </div>
+        <div class="mask" style="left: 40px; top: 486px; width: 1000px; height: 112px">
+          <div id="n2" class="line t-l naranja" style="padding-left: 20px">antiguo.</div>
+        </div>
+      </div>
+
+      <!-- ═══ S7 · la regla ═══ -->
+      <div id="s7" class="full" style="opacity: 0; z-index: 20">
+        <div id="f0">Nadie de confianza le pide…</div>
+        <div id="f1" class="frow" style="top: 470px">
+          <span class="mas"></span>
+          <svg viewBox="0 0 124 124"><circle cx="62" cy="62" r="62" fill="#1F2A44" /><text x="62" y="86" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="70" fill="#FBF7F0">€</text></svg>
+          <span>Dinero</span>
+        </div>
+        <div id="f2" class="frow" style="top: 640px">
+          <span class="mas">+</span>
+          <svg viewBox="0 0 124 124"><circle cx="62" cy="62" r="62" fill="#1F2A44" /><circle cx="62" cy="66" r="36" fill="none" stroke="#FBF7F0" stroke-width="8" /><path d="M62 44 V66 L76 76" stroke="#FBF7F0" stroke-width="8" fill="none" stroke-linecap="round" /><path d="M50 22 H74" stroke="#FBF7F0" stroke-width="8" stroke-linecap="round" /></svg>
+          <span>Prisa</span>
+        </div>
+        <div id="f3" class="frow" style="top: 810px">
+          <span class="mas">+</span>
+          <svg viewBox="0 0 124 124"><circle cx="62" cy="62" r="62" fill="#1F2A44" /><path d="M30 36 H94 A8 8 0 0 1 102 44 V76 A8 8 0 0 1 94 84 H54 L38 98 V84 H30 A8 8 0 0 1 22 76 V44 A8 8 0 0 1 30 36 Z" fill="#FBF7F0" /></svg>
+          <span>Mensaje</span>
+        </div>
+        <div id="f4" data-layout-allow-overlap><span id="f4-in">= ESTAFA</span></div>
+      </div>
+
+      <!-- ═══ S8 · ante la duda ═══ -->
+      <div id="s8" class="full">
+        <div class="mask" style="left: 40px; top: 380px; width: 1000px; height: 118px">
+          <div id="d1" class="line t-l crema-t" style="padding-left: 20px">Ante la duda,</div>
+        </div>
+        <div class="mask" style="left: 40px; top: 498px; width: 1000px; height: 124px">
+          <div id="d2" class="line t-l crema-t" style="padding-left: 32px"><span class="mk"><span id="d2-mk" class="mk-bg"></span><span class="mk-t">no toque nada.</span></span></div>
+        </div>
+        <div class="mask" style="left: 40px; top: 380px; width: 1000px; height: 118px">
+          <div id="d3" class="line t-l crema-t" style="padding-left: 20px">Pregunte a alguien</div>
+        </div>
+        <div class="mask" style="left: 40px; top: 498px; width: 1000px; height: 124px">
+          <div id="d4" class="line t-l crema-t" style="padding-left: 32px"><span class="mk"><span id="d4-mk" class="mk-bg"></span><span class="mk-t">de confianza.</span></span></div>
+        </div>
+        <svg id="m8" class="abs" style="left: 390px; top: 700px; width: 300px; height: 300px" viewBox="0 0 120 120">
+          <rect x="32" y="6" width="56" height="108" rx="14" fill="#C8461F" />
+          <rect x="39" y="18" width="42" height="78" rx="7" fill="#FBF7F0" />
+          <g id="m8-eyes"><circle cx="52" cy="46" r="5" fill="#1F2A44" /><circle cx="68" cy="46" r="5" fill="#1F2A44" /></g>
+          <path id="m8-mouth" d="M49 62 Q60 76 71 62" stroke="#1F2A44" stroke-width="5" fill="none" stroke-linecap="round" />
+          <rect x="51" y="103" width="18" height="4" rx="2" fill="#FBF7F0" />
+        </svg>
+        <svg id="arc8" class="abs" style="left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible" viewBox="0 0 1080 1920">
+          <path id="arc8-p" d="M300,880 Q540,720 780,880" pathLength="1" stroke="#C8461F" stroke-width="10" stroke-linecap="round" fill="none" stroke-dasharray="1" stroke-dashoffset="1" />
+        </svg>
+        <div id="pA" class="per" style="left: 215px; top: 900px"></div>
+        <div id="pB" class="per" style="left: 695px; top: 900px"></div>
+        <div id="qA" class="dq" style="left: 150px; top: 760px">?</div>
+        <div id="qB" class="dq" style="left: 836px; top: 760px; border-radius: 52px 52px 10px 52px">✓</div>
+        <div id="hand8" class="hand" style="left: 437px; top: 1040px"></div>
+      </div>
+
+      <!-- ═══ S9 · envíeselo, y cierre ═══ -->
+      <div id="s9" class="full">
+        <div class="mask" style="left: 40px; top: 380px; width: 1000px; height: 112px">
+          <div id="e1" class="line t-l" style="padding-left: 20px">Envíeselo a quien</div>
+        </div>
+        <div class="mask" style="left: 40px; top: 486px; width: 1000px; height: 112px">
+          <div id="e2" class="line t-l naranja" style="padding-left: 20px">lo necesite.</div>
+        </div>
+        <svg id="m9" class="abs" style="left: 90px; top: 760px; width: 240px; height: 240px; transform: scale(0)" viewBox="0 0 120 120">
+          <rect x="32" y="6" width="56" height="108" rx="14" fill="#C8461F" />
+          <rect x="39" y="18" width="42" height="78" rx="7" fill="#FBF7F0" />
+          <circle cx="52" cy="46" r="5" fill="#1F2A44" />
+          <circle cx="68" cy="46" r="5" fill="#1F2A44" />
+          <path d="M49 62 Q60 76 71 62" stroke="#1F2A44" stroke-width="5" fill="none" stroke-linecap="round" />
+          <rect x="51" y="103" width="18" height="4" rx="2" fill="#FBF7F0" />
+        </svg>
+        <svg id="arc9" class="abs" style="left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible" viewBox="0 0 1080 1920">
+          <path id="arc9-p" d="M300,800 Q540,620 760,820" pathLength="1" stroke="#C8461F" stroke-width="10" stroke-linecap="round" stroke-dasharray="0.04 0.03" fill="none" opacity="0" />
+          <path id="arc9-h" d="M728 786 L764 824 L716 834" stroke="#C8461F" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0" />
+        </svg>
+        <div id="p9" class="per" style="left: 690px; top: 840px"></div>
+        <div id="mc"><span>HOLA MAMÁ</span><span class="o">= ESTAFA</span></div>
+
+        <!-- Logotipo con los trazados exactos de marca/logo-horizontal-color.svg. -->
+        <div id="logoLayer">
+          <svg id="logo" viewBox="0 0 376 140">
+          <defs>
+            <clipPath id="lk-c1"><rect x="160" y="18" width="216" height="54" /></clipPath>
+            <clipPath id="lk-c2"><rect x="160" y="74" width="216" height="66" /></clipPath>
+          </defs>
+          <g id="lk-m">
+            <g transform="scale(1.1666667)">
+              <rect x="32" y="6" width="56" height="108" rx="14" fill="#C8461F" />
+              <rect x="39" y="18" width="42" height="78" rx="7" fill="#FBF7F0" />
+              <circle id="lk-eyeL" cx="52" cy="46" r="5" fill="#1F2A44" />
+              <circle id="lk-eyeR" cx="68" cy="46" r="5" fill="#1F2A44" />
+              <path d="M49 62 Q60 76 71 62" stroke="#1F2A44" stroke-width="5" fill="none" stroke-linecap="round" />
+              <rect x="51" y="103" width="18" height="4" rx="2" fill="#FBF7F0" />
+            </g>
+          </g>
+          <g clip-path="url(#lk-c1)"><g id="lk-w1"><path transform="translate(168 66)" fill="#1F2A44" d="M8.208 0.0Q6.102 0.0 4.968 -1.134Q3.834 -2.268 3.834 -4.374V-33.696Q3.834 -35.802 4.968 -36.936Q6.102 -38.07 8.208 -38.07H27.054Q28.674 -38.07 29.511 -37.233000000000004Q30.348 -36.396 30.348 -34.83Q30.348 -33.21 29.511 -32.373000000000005Q28.674 -31.536 27.054 -31.536H11.826V-22.626H25.812Q27.486 -22.626 28.323 -21.789Q29.16 -20.951999999999998 29.16 -19.332Q29.16 -17.712 28.323 -16.875Q27.486 -16.038 25.812 -16.038H11.826V-6.534H27.054Q28.674 -6.534 29.511 -5.697Q30.348 -4.86 30.348 -3.294Q30.348 -1.674 29.511 -0.837Q28.674 0.0 27.054 0.0Z M44.82 0.594Q40.014 0.594 37.638000000000005 -2.0789999999999997Q35.262 -4.752 35.262 -10.044V-34.397999999999996Q35.262 -36.45 36.315 -37.503Q37.368 -38.556 39.366 -38.556Q41.31 -38.556 42.363 -37.503Q43.416000000000004 -36.45 43.416000000000004 -34.397999999999996V-10.368Q43.416000000000004 -8.154 44.361000000000004 -7.101Q45.306000000000004 -6.048 46.872 -6.048Q47.304 -6.048 47.682 -6.102Q48.06 -6.156 48.492000000000004 -6.156Q49.356 -6.264 49.70700000000001 -5.643000000000001Q50.05800000000001 -5.022 50.05800000000001 -3.186Q50.05800000000001 -1.566 49.410000000000004 -0.729Q48.762 0.108 47.412000000000006 0.378Q46.872 0.432 46.17 0.513Q45.468 0.594 44.82 0.594Z M71.82 0.486Q69.92999999999999 0.486 68.931 -0.567Q67.932 -1.6199999999999999 67.932 -3.564V-34.344Q67.932 -36.396 68.931 -37.476Q69.92999999999999 -38.556 71.604 -38.556Q73.062 -38.556 73.845 -37.989Q74.628 -37.422 75.654 -36.126L94.608 -11.988H93.15V-34.56Q93.15 -36.45 94.149 -37.503Q95.148 -38.556 97.038 -38.556Q98.928 -38.556 99.92699999999999 -37.503Q100.926 -36.45 100.926 -34.56V-3.402Q100.926 -1.6199999999999999 100.00800000000001 -0.567Q99.09 0.486 97.524 0.486Q96.012 0.486 95.121 -0.10799999999999998Q94.22999999999999 -0.702 93.204 -1.998L74.304 -26.136H75.708V-3.564Q75.708 -1.6199999999999999 74.73599999999999 -0.567Q73.764 0.486 71.82 0.486Z M111.456 0.432Q109.458 0.432 108.405 -0.729Q107.352 -1.89 107.352 -3.996V-22.464Q107.352 -24.624 108.405 -25.784999999999997Q109.458 -26.945999999999998 111.456 -26.945999999999998Q113.4 -26.945999999999998 114.453 -25.784999999999997Q115.506 -24.624 115.506 -22.464V-3.996Q115.506 -1.89 114.47999999999999 -0.729Q113.454 0.432 111.456 0.432ZM111.456 -31.374Q109.188 -31.374 107.973 -32.427Q106.758 -33.48 106.758 -35.424Q106.758 -37.422 107.973 -38.474999999999994Q109.188 -39.528 111.456 -39.528Q113.724 -39.528 114.912 -38.474999999999994Q116.1 -37.422 116.1 -35.424Q116.1 -33.48 114.912 -32.427Q113.724 -31.374 111.456 -31.374Z M135.054 0.594Q130.356 0.594 126.981 -1.107Q123.606 -2.808 121.797 -5.913Q119.988 -9.018 119.988 -13.23Q119.988 -17.334 121.71600000000001 -20.439Q123.444 -23.544 126.549 -25.299Q129.654 -27.054 133.596 -27.054Q136.458 -27.054 138.78 -26.109Q141.102 -25.164 142.776 -23.409Q144.45 -21.654 145.314 -19.143Q146.178 -16.632 146.178 -13.554Q146.178 -12.528 145.53 -12.015Q144.882 -11.502 143.64 -11.502H126.684V-15.714H140.292L139.428 -14.958Q139.428 -17.172 138.78 -18.657Q138.132 -20.142 136.917 -20.898Q135.702 -21.654 133.92000000000002 -21.654Q131.922 -21.654 130.518 -20.736Q129.114 -19.818 128.358 -18.09Q127.602 -16.362 127.602 -13.932V-13.5Q127.602 -9.395999999999999 129.519 -7.452Q131.436 -5.508 135.216 -5.508Q136.512 -5.508 138.186 -5.832Q139.86 -6.156 141.318 -6.858Q142.56 -7.452 143.53199999999998 -7.263Q144.504 -7.074 145.04399999999998 -6.372Q145.584 -5.67 145.66500000000002 -4.752Q145.746 -3.834 145.26 -2.943Q144.774 -2.052 143.64 -1.458Q141.804 -0.432 139.50900000000001 0.08099999999999999Q137.214 0.594 135.054 0.594Z M163.404 0.594Q159.678 0.594 157.167 -0.6479999999999999Q154.656 -1.89 153.441 -4.266Q152.226 -6.642 152.226 -10.26V-20.412H149.958Q148.446 -20.412 147.609 -21.222Q146.77200000000002 -22.032 146.77200000000002 -23.436Q146.77200000000002 -24.948 147.609 -25.731Q148.446 -26.514 149.958 -26.514H152.226V-30.618Q152.226 -32.67 153.306 -33.723Q154.38600000000002 -34.775999999999996 156.33 -34.775999999999996Q158.328 -34.775999999999996 159.35399999999998 -33.723Q160.38 -32.67 160.38 -30.618V-26.514H165.51000000000002Q167.02200000000002 -26.514 167.832 -25.731Q168.642 -24.948 168.642 -23.436Q168.642 -22.032 167.832 -21.222Q167.02200000000002 -20.412 165.51000000000002 -20.412H160.38V-10.584Q160.38 -8.316 161.433 -7.182Q162.48600000000002 -6.048 164.80800000000002 -6.048Q165.618 -6.048 166.32 -6.21Q167.02200000000002 -6.372 167.616 -6.426Q168.372 -6.4799999999999995 168.858 -5.967Q169.344 -5.454 169.344 -3.726Q169.344 -2.43 168.912 -1.4580000000000002Q168.48000000000002 -0.486 167.4 -0.054Q166.698 0.216 165.483 0.40499999999999997Q164.268 0.594 163.404 0.594Z M184.41000000000003 0.594Q180.144 0.594 176.985 -1.08Q173.82600000000002 -2.754 172.098 -5.886Q170.37000000000003 -9.018 170.37000000000003 -13.284Q170.37000000000003 -16.47 171.34200000000004 -19.008Q172.31400000000002 -21.546 174.17700000000002 -23.355Q176.04000000000002 -25.164 178.632 -26.109Q181.22400000000002 -27.054 184.41000000000003 -27.054Q188.67600000000002 -27.054 191.83500000000004 -25.38Q194.99400000000003 -23.706 196.74900000000002 -20.628Q198.50400000000002 -17.55 198.50400000000002 -13.284Q198.50400000000002 -10.044 197.50500000000002 -7.506Q196.50600000000003 -4.968 194.67000000000002 -3.132Q192.83400000000003 -1.296 190.21500000000003 -0.35100000000000003Q187.59600000000003 0.594 184.41000000000003 0.594ZM184.41000000000003 -5.508Q186.192 -5.508 187.488 -6.372Q188.78400000000002 -7.236 189.54000000000002 -8.937Q190.29600000000002 -10.638 190.29600000000002 -13.284Q190.29600000000002 -17.226 188.67600000000002 -19.089Q187.056 -20.951999999999998 184.41000000000003 -20.951999999999998Q182.68200000000002 -20.951999999999998 181.35900000000004 -20.142Q180.03600000000003 -19.332 179.30700000000002 -17.631Q178.57800000000003 -15.93 178.57800000000003 -13.284Q178.57800000000003 -9.342 180.19800000000004 -7.425000000000001Q181.818 -5.508 184.41000000000003 -5.508Z" /></g></g>
+          <g clip-path="url(#lk-c2)"><g id="lk-w2"><path transform="translate(168 120)" fill="#C8461F" d="M8.208 0.0Q6.102 0.0 4.968 -1.134Q3.834 -2.268 3.834 -4.374V-33.696Q3.834 -35.802 4.968 -36.936Q6.102 -38.07 8.208 -38.07H18.738Q28.512 -38.07 33.831 -33.129Q39.15 -28.188 39.15 -19.062Q39.15 -14.472 37.772999999999996 -10.934999999999999Q36.396 -7.398 33.804 -4.968Q31.212 -2.538 27.432000000000002 -1.269Q23.652 0.0 18.738 0.0ZM12.204 -6.858H18.252Q21.33 -6.858 23.598 -7.613999999999999Q25.866 -8.37 27.378 -9.882Q28.89 -11.394 29.646 -13.689Q30.402 -15.984 30.402 -19.062Q30.402 -25.218 27.351 -28.215Q24.3 -31.212 18.252 -31.212H12.204Z M48.492 0.432Q46.494 0.432 45.441 -0.729Q44.388 -1.89 44.388 -3.996V-22.464Q44.388 -24.624 45.441 -25.784999999999997Q46.494 -26.945999999999998 48.492 -26.945999999999998Q50.436 -26.945999999999998 51.489000000000004 -25.784999999999997Q52.542 -24.624 52.542 -22.464V-3.996Q52.542 -1.89 51.516000000000005 -0.729Q50.49 0.432 48.492 0.432ZM48.492 -31.374Q46.224000000000004 -31.374 45.009 -32.427Q43.794 -33.48 43.794 -35.424Q43.794 -37.422 45.009 -38.474999999999994Q46.224000000000004 -39.528 48.492 -39.528Q50.76 -39.528 51.94799999999999 -38.474999999999994Q53.135999999999996 -37.422 53.135999999999996 -35.424Q53.135999999999996 -33.48 51.94799999999999 -32.427Q50.76 -31.374 48.492 -31.374Z M71.06400000000001 10.314Q68.148 10.314 65.475 9.828Q62.802 9.342 60.75 8.37Q59.508 7.83 58.995000000000005 6.966Q58.482 6.102 58.563 5.130000000000001Q58.644000000000005 4.158 59.211000000000006 3.402Q59.778000000000006 2.646 60.642 2.349Q61.506 2.052 62.478 2.484Q64.854 3.564 66.87899999999999 3.888Q68.904 4.212 70.362 4.212Q73.818 4.212 75.54599999999999 2.646Q77.274 1.08 77.274 -2.16V-6.264H77.76Q76.95 -3.78 74.412 -2.214Q71.874 -0.648 68.796 -0.648Q65.232 -0.648 62.586 -2.295Q59.940000000000005 -3.942 58.482 -6.939Q57.024 -9.936 57.024 -13.878Q57.024 -16.848 57.861000000000004 -19.278Q58.698 -21.708 60.237 -23.436Q61.776 -25.164 63.96300000000001 -26.109Q66.15 -27.054 68.796 -27.054Q71.982 -27.054 74.439 -25.515Q76.896 -23.976 77.706 -21.492L77.166 -19.764V-22.842Q77.166 -24.84 78.219 -25.893Q79.272 -26.945999999999998 81.21600000000001 -26.945999999999998Q83.16 -26.945999999999998 84.186 -25.893Q85.212 -24.84 85.212 -22.842V-3.078Q85.212 3.564 81.56700000000001 6.939Q77.922 10.314 71.06400000000001 10.314ZM71.226 -6.75Q73.062 -6.75 74.38499999999999 -7.614Q75.708 -8.478 76.464 -10.071Q77.22 -11.664 77.22 -13.878Q77.22 -17.226 75.57300000000001 -19.089Q73.926 -20.951999999999998 71.226 -20.951999999999998Q69.39 -20.951999999999998 68.03999999999999 -20.115Q66.69 -19.278 65.961 -17.685Q65.232 -16.092 65.232 -13.878Q65.232 -10.53 66.852 -8.64Q68.47200000000001 -6.75 71.226 -6.75Z M95.09400000000001 0.432Q93.096 0.432 92.043 -0.729Q90.99000000000001 -1.89 90.99000000000001 -3.996V-22.464Q90.99000000000001 -24.624 92.043 -25.784999999999997Q93.096 -26.945999999999998 95.09400000000001 -26.945999999999998Q97.03800000000001 -26.945999999999998 98.09100000000001 -25.784999999999997Q99.144 -24.624 99.144 -22.464V-3.996Q99.144 -1.89 98.118 -0.729Q97.092 0.432 95.09400000000001 0.432ZM95.09400000000001 -31.374Q92.82600000000001 -31.374 91.611 -32.427Q90.396 -33.48 90.396 -35.424Q90.396 -37.422 91.611 -38.474999999999994Q92.82600000000001 -39.528 95.09400000000001 -39.528Q97.36200000000001 -39.528 98.55000000000001 -38.474999999999994Q99.738 -37.422 99.738 -35.424Q99.738 -33.48 98.55000000000001 -32.427Q97.36200000000001 -31.374 95.09400000000001 -31.374Z M117.936 0.594Q114.21000000000001 0.594 111.69900000000001 -0.6479999999999999Q109.188 -1.89 107.97300000000001 -4.266Q106.75800000000001 -6.642 106.75800000000001 -10.26V-20.412H104.49000000000001Q102.97800000000001 -20.412 102.141 -21.222Q101.304 -22.032 101.304 -23.436Q101.304 -24.948 102.141 -25.731Q102.97800000000001 -26.514 104.49000000000001 -26.514H106.75800000000001V-30.618Q106.75800000000001 -32.67 107.83800000000001 -33.723Q108.918 -34.775999999999996 110.86200000000001 -34.775999999999996Q112.86000000000001 -34.775999999999996 113.88600000000001 -33.723Q114.912 -32.67 114.912 -30.618V-26.514H120.042Q121.554 -26.514 122.364 -25.731Q123.174 -24.948 123.174 -23.436Q123.174 -22.032 122.364 -21.222Q121.554 -20.412 120.042 -20.412H114.912V-10.584Q114.912 -8.316 115.965 -7.182Q117.018 -6.048 119.34 -6.048Q120.15 -6.048 120.852 -6.21Q121.554 -6.372 122.14800000000001 -6.426Q122.90400000000001 -6.4799999999999995 123.39000000000001 -5.967Q123.876 -5.454 123.876 -3.726Q123.876 -2.43 123.444 -1.4580000000000002Q123.012 -0.486 121.932 -0.054Q121.23 0.216 120.01500000000001 0.40499999999999997Q118.80000000000001 0.594 117.936 0.594Z M135.162 0.594Q132.246 0.594 129.924 -0.54Q127.602 -1.674 126.30600000000001 -3.6180000000000003Q125.01 -5.562 125.01 -7.992Q125.01 -10.908 126.52199999999999 -12.609Q128.034 -14.31 131.43599999999998 -15.039000000000001Q134.838 -15.768 140.454 -15.768H143.316V-11.556H140.508Q137.754 -11.556 136.053 -11.259Q134.352 -10.962 133.623 -10.26Q132.894 -9.558 132.894 -8.316Q132.894 -6.804 133.947 -5.832000000000001Q135.0 -4.86 136.998 -4.86Q138.564 -4.86 139.779 -5.589Q140.994 -6.318 141.696 -7.587Q142.398 -8.856 142.398 -10.475999999999999V-16.686Q142.398 -19.062 141.31799999999998 -20.061Q140.238 -21.06 137.64600000000002 -21.06Q136.188 -21.06 134.487 -20.709Q132.786 -20.358 130.734 -19.548Q129.546 -19.008 128.628 -19.305Q127.71000000000001 -19.602 127.224 -20.384999999999998Q126.738 -21.168 126.738 -22.113Q126.738 -23.058 127.27799999999999 -23.948999999999998Q127.818 -24.84 129.06 -25.272Q131.598 -26.298 133.839 -26.676Q136.08 -27.054 137.97 -27.054Q142.12800000000001 -27.054 144.801 -25.839Q147.474 -24.624 148.824 -22.113Q150.174 -19.602 150.174 -15.66V-3.672Q150.174 -1.674 149.202 -0.594Q148.23000000000002 0.486 146.394 0.486Q144.558 0.486 143.559 -0.594Q142.56 -1.674 142.56 -3.672V-5.67L142.938 -5.346Q142.614 -3.51 141.561 -2.187Q140.508 -0.864 138.888 -0.135Q137.268 0.594 135.162 0.594Z M165.294 0.594Q160.488 0.594 158.11200000000002 -2.0789999999999997Q155.73600000000002 -4.752 155.73600000000002 -10.044V-34.397999999999996Q155.73600000000002 -36.45 156.78900000000002 -37.503Q157.842 -38.556 159.84 -38.556Q161.78400000000002 -38.556 162.83700000000002 -37.503Q163.89000000000001 -36.45 163.89000000000001 -34.397999999999996V-10.368Q163.89000000000001 -8.154 164.835 -7.101Q165.78 -6.048 167.346 -6.048Q167.77800000000002 -6.048 168.156 -6.102Q168.53400000000002 -6.156 168.966 -6.156Q169.83 -6.264 170.181 -5.643000000000001Q170.532 -5.022 170.532 -3.186Q170.532 -1.566 169.88400000000001 -0.729Q169.23600000000002 0.108 167.88600000000002 0.378Q167.346 0.432 166.644 0.513Q165.942 0.594 165.294 0.594Z" /></g></g>
+        </svg>
+        </div>
+        <div id="c017">
+          <div class="a">¿Dudas? 017</div>
+          <div class="b">gratis · 8:00 a 23:00</div>
+        </div>
+        <div id="resp">Esto no es consejo financiero; nunca dé sus claves ni transfiera dinero por indicación de un desconocido.</div>
+      </div>
+
+      <div id="hand6" class="hand" style="left: 126px; top: 1014px"></div>
+
+      <!-- Siempre a la vista: la voz es IA y se dice (guía de estilo; 07-etica-legal-riesgos). -->
+      <div id="vnote">
+        <svg id="vn-play" viewBox="0 0 58 58">
+          <circle cx="29" cy="29" r="29" fill="#C8461F" />
+          <path d="M23 17 L42 29 L23 41 Z" fill="#FBF7F0" />
+        </svg>
+        <div id="vn-bars"></div>
+        <div id="vn-txt">Voz generada con IA</div>
+      </div>
+
+      <div id="caps"></div>
+    </div>
+
+    <script>
+      var tl = gsap.timeline({ paused: true });
+      (function () {
+        var T = window.NIETO_TIEMPOS,
+          C = window.NIETO_CUES,
+          FIN = T.duracion;
+
+        function $(id) {
+          return document.getElementById(id);
+        }
+        function el(tag, cls, parent, html) {
+          var e = document.createElement(tag);
+          if (cls) e.className = cls;
+          if (html !== undefined) e.innerHTML = html;
+          if (parent) parent.appendChild(e);
+          return e;
+        }
+        function sube(sel, t) {
+          tl.fromTo(sel, { yPercent: 105, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.6, ease: "power4.out" }, t);
+        }
+        function sale(sel, t) {
+          tl.to(sel, { yPercent: -110, opacity: 0, duration: 0.4, ease: "power3.in", stagger: 0.05 }, t);
+        }
+        function aparece(sel, t, dur) {
+          tl.fromTo(sel, { scale: 0 }, { scale: 1, duration: dur || 0.4, ease: "back.out(1.8)", immediateRender: false }, t);
+        }
+        // Un sello que CAE justo en `t` (ahí suena el golpe en la banda sonora).
+        function sello(sel, t, rot) {
+          tl.fromTo(sel, { scale: 2.3, opacity: 0, rotation: rot || 0 }, { scale: 1, opacity: 1, rotation: rot || 0, duration: 0.24, ease: "power4.in" }, t - 0.24);
+        }
+        function tiembla(sel, t, n, amp) {
+          for (var k = 0; k < n; k++) tl.to(sel, { x: k % 2 ? -amp : amp, duration: 0.045, ease: "none" }, t + k * 0.045);
+          tl.to(sel, { x: 0, duration: 0.05 }, t + n * 0.045);
+        }
+
+        var MANO =
+          '<svg viewBox="0 0 200 300" style="width:230px;height:345px;display:block;overflow:visible">' +
+          '<path d="M70 44 A20 20 0 0 1 110 44 L110 136 A15 15 0 0 1 140 134 A14 14 0 0 1 168 146 L170 236 Q170 300 112 312 L72 312 Q40 304 38 244 L36 206 Q8 190 16 164 Q26 142 50 160 L70 176 Z" fill="#FBF7F0" stroke="#1F2A44" stroke-width="8" stroke-linejoin="round"/>' +
+          '<path d="M110 136 V176 M140 134 V180" stroke="#1F2A44" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.55"/>' +
+          "</svg>";
+        $("hand6").innerHTML = MANO;
+        $("hand8").innerHTML = MANO;
+        var PERSONA =
+          '<svg viewBox="0 0 170 170" style="width:170px;height:170px;display:block"><circle cx="85" cy="85" r="80" fill="#FBF7F0" stroke="#1F2A44" stroke-width="8"/>' +
+          '<circle cx="85" cy="66" r="26" fill="#1F2A44"/><path d="M38 136 C44 104 62 96 85 96 C108 96 126 104 132 136 Z" fill="#1F2A44"/>' +
+          '<circle class="ring" cx="85" cy="85" r="80" fill="none" stroke="#C8461F" stroke-width="12" opacity="0"/></svg>';
+        ["pA", "pB", "p9"].forEach(function (id) {
+          $(id).innerHTML = PERSONA;
+        });
+
+        // ── Nota de voz: barras que respiran con la locución (envolvente pre-calculada, determinista) ──
+        var bars = [];
+        for (var b = 0; b < 24; b++) {
+          var bar = el("div", "vb", $("vn-bars"));
+          bar.style.left = b * 6 + "px";
+          bars.push(bar);
+        }
+        var FORMA = bars.map(function (_, i) {
+          return 0.5 + 0.5 * Math.pow(Math.sin(i * 1.7 + 0.6), 2);
+        });
+        function dibujaVoz(f) {
+          for (var i = 0; i < bars.length; i++) {
+            var k = f - Math.round(Math.abs(i - 11.5) * 0.55);
+            var e = k >= 0 && k < T.env.length ? T.env[k] : 0;
+            bars[i].style.transform = "scaleY(" + (0.14 + 0.86 * e * FORMA[i]).toFixed(3) + ")";
+          }
+        }
+        for (var f = 0; f < Math.round(FIN * T.fps); f++) tl.call(dibujaVoz, [f], f / T.fps);
+
+        // ── Subtítulos (como NIETO-20/22): por frases, ≤ 44 caracteres, corte de mínima irregularidad ──
+        var MAX = 44;
+        function largo(ws) {
+          return ws.reduce(function (a, p) {
+            return a + p.p.length + 1;
+          }, -1);
+        }
+        function partir(fr) {
+          var n = fr.length,
+            mejor = [0],
+            desde = [0];
+          for (var j = 1; j <= n; j++) {
+            mejor[j] = Infinity;
+            for (var i = j - 1; i >= 0; i--) {
+              var l = largo(fr.slice(i, j));
+              if (l > MAX && i < j - 1) break;
+              var coste = mejor[i] + Math.pow(Math.max(0, MAX - l), 2);
+              if (i > 0 && /^(y|e|o|que|con|para)$/i.test(fr[i].p)) coste -= 200;
+              if (j < n && /^(a|de|la|el|las|los|una|un|en|y|con|sus|que)$/i.test(fr[j - 1].p)) coste += 300;
+              if (coste < mejor[j]) {
+                mejor[j] = coste;
+                desde[j] = i;
+              }
+            }
+          }
+          var out = [];
+          for (var k = n; k > 0; k = desde[k]) out.unshift(fr.slice(desde[k], k));
+          return out;
+        }
+        var trozos = [];
+        T.lineas.forEach(function (l) {
+          var frases = [],
+            cur = [];
+          l.palabras.forEach(function (p) {
+            cur.push(p);
+            if (/[,.:;…?!]»?,?$/.test(p.p)) {
+              frases.push(cur);
+              cur = [];
+            }
+          });
+          if (cur.length) frases.push(cur);
+          var piezas = [];
+          frases.forEach(function (fr) {
+            piezas = piezas.concat(largo(fr) > MAX ? partir(fr) : [fr]);
+          });
+          var juntas = [];
+          piezas.forEach(function (p) {
+            var u = juntas[juntas.length - 1];
+            if (u && /,»?$/.test(u[u.length - 1].p) && largo(u) + 1 + largo(p) <= MAX) juntas[juntas.length - 1] = u.concat(p);
+            else juntas.push(p);
+          });
+          juntas.forEach(function (ws) {
+            trozos.push({ palabras: ws, linea: l });
+          });
+        });
+        trozos.forEach(function (tr, k) {
+          var c = el("div", "chunk", $("caps"));
+          var inner = el("div", "chunk-in", c);
+          tr.palabras.forEach(function (p, j) {
+            var w = el("span", "w", inner, p.p + "<i></i>");
+            if (j < tr.palabras.length - 1) inner.appendChild(document.createTextNode(" "));
+            p._u = w.querySelector("i");
+          });
+          var sig = trozos[k + 1];
+          var desde = tr.palabras[0].t0 - 0.12;
+          var hasta = sig && sig.linea === tr.linea ? sig.palabras[0].t0 - 0.21 : tr.linea.t1 + 0.45;
+          if (sig) hasta = Math.min(hasta, sig.palabras[0].t0 - 0.21);
+          tl.fromTo(c, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.16, ease: "power2.out" }, desde);
+          tl.to(c, { opacity: 0, duration: 0.08, ease: "none" }, hasta);
+          tr.palabras.forEach(function (p, j) {
+            tl.fromTo(p._u, { scaleX: 0, opacity: 1 }, { scaleX: 1, duration: 0.14, ease: "power2.out" }, p.t0);
+            var n = tr.palabras[j + 1];
+            if (n) tl.to(p._u, { opacity: 0, duration: 0.1 }, n.t0);
+          });
+        });
+
+        tl.fromTo("#paper", { x: 0, y: 0 }, { x: -20, y: -90, duration: FIN, ease: "none" }, 0);
+
+        // ═══ S1 · el gancho ════════════════════════════════════════════════════════
+        tiembla("#gb", C.vibra, 8, 8);
+        tl.to(".vib", { opacity: 0, duration: 0.25 }, C.vibra + 0.5);
+        tl.fromTo("#w1", { scale: 1 }, { scale: 1.035, duration: C.estafa, ease: "sine.inOut" }, 0);
+        sello("#estampa-in", C.estafa + 0.05, -7);
+        tiembla("#w1", C.estafa + 0.05, 6, 10);
+
+        // ═══ S2 · llega por WhatsApp: el mensaje entra en el chat ═════════════════
+        var E2 = C.escena2;
+        tl.to("#estampa-in", { opacity: 0, scale: 0.8, duration: 0.2, ease: "power2.in" }, E2 - 0.05);
+        tl.to("#al1", { opacity: 0, y: -24, duration: 0.3, ease: "power2.in" }, E2);
+        tl.to("#w1", { scale: 1, duration: 0.7, ease: "power3.inOut" }, E2);
+        tl.set("#phL", { opacity: 1 }, E2);
+        tl.fromTo("#ph", { y: 1400 }, { y: 0, duration: 0.75, ease: "power3.out" }, E2);
+        // #gb viaja hasta el hueco de b1 (x 206, y 764) y se funde con él.
+        tl.to("#gb", { x: 146, y: 264, scale: 0.52, duration: 0.75, ease: "power3.inOut" }, E2);
+        // Relevo rápido (las dos burbujas no parten igual las líneas: un fundido largo se leería doble).
+        tl.to("#gb", { opacity: 0, duration: 0.18 }, E2 + 0.42);
+        tl.fromTo("#b1", { scale: 0.85, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(1.6)", immediateRender: false }, E2 + 0.5);
+        tl.set("#s1", { opacity: 0 }, E2 + 0.8);
+
+        function senal(ring, chip, t) {
+          tl.fromTo(ring, { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, t);
+          tl.fromTo(chip, { x: -720, opacity: 0 }, { x: 0, opacity: 1, duration: 0.55, ease: "back.out(1.3)" }, t + 0.05);
+        }
+        function baja(y, t) {
+          tl.to("#cc", { y: -y, duration: 0.45, ease: "power2.inOut" }, t);
+        }
+        senal("#r1", "#sg1", C.senal1);
+
+        // ═══ S3 · dice ser su hijo ═══════════════════════════════════════════════════
+        aparece("#b2", C.soy_yo);
+        aparece("#b3", C.roto);
+        aparece("#b4", C.guarde);
+        senal("#r2", "#sg2", C.senal2);
+
+        // ═══ S4 · y al rato, dinero con prisa ═══════════════════════════════════════
+        tl.fromTo("#sep", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.35 }, C.al_rato - 0.1);
+        baja(64, C.al_rato - 0.15);
+        aparece("#typ", C.escribiendo, 0.3);
+        baja(162, C.escribiendo - 0.1);
+        [0, 1, 2].forEach(function (k) {
+          tl.fromTo("#typ b:nth-child(" + (k + 1) + ")", { y: 0 }, { y: -10, duration: 0.14, yoyo: true, repeat: 1, ease: "sine.inOut", immediateRender: false }, C.escribiendo + 0.2 + k * 0.1);
+        });
+        tl.set("#typ", { opacity: 0 }, C.dinero);
+        aparece("#b5", C.dinero);
+        senal("#r3", "#sg3", C.senal3);
+        aparece("#b6", C.bizum);
+        baja(372, C.bizum - 0.05);
+        aparece("#b7", C.urgente);
+        baja(500, C.urgente - 0.05); // 500: «Más tarde» sale del todo por arriba
+        // La presión: la cámara se acerca al móvil y al final tiembla.
+        tl.fromTo("#ph", { scale: 1 }, { scale: 1.05, duration: C.congela - C.al_rato, ease: "power1.in", transformOrigin: "50% 60%", immediateRender: false }, C.al_rato);
+        tiembla("#ph", C.congela - 0.55, 10, 7);
+
+        // ═══ S5 · qué hacer: no conteste y no pague ═════════════════════════════════
+        var E5 = C.escena5;
+        tl.to("#ph", { scale: 1, duration: 0.5, ease: "power2.out" }, E5);
+        tl.to(["#sg1", "#sg2", "#sg3"], { x: -900, opacity: 0, duration: 0.45, ease: "power3.in", stagger: 0.06 }, E5 - 0.25);
+        tl.to(".ring", { opacity: 0, duration: 0.3 }, E5);
+        tl.fromTo("#q-eb", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, E5 + 0.15);
+        sube("#q1", C.no_conteste - 0.2);
+        sube("#q2", C.no_pague - 0.2);
+        sello("#x1", C.no_conteste + 0.05, -8);
+        sello("#x2", C.no_pague + 0.05, 8);
+
+        // ═══ S6 · llame al número de siempre ════════════════════════════════════════
+        var E6 = C.escena6;
+        tl.to("#q-eb", { opacity: 0, duration: 0.25 }, E6 - 0.15);
+        sale(["#q1", "#q2"], E6 - 0.15);
+        tl.to(["#x1", "#x2"], { opacity: 0, duration: 0.2 }, E6);
+        tl.set("#scr2", { opacity: 1 }, E6);
+        // El rótulo del botón aparece cuando la pantalla ya ha entrado (a medio barrido, recortado, no se lee).
+        tl.fromTo("#c-call .a", { opacity: 0 }, { opacity: 1, duration: 0.15 }, E6 + 0.45);
+        tl.fromTo("#scr2", { x: 712 }, { x: 0, duration: 0.55, ease: "power3.inOut" }, E6);
+        tl.set(["#hd", "#chat", "#ib"], { opacity: 0 }, E6 + 0.6);
+        sube("#l1", E6 + 0.35);
+        sube("#l2", C.siempre - 0.15);
+        tl.to("#l2-mk", { scaleX: 1, duration: 0.45, ease: "power3.inOut" }, C.siempre + 0.15);
+        // La mano entra desde abajo y pulsa «Llamar».
+        tl.fromTo("#hand6", { x: -560 }, { x: 0, duration: 0.6, ease: "power3.out" }, C.llamar - 0.62);
+        tl.to("#hand6", { x: 14, duration: 0.08, ease: "power2.in", yoyo: true, repeat: 1 }, C.llamar - 0.02);
+        tl.to("#c-call", { scale: 0.95, duration: 0.08, yoyo: true, repeat: 1 }, C.llamar);
+        tl.set("#c-call .a", { opacity: 0 }, C.llamar + 0.06);
+        tl.set("#c-call .b", { opacity: 1 }, C.llamar + 0.06);
+        tl.to("#hand6", { x: -560, duration: 0.6, ease: "power2.in" }, C.llamar + 0.4);
+        var anillos = document.querySelectorAll(".c-ring");
+        for (var t = C.llamar + 0.2, k = 0; t < C.borre - 0.6; t += 0.55, k++) {
+          tl.fromTo(anillos[k % 2], { scale: 1, opacity: 0.8 }, { scale: 1.9, opacity: 0, duration: 1.05, ease: "power2.out", immediateRender: false }, t);
+        }
+        tl.fromTo("#c-tag .mk-bg", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.inOut" }, C.siempre + 0.1);
+        tl.to("#c-tag .mk-t", { opacity: 1, duration: 0.2 }, C.siempre + 0.3);
+        tl.fromTo("#c-guard", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.35 }, C.guardado);
+        // «Y no borre nunca ese número.»
+        sale(["#l1", "#l2"], C.borre - 0.5);
+        sube("#n1", C.borre - 0.1);
+        sube("#n2", C.borre + 0.12);
+        aparece("#c-trash", C.borre, 0.35);
+        sello("#x3", C.nunca + 0.05, -8);
+
+        // ═══ S7 · la regla ══════════════════════════════════════════════════════════
+        var E7 = C.escena7;
+        sale(["#n1", "#n2"], E7 - 0.2);
+        tl.to("#ph", { y: 1400, duration: 0.6, ease: "power3.in" }, E7 - 0.2);
+        tl.set("#s7", { opacity: 1 }, E7 - 0.2);
+        tl.set("#phL", { opacity: 0 }, E7 + 0.45);
+        tl.fromTo("#f0", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, E7 + 0.3);
+        [["#f1", C.f_dinero], ["#f2", C.f_prisa], ["#f3", C.f_mensaje]].forEach(function (r) {
+          tl.fromTo(r[0], { x: -140, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "back.out(1.6)" }, r[1] - 0.12);
+        });
+        sello("#f4-in", C.f_estafa, -6);
+        tiembla("#s7", C.f_estafa, 6, 9);
+
+        // ═══ S8 · ante la duda, no toque nada ═══════════════════════════════════════
+        var E8 = C.iris8;
+        // La regla sale ANTES de que entre el azul: nada azul ni naranja queda encima del azul (marca D7).
+        tl.to(["#f0", "#f1", "#f2", "#f3"], { opacity: 0, y: -20, duration: 0.3, ease: "power2.in", stagger: 0.03 }, E8 - 0.45);
+        tl.to("#f4-in", { scale: 0.2, opacity: 0, duration: 0.35, ease: "back.in(1.6)" }, E8 - 0.4);
+        tl.to("#s8", { clipPath: "circle(2300px at 540px 1070px)", duration: 0.7, ease: "power2.inOut" }, E8 - 0.05);
+        tl.set("#s7", { opacity: 0 }, E8 + 0.65);
+        tl.fromTo("#m8", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, E8 + 0.35);
+        sube("#d1", C.duda - 0.12);
+        sube("#d2", C.no_toque - 0.15);
+        tl.to("#d2-mk", { scaleX: 1, duration: 0.45, ease: "power3.inOut" }, C.no_toque + 0.3);
+        // La mano se acerca al móvil… y se detiene. El móvil dice que no.
+        tl.fromTo("#hand8", { y: 900 }, { y: 0, duration: 1.0, ease: "power3.out" }, C.duda - 0.4);
+        tl.to("#m8-eyes", { y: 4, duration: 0.3 }, C.duda);
+        tiembla("#m8", C.no_toque + 0.05, 6, 14);
+        tl.to("#hand8", { y: 900, duration: 0.7, ease: "power2.in" }, C.no_toque + 0.9);
+        tl.to("#m8-eyes", { y: 0, duration: 0.3 }, C.no_toque + 0.9);
+        // «…y pregunte a alguien de confianza.»
+        sale(["#d1", "#d2"], C.pregunte - 0.55);
+        tl.to("#m8", { scale: 0, opacity: 0, duration: 0.4, ease: "back.in(2)", transformOrigin: "50% 50%" }, C.pregunte - 0.5);
+        sube("#d3", C.pregunte - 0.1);
+        sube("#d4", C.confianza - 0.35);
+        tl.to("#d4-mk", { scaleX: 1, duration: 0.45, ease: "power3.inOut" }, C.confianza + 0.05);
+        aparece("#pA", C.pregunte, 0.45);
+        aparece("#pB", C.pregunte + 0.18, 0.45);
+        aparece("#qA", C.pregunte + 0.3, 0.4);
+        tl.to("#arc8-p", { attr: { "stroke-dashoffset": 0 }, duration: 0.6, ease: "power2.inOut" }, C.pregunte + 0.5);
+        aparece("#qB", C.confianza + 0.05, 0.4);
+        tl.to("#pB .ring", { attr: { opacity: 1 }, duration: 0.3 }, C.confianza + 0.05);
+
+        // ═══ S9 · envíeselo a quien lo necesite ═════════════════════════════════════
+        var E9 = C.escena9;
+        tl.to("#s9", { clipPath: "inset(0% 0 0 0)", duration: 0.6, ease: "power3.inOut" }, E9 - 0.2);
+        tl.set("#s8", { opacity: 0 }, E9 + 0.45);
+        sube("#e1", E9 + 0.3);
+        sube("#e2", C.envie - 0.1);
+        aparece("#m9", E9 + 0.3, 0.5);
+        aparece("#p9", E9 + 0.45, 0.5);
+        tl.to(["#arc9-p", "#arc9-h"], { attr: { opacity: 1 }, duration: 0.3 }, C.envie + 0.05);
+        // El vídeo viaja por el arco hasta la otra persona.
+        tl.fromTo("#mc", { x: 0, y: 0, opacity: 0, scale: 0.5, rotation: -8 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, C.envie + 0.05);
+        tl.to("#mc", { keyframes: [{ x: 160, y: -160, rotation: 0, duration: 0.45 }, { x: 330, y: -40, rotation: 8, scale: 0.8, duration: 0.45 }], ease: "power1.inOut" }, C.envie + 0.4);
+        tl.to("#mc", { opacity: 0, scale: 0.4, duration: 0.2 }, C.envie + 1.3);
+        tl.to("#p9 .ring", { attr: { opacity: 1 }, duration: 0.25 }, C.envie + 1.3);
+        tl.to("#p9", { scale: 1.12, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out" }, C.envie + 1.3);
+
+        // ═══ Cierre: logotipo, 017 y mensaje de responsabilidad ═════════════════════
+        var CI = C.cierre;
+        sale(["#e1", "#e2"], CI - 0.45);
+        tl.to(["#m9", "#p9", "#arc9"], { opacity: 0, duration: 0.35 }, CI - 0.45);
+        // Estados iniciales del logotipo fuera del timeline (un set en 0 no se pinta con el cabezal en 0).
+        gsap.set("#lk-w1", { y: 58 });
+        gsap.set("#lk-w2", { y: 70 });
+        gsap.set("#lk-m", { scale: 0, transformOrigin: "70px 70px" });
+        tl.set("#logoLayer", { opacity: 1 }, CI - 0.05);
+        tl.to("#lk-m", { scale: 1, duration: 0.6, ease: "back.out(1.9)" }, CI);
+        tl.to("#lk-w1", { y: 0, duration: 0.7, ease: "power4.out" }, CI + 0.25);
+        tl.to("#lk-w2", { y: 0, duration: 0.7, ease: "power4.out" }, CI + 0.5);
+        tl.fromTo("#c017", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, CI + 0.8);
+        tl.fromTo("#resp", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, CI + 1.2);
+        tl.to("#lk-eyeR", { scaleY: 0.1, transformOrigin: "50% 50%", duration: 0.1, yoyo: true, repeat: 1 }, FIN - 1.1);
+      })();
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

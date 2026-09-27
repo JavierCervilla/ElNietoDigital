@@ -24,3 +24,6 @@ videos/**/renders/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Caché de Python de las herramientas de vídeo (se importan entre sí)
+__pycache__/
