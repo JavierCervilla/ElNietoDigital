@@ -11,6 +11,14 @@ guiones/borradores/
 *.mov
 *.wav
 *.mp3
+# Excepción estrecha: en un vídeo generado, la locución sintética es FUENTE (no determinista y de pago) y la
+# banda sonora final es lo que lee la composición para renderizar. Ambas pesan < 2 MB y se congelan en git.
+!videos/*/voz/toma.mp3
+!videos/*/audio/banda-sonora.mp3
+# Intermedios de los vídeos generados (se reconstruyen con sus herramientas/)
+videos/*/build/
+videos/*/snapshots/
+videos/*/renders/
 # Sistema
 .DS_Store
 Thumbs.db

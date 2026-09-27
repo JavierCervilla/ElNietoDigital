@@ -2,6 +2,16 @@
 
 Lo más reciente arriba. Una entrada por trayectoria cerrada, en lenguaje de la persona que no vio el PR.
 
+## 2026-09-27 — NIETO-20 · vídeo de presentación del canal con voz (62 s)
+- Tráiler narrado de un minuto que cuenta de qué va el canal y cómo es su flow: el miedo a tocar algo,
+  «Respire. El móvil no muerde», lo que aprenderá (estafas, IA útil, trámites), un vídeo = una cosa paso a paso,
+  la alerta de estafa («ante la duda, no toque nada»), quien aprende enseña a otro, y «Suscríbase».
+- La voz es sintética (ElevenLabs, diseñada para el canal: española, cálida y pausada) y **se dice**: la
+  etiqueta «Voz generada con IA» está en pantalla todo el vídeo y la propia voz lo confiesa al final.
+- Subtítulos siempre, sincronizados palabra a palabra con la voz; música compuesta a imagen y siempre por
+  debajo de la voz. Todo se regenera desde `videos/NIETO-20-presentacion-canal/` (README de la carpeta); la
+  locución y la mezcla final se versionan (excepción estrecha en `.gitignore`), el MP4 no.
+
 ## 2026-09-27 — NIETO-19 · vídeo de presentación del canal (15 s)
 - Tráiler sin audio de 15 segundos, solo con gráficos en movimiento, que presenta el canal: el ruido de la
   jerga, «El móvil no muerde», los cinco pilares, un paso a paso («Sin prisa»), una alerta de estafa («Ante la
