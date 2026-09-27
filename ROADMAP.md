@@ -21,6 +21,7 @@
   - Retención media en YouTube < 20% → acortar vídeos y mejorar ganchos
   - Cortos que no pasan de 500 visualizaciones → concentrar en el pilar Seguridad y en Facebook
   - Casi toda la audiencia < 45 años → reforzar formato "para que se lo enseñes a tus padres" y talleres presenciales
+  - Cortos sin cara (D10) que no retienen (retención media de las fichas a 7 y 30 días) → hacerlos con cara
 
 ## Fase 2 — Consolidación (6 meses)
 - [ ] Una serie recurrente estable ("¿Es real o es IA?", "Pregunta de la semana")
