@@ -1,0 +1,86 @@
+{
+  "voz": {
+    "proveedor": "ElevenLabs",
+    "voice_id": "ZfLYdyVHDn9CQoeDksEP",
+    "nombre": "El Nieto Digital · narrador (IA)",
+    "origen": "Voice Design v3 (eleven_ttv_v3): voz masculina joven, español peninsular, cálida, suave y pausada",
+    "modelo": "eleven_v3",
+    "formato": "mp3_44100_128",
+    "ajustes": {
+      "stability": 0.5,
+      "similarity_boost": 0.8
+    },
+    "direccion": "[warmly]"
+  },
+  "lineas": [
+    {
+      "id": "01",
+      "escena": "ruido",
+      "texto": "¿Le suena? Un mensaje que no entiende… una palabra rara… y ese miedo a tocar algo."
+    },
+    {
+      "id": "02",
+      "escena": "calma",
+      "texto": "Respire. El móvil no muerde."
+    },
+    {
+      "id": "03",
+      "escena": "que-es",
+      "texto": "Esto es El Nieto Digital: la inteligencia artificial y el móvil, explicados con calma y sin palabras raras."
+    },
+    {
+      "id": "04",
+      "escena": "de-que-va",
+      "texto": "Aprenderá a protegerse de las estafas, a sacarle partido a la inteligencia artificial y a hacer sus trámites desde casa."
+    },
+    {
+      "id": "05",
+      "escena": "una-cosa",
+      "texto": "Cada vídeo, una sola cosa: paso a paso, con el móvil en pantalla, y le señalamos dónde pulsar."
+    },
+    {
+      "id": "06",
+      "escena": "un-peligro",
+      "texto": "Si aparece una estafa nueva, le avisamos. Y recuerde: ante la duda, no toque nada."
+    },
+    {
+      "id": "07",
+      "escena": "entre-pares",
+      "texto": "Aquí, quien aprende, enseña a otro. Nadie se queda atrás."
+    },
+    {
+      "id": "08",
+      "escena": "transparencia",
+      "texto": "Una cosa más: esta voz la ha creado una inteligencia artificial. Aquí, siempre se lo diremos."
+    },
+    {
+      "id": "09",
+      "escena": "cierre",
+      "texto": "Suscríbase. Nos vemos en el próximo vídeo."
+    }
+  ],
+  "montaje": {
+    "_nota": "Lo decide el montaje, no la voz: tempo (Rubber Band, mantiene tono y formantes), respiros añadidos tras la puntuación interior de cada frase y silencio antes de cada frase.",
+    "fps": 30,
+    "tempo": 0.9,
+    "preroll": 1.0,
+    "cola": 4.0,
+    "respiros": {
+      ",": 0.08,
+      ":": 0.2,
+      "…": 0.28,
+      ".": 0.3,
+      "?": 0.32
+    },
+    "pausa_antes": {
+      "02": 1.1,
+      "03": 0.7,
+      "04": 0.8,
+      "05": 1.0,
+      "06": 1.0,
+      "07": 1.0,
+      "08": 1.2,
+      "09": 1.0
+    }
+  }
+}
