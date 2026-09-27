@@ -5,6 +5,7 @@ paso o un peligro nuevo que reconocer, y entre todos, quien aprende enseña a ot
 canal de YouTube y para el post fijado en Facebook e Instagram.
 
 - Formato: 1920×1080 (16:9), 30 fps, 62,0 s, H.264 + AAC. Sonoridad −16 LUFS, pico ≤ −1,5 dBTP.
+- Sonido (NIETO-21): música de Eleven Music y efectos de ElevenLabs, editados a imagen sobre los mismos cues.
 - Fuente: `index.html` (composición [HyperFrames](https://hyperframes.heygen.com): HTML + un único timeline GSAP
   en pausa). El MP4 **no se versiona**: se regenera con los comandos de abajo.
 
@@ -46,10 +47,22 @@ Todo se ancla a la **alineación por carácter** de la locución, no a ojo:
    Rubber Band (sin cambiar el tono) y coloca cada frase en el montaje. Salen `tiempos.js` (cada palabra con su
    tiempo: subtítulos) y la envolvente de la voz (la onda de la etiqueta). Arranques de palabra tras pausa
    medidos contra la energía real: ±15 ms.
-4. `herramientas/banda_sonora.py` deriva los **cues** de pantalla de las palabras (`cues.js`: la animación y los
-   efectos leen los mismos números), compone la música a imagen (tensión con latido que se corta en seco, el
-   acorde que florece en «Respire.», un acorde por idea, casi nada en la confesión de la voz IA) y mezcla con la
-   música agachada bajo la voz (≈ 14 dB por debajo mientras se habla).
+4. `herramientas/banda_sonora.py` deriva los **cues** de pantalla de las palabras (`cues.js`: la animación, los
+   efectos y la música leen los mismos números).
+5. `herramientas/generar_sonido.py` pide a ElevenLabs la música y los efectos y los congela en `sonido/` con su
+   manifiesto (`sonido/fuentes.json`: petición exacta y sha256). La música se compone **a imagen** con Eleven
+   Music v2.5: una sección por escena, con la duración que dan los cues. Se generaron cuatro tomas y se eligió una
+   con `herramientas/evaluar_musica.py` y medidas (la que menos tapa la banda de la voz y termina limpia).
+6. `banda_sonora.py` edita esas fuentes contra los cues, como un editor musical:
+   - El modelo respeta la duración de las secciones pero no la dinámica que se le pide (medido), así que la
+     dinámica se lleva en la mezcla: más oscura en la alerta, casi nada en la confesión de la voz IA.
+   - La floración de «Respire.» es el acorde final de la propia pieza (Fa mayor): al revés como *swell* y al
+     derecho bajo «El móvil no muerde».
+   - El acorde final ataca en «Suscríbase.» todavía oscuro y **se abre cuando la mano pulsa el botón**.
+   - El latido grabado no aceleraba: se re-secuencia de 64 a 118 ppm.
+   - Cada efecto se alinea por su ataque real, no por el inicio del fichero.
+   - La música se agacha bajo la voz con anticipación de 100 ms (−11 dB). En habla plena, la voz queda 19 dB
+     por encima de la música de mediana y 11,7 dB en el percentil 10.
 
 La mano es el hilo: tiembla con miedo a tocar al principio, se detiene «ante la duda» y al final pulsa
 «Suscribirse» con seguridad. El móvil que asusta se convierte en la mascota, y la mascota en el logotipo.
@@ -65,7 +78,7 @@ Necesita Node ≥ 22, FFmpeg (con rubberband), Chrome/Chromium y Python 3 con nu
 
 ```bash
 cd videos/NIETO-20-presentacion-canal
-bash herramientas/construir_audio.sh          # tiempos, cues, música y mezcla (sin red)
+bash herramientas/construir_audio.sh          # tiempos, cues y mezcla desde las fuentes congeladas (sin red)
 export HYPERFRAMES_NO_TELEMETRY=1 DO_NOT_TRACK=1
 env -u GEMINI_API_KEY npx --yes hyperframes@0.8.80 check .
 env -u GEMINI_API_KEY npx --yes hyperframes@0.8.80 render . --quality high --fps 30 \
@@ -76,10 +89,14 @@ env -u GEMINI_API_KEY npx --yes hyperframes@0.8.80 render . --quality high --fps
 para describirlos por defecto (`--describe false` lo apaga). Aquí no se quiere.
 
 Para cambiar el guion: editar `voz/guion.json`, `ELEVENLABS_API_KEY=… python3 herramientas/generar_voz.py`,
-`pip install faster-whisper && python3 herramientas/verificar_voz.py`, y después los comandos de arriba.
+`pip install faster-whisper && python3 herramientas/verificar_voz.py`, y después los comandos de arriba. Si
+cambian los tiempos de las escenas, la música se regenera a imagen: `generar_sonido.py --solo musica-calma
+--candidata --semilla N` (varias), `evaluar_musica.py`, y `generar_sonido.py --elegir musica-calma --semilla N`.
 
 ## Créditos de terceros
 - Locución: ElevenLabs (eleven_v3), voz diseñada para el canal. Voz sintética, declarada en pantalla.
 - `fonts/`: Nunito y Atkinson Hyperlegible, SIL Open Font License 1.1 (Google Fonts).
 - `vendor/gsap.min.js`: GSAP 3.15.0 © GreenSock, bajo su licencia estándar (https://gsap.com/standard-license).
-- Música y efectos: sintetizados en `herramientas/banda_sonora.py`, sin muestras de terceros.
+- Música: Eleven Music (music_v2_5) y efectos: ElevenLabs Sound Effects (eleven_text_to_sound_v2), generados
+  para este vídeo (`sonido/fuentes.json`). El uso comercial (p. ej. si el canal se monetiza) depende del plan de
+  la cuenta de ElevenLabs con que se generaron: comprobarlo antes de monetizar.
