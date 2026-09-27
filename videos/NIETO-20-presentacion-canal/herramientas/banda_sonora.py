@@ -1,20 +1,25 @@
 #!/usr/bin/env python3
-"""Banda sonora compuesta «a imagen», efectos y mezcla final. Todo sintetizado aquí, determinista.
-
-La clave de ElevenLabs no tiene permisos de música ni de efectos, y un vídeo que enseña a desconfiar no
-debería depender de una pista de banco de sonidos con licencia dudosa: la música se sintetiza (numpy) y se
-escribe contra los tiempos de la voz (voz/tiempos.json), no contra una rejilla ciega.
+"""Banda sonora a imagen: música y efectos de ElevenLabs congelados en sonido/, editados contra los cues.
 
   - Los CUES (instantes donde pasa algo en pantalla) se derivan de las palabras de la locución y se emiten
     en cues.js: la animación y los efectos leen LOS MISMOS números, así que el «ding» cae en el fotograma
-    en que llega el mensaje.
-  - Música: tensión con latido y un racimo disonante mientras se amontona la jerga; corte en seco al terminar
-    «…tocar algo.»; el acorde cálido florece justo en «Respire.»; después un acorde por idea (Re mayor, piano
-    de fieltro, pad y bajo), más oscura en la alerta, mínima en la confesión de la voz IA, plena en el cierre.
+    en que llega el mensaje. generar_sonido.py también los usa para dar a cada sección de la música la
+    duración de su escena.
+  - Música (Eleven Music, sonido/musica-calma.mp3, alineada a «Respire.»): el modelo respeta la duración de
+    las secciones pero no la dinámica que se le pide (medido en cuatro tomas), así que la dinámica se lleva
+    aquí, como haría un editor musical: más oscura en la alerta (−2 dB y paso bajo), −4 dB en «entre pares» (su
+    crescendo dejaba la voz a 6 dB), casi nada en la confesión de la voz IA (−12 dB y paso bajo). El acorde final
+    ataca en «Suscríbase.» todavía oscuro y se abre al pulsar el botón; bajo el logotipo, +9 dB. La floración de «Respire.» es ese mismo acorde final (Fa mayor): al revés como swell que
+    desemboca en la palabra y al derecho bajo «El móvil no muerde», así no hay choque de tonalidad.
+  - Tensión (0 → «…tocar algo.»): sonido/musica-tension.mp3 + el latido grabado, re-secuenciado aquí para que
+    se acelere de 64 a 118 ppm (el generado no aceleraba); corte en seco antes del silencio.
+  - Efectos: cada uno se normaliza a un pico común y se alinea por su ATAQUE real (o por su pico, en los
+    barridos), no por el inicio del fichero: algunos traen 140-225 ms de silencio delante.
   - Mezcla: la música se agacha bajo la voz (ducking por la envolvente de la voz), sonoridad final −16 LUFS
     y pico real ≤ −1,5 dBTP (loudnorm en dos pasadas, lineal).
 
-Salidas: cues.js · build/musica.wav · build/sfx.wav · audio/banda-sonora.mp3
+Determinista: mismas fuentes congeladas → mismo audio, byte a byte.
+Salidas: cues.js · build/musica.wav · build/sfx.wav · build/mezcla.wav · audio/banda-sonora.mp3
 Uso:  python3 herramientas/banda_sonora.py   (después de montar_voz.py)
 """
 import json
@@ -25,13 +30,8 @@ import numpy as np
 from scipy.signal import butter, fftconvolve, sosfilt
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
+SONIDO = RAIZ / "sonido"
 SR = 44100
-BPM = 84
-CORCHEA = 60 / BPM / 2
-
-
-def hz(midi):
-    return 440.0 * 2 ** ((midi - 69) / 12)
 
 
 def rng(semilla):
@@ -60,7 +60,7 @@ def calcular_cues(tiempos):
         t += paso
         paso = max(0.085, paso * 0.83)
     c = {
-        "vibra": round(ini["01"] - 0.05, 3),
+        "vibra": round(ini["01"] - 0.6, 3),  # vibra y DESPUÉS habla: el zumbido no pisa «¿Le suena?»
         "mensaje": w("01", "Un"),
         "jerga": jerga,
         "dedo": w("01", "miedo"),
@@ -99,13 +99,16 @@ def calcular_cues(tiempos):
         "suscribase_toque": round(w("09", "Suscríbase") + 0.78, 3),
         "logo_final": w("09", "Nos"),
         "guino": round(tiempos["duracion"] - 1.9, 3),
+        "fin_voz": tiempos["lineas"][-1]["t1"],
         "fin": tiempos["duracion"],
     }
     c["transiciones"] = [round(c[k] - 0.2, 3) for k in ("escena3", "escena4", "escena5", "escena6", "escena7", "escena9")]
     return c
 
 
-# ── utilidades de síntesis ─────────────────────────────────────────────────────────────────────────────
+
+
+# ── utilidades ─────────────────────────────────────────────────────────────────────────────────────────
 def pista(segundos, canales=2):
     return np.zeros((int(segundos * SR) + SR, canales), np.float32)
 
@@ -126,10 +129,6 @@ def paso_bajo(x, fc, orden=2):
     return sosfilt(butter(orden, fc, "low", fs=SR, output="sos"), x, axis=0)
 
 
-def paso_banda(x, f1, f2, orden=2):
-    return sosfilt(butter(orden, [f1, f2], "band", fs=SR, output="sos"), x, axis=0)
-
-
 def reverb(x, rt60=2.2, mezcla=0.3, semilla=7):
     """Convolución con una respuesta al impulso sintética (ruido con caída exponencial), estéreo decorrelado."""
     n = int(rt60 * 1.2 * SR)
@@ -142,271 +141,158 @@ def reverb(x, rt60=2.2, mezcla=0.3, semilla=7):
     humedo = np.stack([fftconvolve(x[:, k], ir[:, k])[: len(x)] for k in range(2)], 1)
     return x * (1 - mezcla) + humedo * mezcla * 1.6
 
-
-# ── instrumentos ───────────────────────────────────────────────────────────────────────────────────────
-def piano(midi, vel=0.6, dur=4.0, semilla=0):
-    """Piano de fieltro: parciales inarmónicos, doble caída, cuerdas ligeramente desafinadas y golpe suave."""
-    f = hz(midi)
-    t = np.arange(int(dur * SR)) / SR
-    x = np.zeros_like(t)
-    B = 0.00035
-    for n in range(1, 12):
-        fn = n * f * np.sqrt(1 + B * n * n)
-        if fn > 12000:
-            break
-        amp = vel / n ** 1.35 * np.exp(-(n - 1) * (0.55 - 0.35 * vel))
-        k = (0.9 + 0.45 * n) * (f / 262) ** 0.35
-        env = 0.62 * np.exp(-t * k * 2.4) + 0.38 * np.exp(-t * k * 0.55)
-        for cents in (-0.9, 0.9):
-            x += amp * env * np.sin(2 * np.pi * fn * 2 ** (cents / 1200) * t + n)
-    x *= 1 - np.exp(-t / 0.005)
-    golpe = paso_bajo(rng(semilla).standard_normal(int(0.02 * SR)), 900) * np.exp(-np.arange(int(0.02 * SR)) / (0.004 * SR))
-    x[: len(golpe)] += golpe * 0.05 * vel
-    x *= np.minimum(1, (dur - t) / 0.3)  # apagado
-    return x * 0.22
+# ── fuentes congeladas ─────────────────────────────────────────────────────────────────────────────────
+def db(v):
+    return 10 ** (np.asarray(v, float) / 20)
 
 
-def pad(notas, dur, ataque=1.4, caida=1.6, brillo=2200, semilla=1):
-    """Pad cálido: dientes de sierra de banda limitada, desafinados L/R, filtrados."""
-    t = np.arange(int(dur * SR)) / SR
-    out = np.zeros((len(t), 2))
-    for i, m in enumerate(notas):
-        f = hz(m)
-        for canal, cents in enumerate((-6, 6)):
-            fr = f * 2 ** ((cents + (i % 3 - 1) * 2) / 1200)
-            onda = sum(np.sin(2 * np.pi * fr * n * t + i + n) / n for n in range(1, 14) if fr * n < 9000)
-            out[:, canal] += onda * (0.9 if m < 52 else 0.55)
-    env = np.minimum(1, t / ataque) * np.minimum(1, np.maximum(0, (dur - t) / caida))
-    env = env ** 1.6
-    lfo = 1 + 0.06 * np.sin(2 * np.pi * 0.18 * t)
-    return paso_bajo(out * (env * lfo)[:, None], brillo) * 0.035
+def cargar(nombre, mono=False, pico_db=-1.0):
+    """sonido/<nombre>.mp3 normalizado a un pico común (algunos efectos salen por encima de 0 dBFS)."""
+    x = leer(SONIDO / f"{nombre}.mp3", 2)
+    x = x * (db(pico_db) / (np.abs(x).max() + 1e-9))
+    return x.mean(1) if mono else x
 
 
-def bajo(midi, dur, vel=0.5):
-    t = np.arange(int(dur * SR)) / SR
-    f = hz(midi)
-    x = np.sin(2 * np.pi * f * t) + 0.25 * np.sin(4 * np.pi * f * t)
-    env = np.minimum(1, t / 0.08) * np.minimum(1, np.maximum(0, (dur - t) / 0.6))
-    return x * env * vel * 0.12
+def energia(x, paso=0.005):
+    m = x.mean(1) if x.ndim > 1 else x
+    n = int(paso * SR)
+    return 20 * np.log10(np.sqrt(np.mean(m[: len(m) // n * n].reshape(-1, n) ** 2, axis=1)) + 1e-9)
 
 
-def campana(midi, vel=0.5, dur=3.0):
-    t = np.arange(int(dur * SR)) / SR
-    f = hz(midi)
-    x = np.zeros_like(t)
-    for r, a, k in ((1, 1, 1.4), (2.76, 0.45, 3.5), (5.40, 0.22, 6.0), (8.93, 0.1, 9.0)):
-        x += a * np.sin(2 * np.pi * f * r * t) * np.exp(-t * k)
-    return x * (1 - np.exp(-t / 0.002)) * vel * 0.18
+def arranque(x, umbral=-40.0):
+    """Primer instante en que el sonido supera `umbral` dBFS."""
+    return float(np.argmax(energia(x) > umbral)) * 0.005
 
 
-def latido(t0, vel):
-    """Latido «pum-pum» grave: dos golpes senoidales con caída de tono."""
-    def golpe(v):
-        n = int(0.18 * SR)
-        t = np.arange(n) / SR
-        f = 58 * np.exp(-t * 6) + 38
-        return np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 22) * v
-    x = np.zeros(int(0.5 * SR))
-    a, b = golpe(vel), golpe(vel * 0.7)
-    x[: len(a)] += a
-    x[int(0.19 * SR): int(0.19 * SR) + len(b)] += b
-    return x * 0.5
+def pico(x):
+    return float(np.argmax(energia(x, 0.01))) * 0.01
 
 
-# ── efectos (SFX) ──────────────────────────────────────────────────────────────────────────────────────
-def sfx_ding():
-    t = np.arange(int(0.9 * SR)) / SR
-    a = np.sin(2 * np.pi * 1318.5 * t) * np.exp(-t * 7)
-    b = np.zeros_like(t)
-    k = int(0.085 * SR)
-    b[k:] = np.sin(2 * np.pi * 1975.5 * t[: len(t) - k]) * np.exp(-t[: len(t) - k] * 6)
-    return (a * 0.6 + b * 0.5) * (1 - np.exp(-t / 0.002)) * 0.16
+def ultimo_ataque(x):
+    """El último ataque fuerte de la pieza: subida ≥ 6 dB en 50 ms que llega a menos de 16 dB del máximo
+    (con 25 dB se colaba una ondulación de la cola, −32 → −27 dB, un segundo después del acorde final)."""
+    e = energia(x, 0.01)
+    subida = e[5:] - e[:-5]
+    k = np.flatnonzero((subida > 6) & (e[5:] > e.max() - 16))
+    return float(k[-1] + 5) * 0.01
 
 
-def sfx_vibra():
-    t = np.arange(int(0.42 * SR)) / SR
-    x = np.sign(np.sin(2 * np.pi * 165 * t)) * (0.5 + 0.5 * np.sin(2 * np.pi * 24 * t))
-    env = np.minimum(1, t / 0.02) * np.minimum(1, (0.42 - t) / 0.05)
-    return paso_bajo(x * env, 700) * 0.09
+def tono(x, factor):
+    """Cambia la altura remuestreando (y con ella la duración): variedad sin fichero nuevo."""
+    return np.interp(np.arange(0, len(x) - 1, factor), np.arange(len(x)), x)
 
 
-def sfx_pop(tono=1.0, semilla=0):
-    n = int(0.09 * SR)
-    t = np.arange(n) / SR
-    f = (320 + 700 * np.exp(-t * 55)) * tono
-    x = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 38)
-    clic = rng(semilla).standard_normal(n) * np.exp(-t * 900) * 0.2
-    return (x + clic) * 0.09
+def tramo(x, t0, t1, fundido=0.01):
+    y = x[int(t0 * SR):int(t1 * SR)].copy()
+    n = int(fundido * SR)
+    y[:n] *= np.linspace(0, 1, n)[:, None] if y.ndim > 1 else np.linspace(0, 1, n)
+    y[-n:] *= np.linspace(1, 0, n)[:, None] if y.ndim > 1 else np.linspace(1, 0, n)
+    return y
 
 
-def sfx_toque():
-    n = int(0.12 * SR)
-    t = np.arange(n) / SR
-    cuerpo = np.sin(2 * np.pi * 190 * t) * np.exp(-t * 45)
-    clic = paso_banda(rng(3).standard_normal(n), 2500, 7000) * np.exp(-t * 700)
-    return (cuerpo * 0.7 + clic * 0.5) * 0.14
+def golpes_latido(x):
+    """Instante de cada «pum» (el primero de cada par pum-pum) del latido grabado."""
+    e = energia(x, 0.01)
+    u = np.percentile(e, 85)
+    picos = [i for i in range(1, len(e) - 1) if e[i] > u and e[i] >= e[i - 1] and e[i] >= e[i + 1]]
+    unicos = [picos[0]]
+    for i in picos[1:]:
+        if i - unicos[-1] > 18:
+            unicos.append(i)
+    return [unicos[0] * 0.01] + [b * 0.01 for a, b in zip(unicos, unicos[1:]) if b - a > 45]
 
 
-def sfx_barrido(dur=0.55, semilla=5, gan=1.0):
-    n = int(dur * SR)
-    t = np.arange(n) / SR
-    env = np.sin(np.pi * t / dur) ** 2
-    x = paso_banda(rng(semilla).standard_normal(n), 350, 2600) * env
-    return x * 0.045 * gan
-
-
-def sfx_alerta():
-    t = np.arange(int(0.5 * SR)) / SR
-    x = np.zeros_like(t)
-    for i, (f, t0) in enumerate(((880.0, 0.0), (659.3, 0.14))):
-        k = int(t0 * SR)
-        tt = t[: len(t) - k]
-        tri = 2 / np.pi * np.arcsin(np.sin(2 * np.pi * f * tt))
-        x[k:] += tri * np.exp(-tt * 9) * (1 - np.exp(-tt / 0.004))
-    return paso_bajo(x, 3500) * 0.08
-
-
-def sfx_sello():
-    n = int(0.35 * SR)
-    t = np.arange(n) / SR
-    f = 95 * np.exp(-t * 9) + 45
-    cuerpo = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 14)
-    golpe = paso_bajo(rng(9).standard_normal(n), 600) * np.exp(-t * 60)
-    return (cuerpo * 0.8 + golpe * 0.6) * 0.2
-
-
-def sfx_pulsacion(midi, vel=0.5):
-    return piano(midi, vel, 1.8, semilla=midi) * 0.8
-
-
-# ── composición musical ────────────────────────────────────────────────────────────────────────────────
-ACORDES = {
-    "D": [50, 57, 62, 66, 69, 76],
-    "A/C#": [49, 57, 61, 64, 69, 71],
-    "Bm7": [47, 54, 59, 62, 66, 69],
-    "Gmaj7": [43, 55, 59, 62, 66, 69],
-    "D/F#": [42, 57, 62, 66, 69, 74],
-    "Em7": [40, 55, 59, 62, 64, 67],
-    "Asus4": [45, 57, 62, 64, 69, 71],
-    "A": [45, 57, 61, 64, 69, 73],
-    "Gadd9": [43, 55, 59, 62, 67, 69],
-}
-PATRON = [0, 2, 1, 3, 2, 4, 3, 2]
-
-
-def seccion(musica, acorde, t0, t1, densidad, vel, semilla, pad_gan=1.0, octava=0):
-    notas = ACORDES[acorde]
-    dur = t1 - t0
-    sumar(musica, pad(notas, dur + 1.2, semilla=semilla), t0 - 0.15, pad_gan)
-    sumar(musica, bajo(notas[0] - 12 if notas[0] > 45 else notas[0], dur + 0.4, vel * 0.9), t0, 1.0)
-    if densidad == 0:
-        return
-    agudas = [n + 12 * octava for n in notas if n >= 57] + [notas[-1] + 12]
-    paso = CORCHEA * (2 if densidad == 1 else 1)
-    k, t = 0, t0
-    while t < t1 - 0.05:
-        nota = agudas[PATRON[k % len(PATRON)] % len(agudas)]
-        v = vel * (1.0 if k % 4 == 0 else 0.72) * (0.92 + 0.08 * ((k * 7 + semilla) % 5) / 4)
-        sumar(musica, piano(nota, v, 3.2, semilla=semilla + k), t, 1.0, pan=((k % 5) - 2) * 0.12)
-        k += 1
-        t += paso
-
-
+# ── música ─────────────────────────────────────────────────────────────────────────────────────────────
 def componer(c, T):
     musica = pista(T)
-
-    # S1 · el ruido: dron grave, racimo agudo con trémolo que acelera y latido que se acelera.
-    fin_ruido = c["congela"]
-    t = np.arange(int(fin_ruido * SR)) / SR
-    dron = (np.sin(2 * np.pi * hz(26) * t) + 0.5 * np.sin(2 * np.pi * hz(33) * t)
-            + 0.3 * np.sin(2 * np.pi * hz(38) * t * 1.003)) * np.minimum(1, t / 2.5) * 0.10
-    trem = 7 + 5 * (t / fin_ruido) ** 2
-    racimo = sum(np.sin(2 * np.pi * hz(m) * t + m) for m in (85, 86, 88)) \
-        * (0.5 + 0.5 * np.sin(2 * np.pi * np.cumsum(trem) / SR)) \
-        * np.clip((t - c["mensaje"]) / (fin_ruido - c["mensaje"]), 0, 1) ** 1.7 * 0.03
-    subida = paso_banda(rng(11).standard_normal(len(t)), 900, 5000) * np.clip((t - c["jerga"][0]) / (fin_ruido - c["jerga"][0]), 0, 1) ** 2.2 * 0.05
-    ruido = dron + racimo + subida
-    ruido[-int(0.05 * SR):] *= np.linspace(1, 0, int(0.05 * SR))  # corte en seco
-    sumar(musica, ruido, 0)
-    tb, bpm = 0.35, 68.0
-    while tb < fin_ruido - 0.3:
-        sumar(musica, latido(tb, 0.5 + 0.4 * tb / fin_ruido), tb)
-        bpm = 68 + 52 * (tb / fin_ruido) ** 1.5
-        tb += 60 / bpm
-
-    # S2 · «Respire.»: florece el acorde; después un acorde por idea.
     r = c["respire"]
-    sumar(musica, pad(ACORDES["D"] + [81], 4.2, ataque=2.2, caida=1.4, brillo=2600, semilla=2), r - 0.1, 1.3)
-    sumar(musica, bajo(38, 3.6, 0.45), r + 0.3)
-    for k, n in enumerate((69, 74, 78)):
-        sumar(musica, piano(n, 0.35, 4.0, semilla=40 + k), c["sonrisa"] + 0.55 * k, 1.0, pan=(k - 1) * 0.2)
-    plan = [
-        ("D", c["escena3"], c["ia"] - 0.25, 1, 0.5),
-        ("A/C#", c["ia"] - 0.25, c["traduce"] - 1.4, 1, 0.5),
-        ("Bm7", c["traduce"] - 1.4, c["escena4"] - 0.2, 1, 0.5),
-        ("Gmaj7", c["escena4"] - 0.2, c["tarjetas"][1] - 0.1, 2, 0.5),
-        ("D/F#", c["tarjetas"][1] - 0.1, c["tarjetas"][2] - 0.2, 2, 0.5),
-        ("Em7", c["tarjetas"][2] - 0.2, c["escena5"] - 1.0, 2, 0.48),
-        ("Asus4", c["escena5"] - 1.0, c["escena5"] - 0.2, 1, 0.42),
-        ("D", c["escena5"] - 0.2, c["pasos"][0] - 0.1, 2, 0.52),
-        ("A/C#", c["pasos"][0] - 0.1, c["pasos"][2] - 0.4, 2, 0.52),
-        ("Bm7", c["pasos"][2] - 0.4, c["escena6"] - 0.2, 2, 0.5),
-        ("Bm7", c["escena6"] - 0.2, c["duda"] - 1.1, 0, 0.4),       # alerta: se quita el piano
-        ("Gmaj7", c["duda"] - 1.1, c["no_toque"] + 0.3, 1, 0.42),
-        ("Asus4", c["no_toque"] + 0.3, c["escena7"] - 0.2, 1, 0.42),
-        ("D", c["escena7"] - 0.2, c["nadie"] - 0.15, 2, 0.52),
-        ("Gadd9", c["nadie"] - 0.15, c["nadie"] + 1.6, 2, 0.56),
-        ("A", c["nadie"] + 1.6, c["escena8"] - 0.2, 1, 0.5),
-        ("Bm7", c["escena8"] - 0.2, c["ia_voz"] + 0.3, 0, 0.35),     # confesión: casi nada
-        ("Gmaj7", c["ia_voz"] + 0.3, c["siempre"] - 0.4, 0, 0.35),
-        ("Asus4", c["siempre"] - 0.4, c["escena9"] - 0.2, 1, 0.4),
-        ("D", c["escena9"] - 0.2, c["logo_final"] - 0.1, 2, 0.58),
-        ("Gadd9", c["logo_final"] - 0.1, c["logo_final"] + 1.3, 2, 0.55),
-    ]
-    for i, (acorde, t0, t1, dens, vel) in enumerate(plan):
-        seccion(musica, acorde, t0, t1, dens, vel, semilla=100 + i * 13, octava=1 if acorde == "Gadd9" else 0)
-    # Acorde final largo y campana en el guiño.
-    fin = c["logo_final"] + 1.3
-    sumar(musica, pad(ACORDES["D"] + [81], T - fin + 0.5, ataque=0.6, caida=2.8, semilla=9), fin, 1.25)
-    sumar(musica, bajo(38, T - fin, 0.5), fin)
-    for k, n in enumerate((62, 66, 69, 74, 78)):
-        sumar(musica, piano(n, 0.5 - 0.05 * k, 5.0, semilla=70 + k), fin + 0.09 * k, 1.0, pan=(k - 2) * 0.15)
-    sumar(musica, campana(90, 0.5), c["logo"] + 0.05, 1.0, pan=0.2)
-    sumar(musica, campana(93, 0.45), c["guino"], 1.0, pan=-0.2)
-    musica = reverb(musica, rt60=2.4, mezcla=0.32)
-    # Deja sitio a la voz: fuera los subgraves y −4 dB en la zona de «barro» (150-400 Hz).
-    musica = sosfilt(butter(2, 50, "high", fs=SR, output="sos"), musica, axis=0)
-    return musica - 0.37 * paso_banda(musica, 150, 400)
+
+    # 1 · Tensión: entra en 2 s y se corta en seco con «…tocar algo.»; el latido se acelera de 64 a 118 ppm.
+    fin = c["congela"]
+    tension = tramo(cargar("musica-tension"), 0, fin, 0.04)
+    tension *= np.minimum(1, np.arange(len(tension)) / SR / 2.0)[:, None]
+    sumar(musica, tension, 0, db(-4))
+    lat = cargar("latido")
+    golpes = golpes_latido(lat)
+    tb, k = 0.35, 0
+    while tb < fin - 0.45:
+        g = golpes[k % len(golpes)]
+        sumar(musica, tramo(lat, g - 0.04, g + 0.62), tb, db(-4) * (0.55 + 0.45 * tb / fin))
+        tb += 60 / (64 + 54 * (tb / fin) ** 1.5)
+        k += 1
+
+    # 2 · «Respire.»: el acorde final de la propia pieza, al revés (swell) y al derecho.
+    calma = cargar("musica-calma")
+    ta = ultimo_ataque(calma)
+    swell = tramo(calma, ta - 0.01, ta + 1.5, 0.02)[::-1].copy()
+    swell *= (np.linspace(0, 1, len(swell)) ** 2)[:, None]
+    sumar(musica, swell, r - len(swell) / SR, db(-5))
+    acorde = tramo(calma, ta - 0.01, ta + 4.4, 0.02)
+    acorde[-int(1.4 * SR):] *= np.linspace(1, 0, int(1.4 * SR))[:, None]
+    sumar(musica, acorde, r - 0.01, db(-3))
+
+    # 3 · La pieza, alineada a «Respire.» como se compuso, con la dinámica llevada a imagen.
+    t = np.arange(len(calma)) / SR + r
+    # El acorde final ataca justo en «Suscríbase.»: entra oscuro y bajo bajo la palabra (a pleno la tapaba: 1,8 dB
+    # de margen) y se ABRE —filtro y ganancia— cuando la mano pulsa el botón; crece un poco más al callar la voz.
+    abre = c["suscribase_toque"]
+    marcas = [0, c["escena6"] - 0.3, c["escena6"] + 0.3, c["escena7"] - 0.3, c["escena7"] + 0.3,
+              c["escena8"] - 0.4, c["escena8"] + 0.6, abre - 0.05, abre + 0.35, c["fin_voz"] + 0.3,
+              c["fin_voz"] + 1.2, 1e9]
+    gan = db(np.interp(t, marcas, [0, 0, -2, -2, -4, -4, -12, -12, 5, 5, 9, 9]))
+    oscuro = np.interp(t, marcas, [0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0])[:, None]
+    cuerpo = (calma * (1 - oscuro) + paso_bajo(calma, 900) * oscuro) * gan[:, None]
+    sumar(musica, cuerpo, r)
+    # La pieza trae mucho grave (36 % de su energía bajo 150 Hz): paso alto a 60 Hz y −3 dB por debajo de 150 Hz,
+    # para que en una tele no retumbe bajo la voz.
+    musica = sosfilt(butter(2, 60, "high", fs=SR, output="sos"), musica, axis=0)
+    return musica - 0.3 * paso_bajo(musica, 150)
+
+
+# ── efectos ────────────────────────────────────────────────────────────────────────────────────────────
+NIVELES = {"vibra": -16, "ding": -9, "pop": -15, "barrido": -17, "respiro": -12, "alerta": -9, "sello": -7,
+           "toque": -11, "burbuja": -14, "brillo": -11}
 
 
 def efectos(c, T):
     fx = pista(T)
-    sumar(fx, sfx_vibra(), c["vibra"])
-    sumar(fx, sfx_ding(), c["mensaje"], pan=0.1)
+    S = {n: cargar(n, mono=True) for n in NIVELES}
+
+    def pon(n, t, extra=0.0, por="arranque", factor=None, pan=0.0):
+        x = S[n] if factor is None else tono(S[n], factor)
+        sumar(fx, x, t - (arranque(x) if por == "arranque" else pico(x)), db(NIVELES[n] + extra), pan)
+
+    S["vibra"] = tramo(S["vibra"], 0, 0.55, 0.06)
+    pon("vibra", c["vibra"])
+    pon("ding", c["mensaje"], pan=0.15)
     for k, t in enumerate(c["jerga"]):
-        sumar(fx, sfx_pop(0.8 + 0.07 * (k % 6), semilla=k), t, 0.9, pan=((k * 5) % 7 - 3) * 0.2)
-    sumar(fx, sfx_barrido(1.1, gan=1.3)[::-1].copy(), c["respire"] - 0.75)
+        pon("pop", t, extra=-2 + 2 * k / len(c["jerga"]), factor=[0.85, 1.0, 1.15, 0.92, 1.25, 1.06][k % 6],
+            pan=((k * 5) % 7 - 3) * 0.2)
+    pon("respiro", c["respire"] - 0.02, extra=-2, por="pico")
     for t in c["transiciones"]:
-        sumar(fx, sfx_barrido(0.6, semilla=int(t * 10)), t - 0.25)
-    sumar(fx, sfx_pop(1.2), c["ia"] + 0.05)
-    sumar(fx, sfx_pop(1.05), c["movil"] + 0.05)
-    sumar(fx, sfx_barrido(0.4, gan=0.9), c["traduce"] + 0.2)
+        pon("barrido", t, por="pico")
+    pon("burbuja", c["ia"] + 0.05)
+    pon("burbuja", c["movil"] + 0.05, factor=0.9)
+    pon("barrido", c["traduce"] + 0.25, extra=-4, por="pico")
     for k, t in enumerate(c["tarjetas"]):
-        sumar(fx, sfx_pop(0.9 + 0.12 * k, semilla=20 + k), t, 1.1)
-    sumar(fx, sfx_pop(1.3), c["una"])
+        pon("pop", t, factor=0.9 + 0.12 * k)
+    pon("pop", c["una"], factor=1.2)
     for k, t in enumerate(c["pasos"]):
-        sumar(fx, sfx_pop(1.0 + 0.1 * k, semilla=30 + k), t, 0.9)
-    sumar(fx, sfx_toque(), c["toque"])
-    sumar(fx, sfx_ding(), c["estafa_llega"], 0.9)
-    sumar(fx, sfx_alerta(), c["alerta"])
-    sumar(fx, sfx_sello(), c["sello"])
-    sumar(fx, sfx_pulsacion(74, 0.45), c["aprende"] + 0.1)
-    sumar(fx, sfx_pulsacion(78, 0.45), c["otro"])
+        pon("burbuja", t, factor=1.0 + 0.1 * k)
+    pon("toque", c["toque"])
+    pon("ding", c["estafa_llega"], extra=-1)
+    pon("alerta", c["alerta"])
+    pon("sello", c["sello"])
+    pon("burbuja", c["aprende"] + 0.1, factor=0.9)
+    pon("burbuja", c["otro"])
     for k, t in enumerate(c["red"]):
-        sumar(fx, sfx_pulsacion([81, 83, 86, 88, 90, 93, 86, 90, 93][k], 0.25), t, 0.8, pan=((k * 3) % 5 - 2) * 0.25)
-    sumar(fx, sfx_toque(), c["suscribase_toque"])
-    sumar(fx, sfx_ding(), c["suscribase_toque"] + 0.18, 0.7)
-    return reverb(fx, rt60=1.2, mezcla=0.18, semilla=13)
+        pon("burbuja", t + 0.2, extra=-4, factor=[1.05, 1.12, 1.2, 1.26, 1.33, 1.4, 1.2, 1.33, 1.5][k],
+            pan=((k * 3) % 5 - 2) * 0.25)
+    pon("toque", c["suscribase_toque"])
+    pon("ding", c["suscribase_toque"] + 0.18, extra=-3)
+    pon("brillo", c["logo"] + 0.05)
+    pon("brillo", c["guino"], extra=-2)
+    return reverb(fx, rt60=1.2, mezcla=0.15, semilla=13)
 
 
 def leer(ruta, canales):
@@ -423,15 +309,19 @@ def escribir(ruta, x, extra=()):
 def mezclar(voz, musica, fx, T):
     n = int(T * SR)
     voz, musica, fx = (np.pad(a, ((0, max(0, n - len(a))), (0, 0)))[:n] for a in (voz, musica, fx))
-    # Ducking: la música baja hasta −9 dB mientras habla la voz (ataque 60 ms, relajación 450 ms).
+    # Ducking con anticipación: la música baja hasta −11 dB mientras habla la voz y empieza a bajar 100 ms ANTES
+    # de cada palabra (offline se puede mirar el futuro); sin ella, los arranques de frase quedaban a 3-5 dB de
+    # la música. Ataque ~60 ms, relajación ~450 ms.
     paso = 256
     e = np.sqrt(np.mean(voz[: n // paso * paso, 0].reshape(-1, paso) ** 2, axis=1))
     activo = np.clip((20 * np.log10(e + 1e-9) + 50) / 20, 0, 1)
+    anticipo = int(0.1 * SR / paso)
+    activo = np.maximum(activo, np.concatenate([activo[anticipo:], np.zeros(anticipo)]))
     sig, g = [], 0.0
     for a in activo:
         g = g + (a - g) * (0.35 if a > g else 0.045)
         sig.append(g)
-    gan = 10 ** (-9 * np.repeat(sig, paso) / 20)
+    gan = 10 ** (-11 * np.repeat(sig, paso) / 20)
     gan = np.pad(gan, (0, n - len(gan)), constant_values=gan[-1])
     musica = musica * gan[:, None]
     # Niveles relativos (la voz manda): la música suena como cama, los efectos por debajo de la voz.

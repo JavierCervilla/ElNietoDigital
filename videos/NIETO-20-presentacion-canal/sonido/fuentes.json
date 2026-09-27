@@ -1,0 +1,392 @@
+{
+  "musica-tension": {
+    "endpoint": "/v1/music",
+    "peticion": {
+      "composition_plan": {
+        "chunks": [
+          {
+            "text": "[Noise and fear] {instrumental}",
+            "duration_ms": 8000,
+            "positive_styles": [
+              "tense ambient underscore",
+              "uneasy and anxious",
+              "low droning synth",
+              "high tremolo strings slowly rising",
+              "ticking pulse",
+              "building anxiety",
+              "instrumental"
+            ],
+            "negative_styles": [
+              "vocals",
+              "melody",
+              "drums",
+              "happy",
+              "major key",
+              "beat drop",
+              "loud hits"
+            ]
+          }
+        ]
+      },
+      "model_id": "music_v2_5",
+      "seed": 2020
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "ccb14a3f7836079716273e4de1860900e2ddec7c71a8b778d606cd238c942d3d"
+  },
+  "musica-calma": {
+    "endpoint": "/v1/music",
+    "peticion": {
+      "composition_plan": {
+        "chunks": [
+          {
+            "text": "[Breath] {instrumental}",
+            "duration_ms": 3311,
+            "positive_styles": [
+              "warm cinematic documentary underscore",
+              "soft felt piano",
+              "gentle string ensemble",
+              "reassuring",
+              "hopeful",
+              "patient",
+              "instrumental",
+              "background music under a spoken voice",
+              "moderate tempo around 84 bpm",
+              "starts immediately with a warm sustained major chord",
+              "soft piano and string pad swelling",
+              "calm exhale"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "heavy percussion",
+              "electric guitar",
+              "EDM",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "silence",
+              "fade in",
+              "percussion",
+              "rhythm"
+            ],
+            "context_adherence": "high"
+          },
+          {
+            "text": "[What it is] {instrumental}",
+            "duration_ms": 7433,
+            "positive_styles": [
+              "warm felt piano motif",
+              "light strings enter",
+              "clear and simple",
+              "steady tempo"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "heavy percussion",
+              "electric guitar",
+              "EDM",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "percussion"
+            ],
+            "context_adherence": "high"
+          },
+          {
+            "text": "[What you will learn] {instrumental}",
+            "duration_ms": 7944,
+            "positive_styles": [
+              "soft pizzicato pulse",
+              "light plucked rhythm",
+              "optimistic",
+              "gentle forward motion"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "heavy percussion",
+              "electric guitar",
+              "EDM",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "drums"
+            ],
+            "context_adherence": "high"
+          },
+          {
+            "text": "[One thing, step by step] {instrumental}",
+            "duration_ms": 7539,
+            "positive_styles": [
+              "steady gentle groove",
+              "piano and pizzicato",
+              "friendly and patient"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "heavy percussion",
+              "electric guitar",
+              "EDM",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "drums"
+            ],
+            "context_adherence": "high"
+          },
+          {
+            "text": "[Scam alert] {instrumental}",
+            "duration_ms": 7061,
+            "positive_styles": [
+              "sudden drop in energy",
+              "only a low sustained cello note and sparse low piano",
+              "suspenseful but calm",
+              "quiet"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "heavy percussion",
+              "electric guitar",
+              "EDM",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "pizzicato",
+              "rhythm",
+              "bright",
+              "happy",
+              "loud"
+            ],
+            "context_adherence": "medium"
+          },
+          {
+            "text": "[Nobody left behind] {instrumental}",
+            "duration_ms": 5439,
+            "positive_styles": [
+              "the gentle rhythm returns",
+              "warm uplifting strings",
+              "hopeful build"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "heavy percussion",
+              "electric guitar",
+              "EDM",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "drums",
+              "riser"
+            ],
+            "context_adherence": "medium"
+          },
+          {
+            "text": "[The voice is AI] {instrumental}",
+            "duration_ms": 7683,
+            "positive_styles": [
+              "almost silent",
+              "a single soft sustained piano chord",
+              "very quiet and intimate",
+              "no rhythm"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "heavy percussion",
+              "electric guitar",
+              "EDM",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "strings",
+              "percussion",
+              "pizzicato",
+              "riser",
+              "cymbal swell",
+              "crescendo",
+              "build-up"
+            ],
+            "context_adherence": "medium"
+          },
+          {
+            "text": "[Subscribe and goodbye] {instrumental}",
+            "duration_ms": 8012,
+            "positive_styles": [
+              "warm full resolution",
+              "piano and strings together",
+              "gentle final cadence",
+              "final chord ringing out"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "heavy percussion",
+              "electric guitar",
+              "EDM",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "drums",
+              "abrupt ending"
+            ],
+            "context_adherence": "medium"
+          }
+        ]
+      },
+      "model_id": "music_v2_5",
+      "seed": 11
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "8fb078351d8b32d49e4b4989544c4f7f9fdb986fe2f1b4e5d6a3a77e103758e1"
+  },
+  "vibra": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "smartphone vibrating on a wooden table, short double buzz, close and clean",
+      "duration_seconds": 0.8,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "5c72febf3609439e94da778fc8e2bdaed0a01be7010341b174336de30473672c"
+  },
+  "ding": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "soft pleasant smartphone message notification chime, two gentle tones, clean",
+      "duration_seconds": 1.0,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "67a749c2c69e4d3fe59c7826068517cbf95e05f7d9cc946194bbac55b9392198"
+  },
+  "pop": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "soft subtle bubble pop, user interface sound, short and clean",
+      "duration_seconds": 0.5,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "dc2c4e88c9e718731042f85ad914fbab444f8dcf9f73556b7952ffdb5ff37426"
+  },
+  "barrido": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "soft airy whoosh transition, subtle and clean, no impact",
+      "duration_seconds": 1.0,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "b2302989e7f629cfb7bda85448b8f0e64e3c437e83cfd846d52cd1f2b0bd8c2b"
+  },
+  "respiro": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "gentle reverse swell rising into silence, soft airy breath, calm",
+      "duration_seconds": 1.4,
+      "prompt_influence": 0.5,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "bffcbda5db35c701800ec8bf5bf1dca2a3e73eb1001df63100156f9eca7af77d"
+  },
+  "latido": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "slow muffled human heartbeat that gradually speeds up, anxious, close, no music",
+      "duration_seconds": 8.0,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "5b334fe8cb8cd58b8c7d91b63503927f42933020f389a54993346b227d8c63a3"
+  },
+  "alerta": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "short friendly warning alert chime, two descending notes, clear but not harsh",
+      "duration_seconds": 1.0,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "17bc4577df560a685408d301c6beaf3660922f313136873fe287b8cb58c6b250"
+  },
+  "sello": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "rubber stamp slammed hard on paper on a wooden desk, single thud",
+      "duration_seconds": 0.6,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "fb0edba9a4732204c870b8d7df120809c5379cc2534d7626478281f9af47a662"
+  },
+  "toque": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "single soft tap on a glass smartphone touchscreen, subtle click",
+      "duration_seconds": 0.5,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "e59dde84bbf023f188547e8393ca888fca70d5ceb391fa2e22414c405e1dfee9"
+  },
+  "burbuja": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "soft glass bubble pop, bright and gentle, short user interface blip",
+      "duration_seconds": 0.5,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "f7e597e5d76716310e775463ee08fe820e4e332c6531bcbc32c41448091152ab"
+  },
+  "brillo": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "magical soft sparkle chime, short gentle twinkle, warm",
+      "duration_seconds": 1.5,
+      "prompt_influence": 0.5,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "2eda50353e199643ae065d7f9930c0e714c6b74e9b73e6523ef1fc4ea089281b"
+  }
+}

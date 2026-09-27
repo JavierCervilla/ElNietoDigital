@@ -2,6 +2,19 @@
 
 Lo más reciente arriba. Una entrada por trayectoria cerrada, en lenguaje de la persona que no vio el PR.
 
+## 2026-09-27 — NIETO-22 · el tráiler narrado, también en vertical (Shorts, Reels, TikTok)
+- Versión 1080×1920 del tráiler, con la misma voz, la misma música y los mismos tiempos. Cada escena está
+  recompuesta para el móvil y deja libres las zonas que tapan los botones y textos de Shorts, Reels y TikTok.
+- Los dos formatos comparten ahora la misma animación: un cambio en el vídeo vale para los dos.
+- Arreglado de paso un detalle que hacía que dos renders del vídeo no salieran exactamente iguales.
+
+## 2026-09-27 — NIETO-21 · el tráiler narrado suena con música y efectos de verdad
+- La banda sonora sintetizada del tráiler se sustituye por música compuesta para él con Eleven Music (una sección
+  por escena) y efectos de ElevenLabs: vibración, notificaciones, sello, latido, barridos. Misma imagen, misma voz.
+- La música se lleva a imagen en la mezcla: se oscurece en la alerta, casi desaparece cuando la voz confiesa que
+  es IA y se abre justo cuando la mano pulsa «Suscribirse». La voz queda siempre muy por encima (≈ 19 dB).
+- Las fuentes de sonido se congelan en `videos/NIETO-20-presentacion-canal/sonido/` con su manifiesto.
+
 ## 2026-09-27 — NIETO-20 · vídeo de presentación del canal con voz (62 s)
 - Tráiler narrado de un minuto que cuenta de qué va el canal y cómo es su flow: el miedo a tocar algo,
   «Respire. El móvil no muerde», lo que aprenderá (estafas, IA útil, trámites), un vídeo = una cosa paso a paso,

@@ -1,0 +1,1038 @@
+/* Estilos de la presentación (horizontal 1920×1080). El vertical los carga y solo sobrescribe posiciones y tamaños. */
+@font-face {
+  font-family: "Nunito";
+  src: url("fonts/nunito-var-latin.woff2") format("woff2");
+  font-weight: 200 1000;
+  font-display: block;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("fonts/atkinson-700-latin.woff2") format("woff2");
+  font-weight: 700;
+  font-display: block;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("fonts/atkinson-400-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-display: block;
+}
+
+/* Marca D7: naranja #C8461F, azul #1F2A44, crema #FBF7F0. Nada más. */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: #fbf7f0;
+}
+#root {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  font-family: "Nunito", sans-serif;
+  color: #1f2a44;
+}
+.full {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+}
+.scene {
+  overflow: hidden;
+  opacity: 0;
+}
+.crema {
+  background: #fbf7f0;
+}
+.azul {
+  background: #1f2a44;
+}
+.abs {
+  position: absolute;
+}
+.mask {
+  position: absolute;
+  overflow: hidden;
+}
+.line {
+  display: block;
+  white-space: nowrap;
+}
+.eyebrow {
+  position: absolute;
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 34px;
+  letter-spacing: 0.16em;
+  color: #c8461f;
+  white-space: nowrap;
+}
+.t-xl {
+  font-weight: 900;
+  font-size: 150px;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+.t-l {
+  font-weight: 900;
+  font-size: 112px;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+.naranja {
+  color: #c8461f;
+}
+/* Marcador: sobre azul, el naranja va DETRÁS del texto crema (nunca texto naranja sobre azul). */
+.mk {
+  position: relative;
+  display: inline-block;
+}
+.mk-bg {
+  position: absolute;
+  left: -0.12em;
+  right: -0.12em;
+  top: 0.16em;
+  bottom: 0.06em;
+  border-radius: 0.16em;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  display: block;
+}
+.mk-t {
+  position: relative;
+}
+
+/* Papel: retícula de puntos que deriva despacio (profundidad sin degradados). */
+#paper {
+  position: absolute;
+  left: -40px;
+  top: -80px;
+  width: 2000px;
+  height: 1320px;
+  opacity: 0.07;
+}
+
+/* ── Nota de voz «Voz generada con IA»: visible TODO el vídeo ─────────────── */
+#vnote {
+  position: absolute;
+  left: 44px;
+  top: 38px;
+  width: 520px;
+  height: 84px;
+  border-radius: 42px;
+  background: #fbf7f0;
+  border: 3px solid #1f2a44;
+  display: flex;
+  align-items: center;
+  padding: 0 26px 0 12px;
+  gap: 16px;
+  z-index: 60;
+  transform-origin: 50% 50%;
+}
+#vn-play {
+  width: 58px;
+  height: 58px;
+  flex: none;
+  display: block;
+}
+#vn-bars {
+  position: relative;
+  width: 142px;
+  height: 44px;
+  flex: none;
+}
+.vb {
+  position: absolute;
+  bottom: 0;
+  width: 4px;
+  height: 44px;
+  top: 0;
+  margin: auto 0;
+  border-radius: 3px;
+  background: #1f2a44;
+  transform: scaleY(0.14);
+}
+#vn-txt {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 27px;
+  white-space: nowrap;
+  color: #1f2a44;
+}
+#vn-ok {
+  position: absolute;
+  right: -18px;
+  top: -18px;
+  width: 50px;
+  height: 50px;
+  opacity: 0;
+  display: block;
+}
+
+/* ── Subtítulos: siempre, grandes, con la palabra que suena subrayada ─────── */
+#caps {
+  position: absolute;
+  left: 0;
+  top: 918px;
+  width: 1920px;
+  height: 110px;
+  z-index: 55;
+}
+.chunk {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  text-align: center;
+  opacity: 0;
+}
+.chunk-in {
+  display: inline-block;
+  padding: 14px 34px 20px;
+  border-radius: 26px;
+  background: rgba(251, 247, 240, 0.94);
+  border: 2px solid rgba(31, 42, 68, 0.16);
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: #1f2a44;
+}
+.w {
+  position: relative;
+  display: inline-block;
+}
+.w i {
+  position: absolute;
+  left: -3px;
+  right: -3px;
+  bottom: -7px;
+  height: 8px;
+  border-radius: 4px;
+  background: #c8461f;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  display: block;
+}
+
+/* ── S1 · el ruido ───────────────────────────────────────────────────────── */
+#w1 {
+  transform-origin: 960px 470px;
+}
+#hero {
+  position: absolute;
+  left: 650px;
+  top: 150px;
+  width: 620px;
+  height: 620px;
+  transform-origin: 0 0;
+  z-index: 3;
+}
+#notis {
+  position: absolute;
+  left: 866px;
+  top: 262px;
+  width: 188px;
+  height: 370px;
+  z-index: 4;
+}
+.noti {
+  position: absolute;
+  left: 0;
+  width: 188px;
+  height: 46px;
+  border-radius: 12px;
+  background: #1f2a44;
+  opacity: 0;
+}
+.noti::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 11px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #c8461f;
+}
+.noti::after {
+  content: "";
+  position: absolute;
+  left: 44px;
+  top: 19px;
+  width: 120px;
+  height: 8px;
+  border-radius: 4px;
+  background: #fbf7f0;
+  opacity: 0.55;
+}
+#badge {
+  position: absolute;
+  left: 1064px;
+  top: 148px;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: #c8461f;
+  border: 5px solid #fbf7f0;
+  z-index: 6;
+  transform: scale(0);
+}
+.bn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 74px;
+  height: 74px;
+  line-height: 74px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 40px;
+  color: #fbf7f0;
+  opacity: 0;
+}
+#bubble {
+  position: absolute;
+  left: 1150px;
+  top: 214px;
+  width: 600px;
+  padding: 26px 34px 30px;
+  border-radius: 34px 34px 34px 8px;
+  background: #fbf7f0;
+  border: 5px solid #1f2a44;
+  z-index: 5;
+  transform-origin: 0 100%;
+  transform: scale(0);
+}
+#bubble .from {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: #c8461f;
+  letter-spacing: 0.04em;
+}
+#bubble .msg {
+  margin-top: 8px;
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.3;
+  white-space: normal;
+}
+.pill {
+  position: absolute;
+  white-space: nowrap;
+  font-weight: 800;
+  font-size: 38px;
+  line-height: 1;
+  padding: 0.32em 0.74em 0.36em;
+  border-radius: 999px;
+  z-index: 7;
+  transform: scale(0);
+}
+.pill.o {
+  background: #fbf7f0;
+  color: #1f2a44;
+  border: 5px solid #1f2a44;
+}
+.pill.n {
+  background: #1f2a44;
+  color: #fbf7f0;
+}
+.pill.r {
+  background: #c8461f;
+  color: #fbf7f0;
+}
+.hand {
+  position: absolute;
+  width: 230px;
+  height: 345px;
+  z-index: 8;
+}
+#hand1 {
+  left: 940px;
+  top: 1100px;
+}
+#ring {
+  position: absolute;
+  left: 660px;
+  top: 160px;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  border: 10px solid #c8461f;
+  transform: scale(0);
+  opacity: 0;
+  z-index: 2;
+}
+.t2 {
+  position: absolute;
+  left: 820px;
+}
+
+/* ── S3 · qué es ─────────────────────────────────────────────────────────── */
+#logoLayer {
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0;
+}
+#logo {
+  position: absolute;
+  left: 396px;
+  top: 330px;
+  width: 1128px;
+  height: 420px;
+  overflow: visible;
+  transform-origin: 50% 50%;
+}
+#s3-eb {
+  left: 0;
+  width: 1920px;
+  top: 250px;
+  text-align: center;
+}
+#chips {
+  position: absolute;
+  left: 0;
+  top: 500px;
+  width: 1920px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+}
+.chip {
+  position: relative;
+  height: 132px;
+  border-radius: 66px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 0 46px 0 26px;
+  font-weight: 900;
+  font-size: 54px;
+  white-space: nowrap;
+  transform: scale(0);
+  flex: none;
+}
+.chip svg {
+  width: 84px;
+  height: 84px;
+  display: block;
+  flex: none;
+}
+#chipIA {
+  background: #1f2a44;
+  color: #fbf7f0;
+}
+#chipMov {
+  background: #fbf7f0;
+  color: #1f2a44;
+  border: 6px solid #1f2a44;
+}
+#chipMas {
+  position: relative;
+  flex: none;
+  width: 80px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 100px;
+  line-height: 110px;
+  color: #c8461f;
+  transform: scale(0);
+}
+.tcard {
+  position: absolute;
+  top: 470px;
+  width: 700px;
+  height: 250px;
+  border-radius: 34px;
+  padding: 30px 40px;
+  opacity: 0;
+}
+#jerga {
+  left: 190px;
+  border: 5px dashed #1f2a44;
+  background: #fbf7f0;
+}
+#llana {
+  left: 1030px;
+  background: #1f2a44;
+  color: #fbf7f0;
+}
+.tcard .k {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: 0.14em;
+}
+.tcard .v {
+  margin-top: 14px;
+  font-weight: 900;
+  font-size: 56px;
+  line-height: 1.12;
+  white-space: normal;
+}
+#strike {
+  position: absolute;
+  left: 222px;
+  top: 540px;
+  width: 640px;
+  height: 140px;
+  overflow: visible;
+}
+#arrow {
+  position: absolute;
+  left: 900px;
+  top: 545px;
+  width: 120px;
+  height: 100px;
+  overflow: visible;
+}
+
+/* ── S4 · de qué va ──────────────────────────────────────────────────────── */
+#s4-eb {
+  left: 0;
+  width: 1920px;
+  top: 150px;
+  text-align: center;
+}
+.card {
+  position: absolute;
+  top: 240px;
+  width: 480px;
+  height: 560px;
+  border-radius: 44px;
+  background: #fbf7f0;
+  border: 6px solid #1f2a44;
+  padding: 46px 40px;
+  opacity: 0;
+}
+.card .ico {
+  width: 200px;
+  height: 200px;
+  display: block;
+}
+.card .pil {
+  margin-top: 34px;
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: 0.14em;
+  color: #c8461f;
+}
+.card .ti {
+  margin-top: 10px;
+  font-weight: 900;
+  font-size: 58px;
+  line-height: 1.08;
+  white-space: normal;
+}
+.card.on {
+  background: #1f2a44;
+}
+
+/* ── S5 · una cosa nueva ─────────────────────────────────────────────────── */
+#player {
+  position: absolute;
+  left: 270px;
+  top: 128px;
+  width: 1380px;
+  height: 762px;
+  border-radius: 40px;
+  background: #fbf7f0;
+  border: 7px solid #1f2a44;
+  overflow: hidden;
+  transform: scale(0.2);
+  opacity: 0;
+}
+#pl-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 1366px;
+  height: 70px;
+  background: #1f2a44;
+}
+#pl-prog {
+  position: absolute;
+  left: 110px;
+  top: 29px;
+  width: 1200px;
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(251, 247, 240, 0.25);
+}
+#pl-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1200px;
+  height: 12px;
+  border-radius: 6px;
+  background: #c8461f;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+#pl-play {
+  position: absolute;
+  left: 38px;
+  top: 17px;
+  width: 36px;
+  height: 36px;
+  display: block;
+}
+#pl-title {
+  position: absolute;
+  left: 70px;
+  top: 56px;
+  font-weight: 900;
+  font-size: 56px;
+  white-space: nowrap;
+}
+#pl-eb {
+  position: absolute;
+  left: 72px;
+  top: 26px;
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.16em;
+  color: #c8461f;
+}
+#uno {
+  position: absolute;
+  left: 1552px;
+  top: 70px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: #c8461f;
+  color: #fbf7f0;
+  text-align: center;
+  font-weight: 900;
+  font-size: 120px;
+  line-height: 172px;
+  border: 8px solid #fbf7f0;
+  transform: scale(0);
+  z-index: 3;
+}
+.step {
+  position: absolute;
+  left: 70px;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  opacity: 0;
+}
+.step .num {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: #1f2a44;
+  color: #fbf7f0;
+  font-weight: 900;
+  font-size: 54px;
+  line-height: 92px;
+  text-align: center;
+  flex: none;
+}
+.step .txt {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 46px;
+  white-space: nowrap;
+}
+#tphone {
+  position: absolute;
+  left: 930px;
+  top: 150px;
+  width: 330px;
+  height: 520px;
+  border-radius: 46px;
+  background: #1f2a44;
+  opacity: 0;
+}
+#tscreen {
+  position: absolute;
+  left: 18px;
+  top: 22px;
+  width: 294px;
+  height: 476px;
+  border-radius: 30px;
+  background: #fbf7f0;
+  overflow: hidden;
+}
+.row {
+  position: absolute;
+  left: 20px;
+  width: 254px;
+  height: 66px;
+  border-radius: 16px;
+  border: 3px solid rgba(31, 42, 68, 0.25);
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 60px;
+  padding-left: 18px;
+  white-space: nowrap;
+}
+#slider {
+  position: absolute;
+  left: 34px;
+  top: 318px;
+  width: 226px;
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(31, 42, 68, 0.2);
+}
+#sl-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 226px;
+  height: 12px;
+  border-radius: 6px;
+  background: #c8461f;
+  transform-origin: 0 50%;
+  transform: scaleX(0.3);
+}
+#sl-knob {
+  position: absolute;
+  left: 55px;
+  top: -17px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #fbf7f0;
+  border: 6px solid #c8461f;
+}
+#aa {
+  position: absolute;
+  left: 0;
+  top: 356px;
+  width: 294px;
+  text-align: center;
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 58px;
+  transform-origin: 50% 50%;
+}
+#touch5 {
+  position: absolute;
+  left: 1022px;
+  top: 432px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 9px solid #c8461f;
+  transform: scale(0);
+  opacity: 0;
+}
+#ripple5 {
+  position: absolute;
+  left: 1022px;
+  top: 432px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: #c8461f;
+  opacity: 0;
+}
+#chip5 {
+  position: absolute;
+  left: 1560px;
+  top: 572px;
+  padding: 14px 30px 18px;
+  border-radius: 999px;
+  background: #c8461f;
+  color: #fbf7f0;
+  font-weight: 900;
+  font-size: 44px;
+  white-space: nowrap;
+  transform: scale(0);
+  transform-origin: 0 50%;
+  z-index: 3;
+}
+#chip5::before {
+  content: "";
+  position: absolute;
+  left: -22px;
+  top: 50%;
+  margin-top: -16px;
+  border-right: 24px solid #c8461f;
+  border-top: 16px solid transparent;
+  border-bottom: 16px solid transparent;
+}
+
+/* ── S6 · un peligro nuevo ───────────────────────────────────────────────── */
+#sphone {
+  position: absolute;
+  left: 300px;
+  top: 150px;
+  width: 520px;
+  height: 730px;
+  border-radius: 60px;
+  background: #fbf7f0;
+  overflow: visible;
+}
+#s-head {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 520px;
+  height: 130px;
+  border-radius: 60px 60px 0 0;
+  border-bottom: 3px solid rgba(31, 42, 68, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 30px 0 0 40px;
+}
+#s-av {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #1f2a44;
+  color: #fbf7f0;
+  font-weight: 900;
+  font-size: 44px;
+  line-height: 70px;
+  text-align: center;
+  flex: none;
+}
+#s-name {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  white-space: nowrap;
+}
+#sbub {
+  position: absolute;
+  left: 34px;
+  top: 190px;
+  width: 450px;
+  padding: 26px 30px 30px;
+  border-radius: 30px 30px 30px 8px;
+  border: 5px solid #1f2a44;
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 1.3;
+  white-space: normal;
+  transform-origin: 0 100%;
+  transform: scale(0);
+}
+#slink {
+  position: absolute;
+  left: 34px;
+  top: 540px;
+  width: 450px;
+  height: 90px;
+  border-radius: 22px;
+  background: #1f2a44;
+  color: #fbf7f0;
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 90px;
+  text-align: center;
+  transform: scale(0);
+}
+#stamp {
+  position: absolute;
+  left: 110px;
+  top: 300px;
+  padding: 10px 34px 14px;
+  border: 10px solid #c8461f;
+  border-radius: 20px;
+  color: #c8461f;
+  background: rgba(251, 247, 240, 0.9);
+  font-weight: 1000;
+  font-size: 96px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  transform: rotate(-9deg) scale(0);
+  opacity: 0;
+}
+#alerta {
+  position: absolute;
+  left: 930px;
+  top: 170px;
+  opacity: 0;
+}
+#alerta-in {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  padding: 16px 44px 20px 30px;
+  border-radius: 999px;
+  background: #c8461f;
+  color: #fbf7f0;
+  font-weight: 1000;
+  font-size: 62px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+#hand6 {
+  left: 360px;
+  top: 1100px;
+}
+.t6 {
+  position: absolute;
+  left: 930px;
+  color: #fbf7f0;
+}
+
+/* ── S7 · entre pares ────────────────────────────────────────────────────── */
+#s7 {
+  clip-path: circle(0px at 470px 350px);
+}
+#net7 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: visible;
+}
+.av {
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  transform: scale(0);
+}
+.av svg {
+  width: 170px;
+  height: 170px;
+  display: block;
+}
+#s7-title {
+  position: absolute;
+  left: 0;
+  width: 1920px;
+  top: 150px;
+  text-align: center;
+}
+#spark {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  transform: scale(0);
+}
+
+/* ── S8 · transparencia ──────────────────────────────────────────────────── */
+.t8 {
+  position: absolute;
+  left: 0;
+  width: 1920px;
+  text-align: center;
+}
+
+/* ── S9 · cierre ─────────────────────────────────────────────────────────── */
+#subBtn {
+  position: absolute;
+  left: 560px;
+  top: 360px;
+  width: 800px;
+  height: 190px;
+  border-radius: 95px;
+  transform: scale(0);
+}
+.sb {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 800px;
+  height: 190px;
+  border-radius: 95px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  font-weight: 900;
+  font-size: 86px;
+  color: #fbf7f0;
+  white-space: nowrap;
+}
+#sb1 {
+  background: #c8461f;
+}
+#sb2 {
+  background: #1f2a44;
+  opacity: 0;
+}
+.sb svg {
+  width: 92px;
+  height: 92px;
+  display: block;
+  flex: none;
+}
+#hand9 {
+  left: 1010px;
+  top: 1100px;
+}
+#ripple9 {
+  position: absolute;
+  left: 1030px;
+  top: 400px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #fbf7f0;
+  opacity: 0;
+  z-index: 4;
+}
+#tag {
+  position: absolute;
+  left: 0;
+  width: 1920px;
+  top: 752px;
+  text-align: center;
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 50px;
+  white-space: nowrap;
+}
+#plat {
+  position: absolute;
+  left: 0;
+  width: 1920px;
+  top: 840px;
+  text-align: center;
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-weight: 700;
+  font-size: 36px;
+  letter-spacing: 0.04em;
+  color: #1f2a44;
+  white-space: nowrap;
+  opacity: 0;
+}
+#plat b {
+  color: #c8461f;
+  padding: 0 0.5em;
+}
+
+/* Barrido de bandas (transición S3 → S4). */
+#bands {
+  z-index: 40;
+  pointer-events: none;
+}
+.band {
+  position: absolute;
+  left: -340px;
+  top: -60px;
+  width: 2600px;
+  height: 1200px;
+  transform: translateX(-2900px) skewX(-14deg);
+}

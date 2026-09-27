@@ -40,6 +40,10 @@ RE_MAIL='[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
 # apagan con un flag: el propio gate lista las excepciones. `videos/*/vendor/` es código de terceros
 # vendorizado tal cual (p. ej. GSAP), cuya cabecera de licencia lleva el correo público de su autor y no se toca.
 PRIV_EXCLUDE='^(scripts/gate-contenido\.sh|docs/diagrams/.*|videos/[^/]+/vendor/.*)$'
+# Medios binarios (imagen, audio, vídeo, fuentes) no se escanean: sus bytes casan con los patrones por azar y no
+# pueden llevar un dato personal legible. Y en el patrón de teléfono se ignoran, además de los números largos,
+# las líneas con un hash hexadecimal (≥ 40): un sha256 de un manifiesto contiene nueve cifras seguidas por azar.
+PRIV_BINARIOS='\.(png|jpg|jpeg|gif|webp|svg|ico|mp3|m4a|wav|ogg|mp4|woff2?)$'
 
 gate() {
   local root="$1" rojo=0 f
@@ -48,10 +52,10 @@ gate() {
 
   # --- 1. privacidad --------------------------------------------------------------------------------
   local tracked
-  tracked="$( { git ls-files; git ls-files --others --exclude-standard; } | sort -u | grep -Ev "$PRIV_EXCLUDE" | grep -Ev '\.(png|jpg|jpeg|gif|webp|svg|ico)$' || true)"
+  tracked="$( { git ls-files; git ls-files --others --exclude-standard; } | sort -u | grep -Ev "$PRIV_EXCLUDE" | grep -Ev "$PRIV_BINARIOS" || true)"
   while IFS= read -r f; do
     [ -n "$f" ] && [ -f "$f" ] || continue
-    if grep -nE "$RE_TEL" "$f" | grep -vE 'https?://|[0-9]{10,}' | head -n 3 | sed "s|^|  ✗ $f: teléfono → |" | grep .; then rojo=1; fi
+    if grep -nE "$RE_TEL" "$f" | grep -vE 'https?://|[0-9]{10,}|[0-9a-f]{40,}' | head -n 3 | sed "s|^|  ✗ $f: teléfono → |" | grep .; then rojo=1; fi
     if grep -nE "$RE_DNI" "$f" | head -n 3 | sed "s|^|  ✗ $f: DNI/NIE → |" | grep .; then rojo=1; fi
     if grep -nE "$RE_MAIL" "$f" | head -n 3 | sed "s|^|  ✗ $f: email → |" | grep .; then rojo=1; fi
   done <<< "$tracked"
@@ -116,6 +120,15 @@ self_test() {
   local tw="$tmp/video"; cp -r "$ok" "$tw"; mkdir -p "$tw/videos/v"
   printf '<p>autor@ejemplo.com</p>\n' > "$tw/videos/v/index.html"
   ( gate "$tw" ) >/dev/null 2>&1; espera 1 "email en la fuente de un vídeo" $?
+  # Manifiesto con un sha256 (nueve cifras seguidas por azar) → 0 …
+  local th="$tmp/hash"; cp -r "$ok" "$th"; mkdir -p "$th/videos/v/sonido"
+  printf '{"sha256": "dc2c4e88c9e718731042f85ad914fbab444f8dcf9f73556b7952ffdb5ff37426"}\n' > "$th/videos/v/sonido/fuentes.json"
+  printf '612 345 678\n' > "$th/videos/v/sonido/pista.mp3"
+  ( gate "$th" ) >/dev/null 2>&1; espera 0 "hash de manifiesto y audio binario excluidos" $?
+  # … pero un teléfono en el mismo manifiesto sigue en rojo → 1
+  local tt="$tmp/hashtel"; cp -r "$th" "$tt"
+  printf '{"text": "llame al 612 345 678"}\n' >> "$tt/videos/v/sonido/fuentes.json"
+  ( gate "$tt" ) >/dev/null 2>&1; espera 1 "teléfono en un manifiesto de sonido" $?
   # DNI → 1
   local t3="$tmp/dni"; cp -r "$ok" "$t3"; printf 'DNI 12345678Z\n' > "$t3/nota.md"
   ( gate "$t3" ) >/dev/null 2>&1; espera 1 "DNI" $?
