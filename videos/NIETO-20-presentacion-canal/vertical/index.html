@@ -2,14 +2,86 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
-    <title>El Nieto Digital · presentación del canal (narrada)</title>
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>El Nieto Digital · presentación del canal (narrada, vertical 9:16)</title>
     <!-- GSAP y fuentes vendorizados: el Chrome headless del render no alcanza la CDN (lección de NIETO-19). -->
     <script src="vendor/gsap.min.js"></script>
     <!-- Generados por herramientas/: tiempos de cada palabra de la locución y cues de lo que pasa en pantalla. -->
     <script src="tiempos.js"></script>
     <script src="cues.js"></script>
     <link rel="stylesheet" href="estilos.css" />
+    <!-- Vertical 1080×1920 (Shorts, Reels, TikTok): solo lo que cambia respecto a estilos.css. Zonas seguras: nada
+         importante por encima de y≈240 (barra y pestañas), por debajo de y≈1500 (texto y usuario de la plataforma)
+         ni en la columna derecha de botones (x > 960 entre y≈900 y 1700). Los subtítulos van en 1320-1490. -->
+    <style>
+      html, body, #root, .full { width: 1080px; height: 1920px; }
+      #paper { left: -40px; top: -80px; width: 1200px; height: 2100px; }
+      #vnote { left: 40px; top: 160px; }
+      #caps { top: 1320px; width: 1080px; height: 200px; }
+      .chunk { width: 1080px; }
+      .chunk-in { white-space: normal; text-wrap: balance; max-width: 960px; font-size: 54px; line-height: 1.25; padding: 12px 30px 18px; }
+      .band { top: -140px; height: 2200px; }
+      /* S1 */
+      #w1 { transform-origin: 540px 850px; }
+      #hero { left: 230px; top: 540px; }
+      #ring { left: 240px; top: 550px; }
+      #notis { left: 446px; top: 652px; }
+      #badge { left: 644px; top: 538px; }
+      #bubble { left: 150px; top: 262px; width: 780px; }
+      #hand1 { left: 457px; top: 1960px; }
+      .centro { text-align: center; }
+      /* S3 */
+      #logo { left: 40px; top: 760px; width: 1000px; height: 372px; }
+      #s3-eb { width: 1080px; top: 680px; }
+      #chips { width: 1080px; top: 700px; flex-direction: column; gap: 22px; }
+      .tcard { left: 90px; width: 900px; height: 230px; padding: 26px 40px; }
+      #jerga { left: 90px; top: 680px; }
+      #jerga .v { max-width: 620px; }
+      #llana { left: 90px; top: 1010px; }
+      #strike { left: 122px; top: 750px; }
+      #arrow { left: 480px; top: 912px; transform: rotate(90deg); }
+      /* S4: tarjetas en filas */
+      #s4-eb { width: 1080px; top: 300px; }
+      .card { left: 70px; width: 940px; height: 250px; padding: 28px 40px; display: grid;
+              grid-template-columns: 170px 1fr; column-gap: 34px; align-content: center; }
+      .card .ico { width: 170px; height: 170px; grid-row: 1 / span 2; align-self: center; }
+      .card .pil { margin-top: 0; align-self: end; }
+      .card .ti { margin-top: 6px; font-size: 56px; align-self: start; }
+      /* S5 */
+      #player { left: 60px; top: 250px; width: 960px; height: 1050px; }
+      #pl-bar { width: 946px; }
+      #pl-prog { left: 100px; width: 800px; }
+      #pl-fill { width: 800px; }
+      #pl-eb { left: 50px; }
+      #pl-title { left: 48px; font-size: 46px; }
+      .step { left: 50px; gap: 22px; }
+      .step .num { width: 80px; height: 80px; font-size: 46px; line-height: 80px; }
+      .step .txt { font-size: 40px; }
+      #tphone { left: 308px; top: 440px; }
+      #touch5, #ripple5 { left: 400px; top: 722px; }
+      #uno { left: 860px; top: 180px; width: 160px; height: 160px; font-size: 104px; line-height: 146px; }
+      #chip5 { left: 75px; top: 998px; transform-origin: 100% 50%; }
+      #chip5::before { left: auto; right: -22px; border-right: none; border-left: 24px solid #c8461f; }
+      /* S6 */
+      #sphone-w { position: absolute; left: 332px; top: 380px; width: 520px; height: 730px;
+                  transform: scale(0.8); transform-origin: 0 0; }
+      #sphone { left: 0; top: 0; }
+      #alerta { left: 0; width: 1080px; top: 262px; text-align: center; }
+      #hand6 { left: 1180px; top: 664px; } /* girada, su caja visible mide 345 px de ancho: fuera de cuadro del todo */
+      #hand6 svg { transform: rotate(-90deg); }
+      /* S7 */
+      #s7 { clip-path: circle(0px at 580px 672px); }
+      #s7-title { width: 1080px; top: 290px; }
+      #s7-l1 { white-space: normal; padding: 0 70px; font-size: 104px; }
+      /* S8 */
+      .v8 { white-space: normal; padding: 0 60px; font-size: 80px; }
+      /* S9 */
+      #subBtn { left: 140px; top: 700px; }
+      #hand9 { left: 577px; top: 1960px; }
+      #ripple9 { left: 620px; top: 740px; }
+      #tag { width: 1080px; top: 1120px; font-size: 42px; }
+      #plat { width: 1080px; top: 1190px; font-size: 34px; white-space: normal; padding: 0 90px; line-height: 1.5; }
+    </style>
   </head>
   <body>
     <div
@@ -17,8 +89,8 @@
       data-composition-id="main"
       data-start="0"
       data-duration="62"
-      data-width="1920"
-      data-height="1080"
+      data-width="1080"
+      data-height="1920"
     >
       <audio
         id="banda"
@@ -30,13 +102,13 @@
       ></audio>
 
       <div class="full crema"></div>
-      <svg id="paper" viewBox="0 0 2000 1320">
+      <svg id="paper" viewBox="0 0 1200 2100">
         <defs>
           <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse">
             <circle cx="20" cy="20" r="3" fill="#1F2A44" />
           </pattern>
         </defs>
-        <rect width="2000" height="1320" fill="url(#dots)" />
+        <rect width="1200" height="2100" fill="url(#dots)" />
       </svg>
 
       <!-- ═══ S1 · el ruido  +  S2 · la calma (0 – 11,9 s) ═══ -->
@@ -66,13 +138,13 @@
             <div class="from">NÚMERO DESCONOCIDO</div>
             <div class="msg">Su sesión ha caducado. Verifique su identidad con el código OTP.</div>
           </div>
-          <div class="mask" style="left: 820px; top: 316px; width: 1060px; height: 190px">
-            <div id="s2-l1" class="line t-xl">El móvil</div>
+          <div class="mask" style="left: 0; top: 900px; width: 1080px; height: 190px">
+            <div id="s2-l1" class="line t-xl centro">El móvil</div>
           </div>
-          <div class="mask" style="left: 820px; top: 500px; width: 1060px; height: 190px">
-            <div id="s2-l2" class="line t-xl naranja">no muerde.</div>
+          <div class="mask" style="left: 0; top: 1070px; width: 1080px; height: 190px">
+            <div id="s2-l2" class="line t-xl naranja centro">no muerde.</div>
           </div>
-          <svg id="s2-under" class="abs" style="left: 826px; top: 684px; width: 880px; height: 44px; overflow: visible" viewBox="0 0 880 44">
+          <svg id="s2-under" class="abs" style="left: 120px; top: 1238px; width: 840px; height: 44px; overflow: visible" viewBox="0 0 880 44">
             <path
               id="s2-under-p"
               d="M8 26 Q 440 4 872 22"
@@ -134,7 +206,7 @@
       <div id="s4" class="full scene">
         <div id="w4" class="full">
           <div id="s4-eb" class="eyebrow">LO QUE APRENDERÁ</div>
-          <div id="c1" class="card" style="left: 180px">
+          <div id="c1" class="card" style="top: 380px">
             <svg class="ico" viewBox="0 0 120 120">
               <path d="M60 10 L100 24 V56 C100 84 82 102 60 112 C38 102 20 84 20 56 V24 Z" fill="#C8461F" />
               <path id="c1-chk" d="M41 60 L55 74 L81 46" pathLength="1" stroke="#FBF7F0" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-dasharray="1" stroke-dashoffset="1" />
@@ -142,7 +214,7 @@
             <div class="pil">SEGURIDAD</div>
             <div class="ti">Protegerse de las estafas</div>
           </div>
-          <div id="c2" class="card" style="left: 720px">
+          <div id="c2" class="card" style="top: 660px">
             <svg class="ico" viewBox="0 0 120 120">
               <path d="M16 22 H96 A10 10 0 0 1 106 32 V76 A10 10 0 0 1 96 86 H48 L28 104 V86 H16 A10 10 0 0 1 6 76 V32 A10 10 0 0 1 16 22 Z" fill="#1F2A44" />
               <circle id="c2-d1" cx="36" cy="54" r="7" fill="#FBF7F0" />
@@ -153,7 +225,7 @@
             <div class="pil">IA ÚTIL</div>
             <div class="ti">Aprovechar la IA</div>
           </div>
-          <div id="c3" class="card" style="left: 1260px">
+          <div id="c3" class="card" style="top: 940px">
             <svg class="ico" viewBox="0 0 120 120">
               <path d="M12 56 L52 20 L92 56 V108 H12 Z" fill="#1F2A44" />
               <rect x="40" y="76" width="24" height="32" rx="4" fill="#FBF7F0" />
@@ -176,9 +248,9 @@
           <div id="player">
             <div id="pl-eb">UN VÍDEO · UNA COSA</div>
             <div id="pl-title">Cómo agrandar la letra del móvil</div>
-            <div class="step" id="st1" style="top: 220px"><div class="num">1</div><div class="txt">Abra «Ajustes»</div></div>
-            <div class="step" id="st2" style="top: 350px"><div class="num">2</div><div class="txt">Entre en «Pantalla»</div></div>
-            <div class="step" id="st3" style="top: 480px"><div class="num">3</div><div class="txt">Suba el tamaño de letra</div></div>
+            <div class="step" id="st1" style="top: 140px"><div class="num">1</div><div class="txt">Abra «Ajustes»</div></div>
+            <div class="step" id="st2" style="top: 230px"><div class="num">2</div><div class="txt">Entre en «Pantalla»</div></div>
+            <div class="step" id="st3" style="top: 320px"><div class="num">3</div><div class="txt">Suba el tamaño de letra</div></div>
             <div id="tphone">
               <div id="tscreen">
                 <div class="row" style="top: 24px">Ajustes</div>
@@ -204,11 +276,13 @@
       <div id="s6" class="full scene">
         <div class="full azul"></div>
         <div id="w6" class="full">
-          <div id="sphone">
-            <div id="s-head"><div id="s-av">?</div><div id="s-name">Número desconocido</div></div>
-            <div id="sbub">Hola mamá, he cambiado de número. Hazme un Bizum urgente, luego te explico.</div>
-            <div id="slink">Enviar 300 €</div>
-            <div id="stamp" data-layout-allow-overlap>ESTAFA</div>
+          <div id="sphone-w">
+            <div id="sphone">
+              <div id="s-head"><div id="s-av">?</div><div id="s-name">Número desconocido</div></div>
+              <div id="sbub">Hola mamá, he cambiado de número. Hazme un Bizum urgente, luego te explico.</div>
+              <div id="slink">Enviar 300 €</div>
+              <div id="stamp" data-layout-allow-overlap>ESTAFA</div>
+            </div>
           </div>
           <div id="alerta">
             <div id="alerta-in">
@@ -220,11 +294,11 @@
               <span>ALERTA ESTAFA</span>
             </div>
           </div>
-          <div class="mask" style="left: 930px; top: 350px; width: 960px; height: 170px">
-            <div id="s6-l1" class="line t-l" style="color: #fbf7f0">Ante la duda,</div>
+          <div class="mask" style="left: 0; top: 990px; width: 1080px; height: 140px">
+            <div id="s6-l1" class="line t-l centro" style="color: #fbf7f0; font-size: 100px">Ante la duda,</div>
           </div>
-          <div class="mask" style="left: 930px; top: 520px; width: 960px; height: 170px">
-            <div id="s6-l2" class="line t-l" style="color: #fbf7f0">
+          <div class="mask" style="left: 0; top: 1125px; width: 1080px; height: 150px">
+            <div id="s6-l2" class="line t-l centro" style="color: #fbf7f0; font-size: 100px">
               <span class="mk"><span id="s6-mk" class="mk-bg" style="background: #c8461f"></span><span class="mk-t">no toque nada.</span></span>
             </div>
           </div>
@@ -242,7 +316,7 @@
             <path d="M45 4 C48 30 60 42 86 45 C60 48 48 60 45 86 C42 60 30 48 4 45 C30 42 42 30 45 4 Z" fill="#C8461F" />
           </svg>
           <div id="s7-title">
-            <div class="mask" style="left: 0; top: 0; width: 1920px; height: 150px">
+            <div class="mask" style="left: 0; top: 0; width: 1080px; height: 260px">
               <div id="s7-l1" class="line t-l" style="text-align: center">Nadie se queda <span class="naranja">atrás.</span></div>
             </div>
           </div>
@@ -251,14 +325,14 @@
 
       <!-- ═══ S8 · transparencia (47,3 – 55 s) ═══ -->
       <div id="s8" class="full scene">
-        <div class="mask" style="left: 0; top: 560px; width: 1920px; height: 140px">
-          <div id="s8-l1" class="line t-l" style="text-align: center; font-size: 100px">Esta voz la ha creado</div>
+        <div class="mask" style="left: 0; top: 730px; width: 1080px; height: 120px">
+          <div id="s8-l1" class="line t-l v8" style="text-align: center">Esta voz la ha creado</div>
         </div>
-        <div class="mask" style="left: 0; top: 690px; width: 1920px; height: 150px">
-          <div id="s8-l2" class="line t-l naranja" style="text-align: center; font-size: 100px">una inteligencia artificial.</div>
+        <div class="mask" style="left: 0; top: 850px; width: 1080px; height: 220px">
+          <div id="s8-l2" class="line t-l naranja v8" style="text-align: center">una inteligencia artificial.</div>
         </div>
-        <div class="mask" style="left: 0; top: 600px; width: 1920px; height: 150px">
-          <div id="s8-l3" class="line t-l" style="text-align: center; font-size: 104px">
+        <div class="mask" style="left: 0; top: 770px; width: 1080px; height: 230px">
+          <div id="s8-l3" class="line t-l v8" style="text-align: center" data-layout-allow-overlap>
             Aquí, <span class="naranja">siempre</span> se lo diremos.
           </div>
         </div>
@@ -332,24 +406,28 @@
     </div>
 
     <script>
-      // Recorridos del formato horizontal (1920×1080). Los consume animacion.js.
+      // Recorridos del formato vertical (1080×1920). Los consume animacion.js; ver ../index.html para el horizontal.
       window.NIETO_FORMATO = {
-        maxSubtitulo: 52,
-        jerga: [[150, 206], [430, 338], [1262, 574], [70, 470], [1470, 612], [340, 604], [1640, 480], [90, 740], [1236, 700], [1690, 700], [500, 780], [1440, 790], [560, 196], [1150, 820], [1560, 176], [250, 866]],
-        mano1: [-560, -610],
-        heroCalma: { x: -420, y: 0 },
-        // El símbolo del logo mide 140 u de 376 → 420 px a 1128 px; el héroe, 620 px por 120 u.
-        heroLogo: { x: 396 - 650, y: 330 - 150, scale: (140 * 3) / 620 },
-        logoArriba: { y: -205, scale: 0.6 },
-        colapso: { c1: { x: 540 }, c3: { x: -540 } },
-        empuje: { x: 960 - 1365, y: 540 - 538, origen: "1365px 538px" },
-        sphoneDesde: 900,
-        alertaOrigen: "0% 50%",
-        mano6: { acerca: { y: -660 }, para: { y: -520 } },
-        iris: "470px 350px",
-        nodos: [[700, 560, 0.72, -1], [1220, 560, 0.72, 0], [1500, 400, 0.56, 1], [1660, 700, 0.56, 1], [420, 420, 0.56, 0], [960, 790, 0.56, 1], [300, 720, 0.56, 4], [1780, 470, 0.44, 2], [620, 820, 0.5, 0], [140, 500, 0.44, 6], [1360, 820, 0.5, 3]],
-        vnoteCentro: { x: 960 - 304, y: 400 - 80, scale: 2.2 },
-        mano9: [-690, -650],
+        maxSubtitulo: 44, // dos líneas de ~34 caracteres a 54 px
+        jerga: [[60, 520], [730, 590], [60, 620], [60, 1160], [720, 700], [50, 780], [760, 830], [290, 1240],
+                [70, 940], [790, 960], [650, 1160], [60, 1240], [760, 505], [740, 1060], [60, 1050], [690, 1240]],
+        mano1: [-1095, -1140],
+        heroCalma: { x: 0, y: -250 },
+        // Logotipo a 1000 px de ancho: su símbolo mide 140 u de 376 → 372 px; el héroe, 620 px por 120 u.
+        heroLogo: { x: 40 - 230, y: 760 - 540, scale: (140 * 1000) / 376 / 620 },
+        logoArriba: { y: 520 - 946, scale: 0.62 },
+        colapso: { c1: { y: 280 }, c3: { y: -280 } },
+        empuje: { x: 0, y: 960 - 957, origen: "540px 957px" },
+        sphoneDesde: 1700,
+        alertaOrigen: "50% 50%",
+        // En vertical el texto va DEBAJO del móvil: la mano entra desde la derecha (girada) para no taparlo.
+        mano6: { acerca: { x: -458 }, para: { x: -330 } },
+        iris: "580px 672px",
+        nodos: [[340, 880, 0.72, -1], [740, 880, 0.72, 0], [900, 660, 0.56, 1], [880, 1110, 0.56, 1],
+                [180, 680, 0.56, 0], [560, 1180, 0.56, 1], [170, 1080, 0.56, 4], [620, 640, 0.44, 2],
+                [360, 1230, 0.5, 0], [90, 880, 0.44, 6], [760, 1250, 0.5, 3]],
+        vnoteCentro: { x: 540 - 300, y: 560 - 202, scale: 1.8 },
+        mano9: [-1195, -1155],
         logoFinal: { y: -40, scale: 0.9 },
       };
     </script>

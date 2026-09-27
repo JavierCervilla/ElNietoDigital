@@ -19,8 +19,8 @@ guiones/borradores/
 !videos/*/audio/banda-sonora.mp3
 # Intermedios de los vídeos generados (se reconstruyen con sus herramientas/)
 videos/*/build/
-videos/*/snapshots/
-videos/*/renders/
+videos/**/snapshots/
+videos/**/renders/
 # Sistema
 .DS_Store
 Thumbs.db
