@@ -1,0 +1,388 @@
+{
+  "vibra": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "smartphone vibrating on a wooden table, short double buzz, close and clean",
+      "duration_seconds": 0.8,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "5c72febf3609439e94da778fc8e2bdaed0a01be7010341b174336de30473672c",
+    "origen": "videos/NIETO-20-presentacion-canal/sonido (NIETO-21)"
+  },
+  "ding": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "soft pleasant smartphone message notification chime, two gentle tones, clean",
+      "duration_seconds": 1.0,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "67a749c2c69e4d3fe59c7826068517cbf95e05f7d9cc946194bbac55b9392198",
+    "origen": "videos/NIETO-20-presentacion-canal/sonido (NIETO-21)"
+  },
+  "pop": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "soft subtle bubble pop, user interface sound, short and clean",
+      "duration_seconds": 0.5,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "dc2c4e88c9e718731042f85ad914fbab444f8dcf9f73556b7952ffdb5ff37426",
+    "origen": "videos/NIETO-20-presentacion-canal/sonido (NIETO-21)"
+  },
+  "barrido": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "soft airy whoosh transition, subtle and clean, no impact",
+      "duration_seconds": 1.0,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "b2302989e7f629cfb7bda85448b8f0e64e3c437e83cfd846d52cd1f2b0bd8c2b",
+    "origen": "videos/NIETO-20-presentacion-canal/sonido (NIETO-21)"
+  },
+  "alerta": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "short friendly warning alert chime, two descending notes, clear but not harsh",
+      "duration_seconds": 1.0,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "17bc4577df560a685408d301c6beaf3660922f313136873fe287b8cb58c6b250",
+    "origen": "videos/NIETO-20-presentacion-canal/sonido (NIETO-21)"
+  },
+  "sello": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "rubber stamp slammed hard on paper on a wooden desk, single thud",
+      "duration_seconds": 0.6,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "fb0edba9a4732204c870b8d7df120809c5379cc2534d7626478281f9af47a662",
+    "origen": "videos/NIETO-20-presentacion-canal/sonido (NIETO-21)"
+  },
+  "toque": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "single soft tap on a glass smartphone touchscreen, subtle click",
+      "duration_seconds": 0.5,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "e59dde84bbf023f188547e8393ca888fca70d5ceb391fa2e22414c405e1dfee9",
+    "origen": "videos/NIETO-20-presentacion-canal/sonido (NIETO-21)"
+  },
+  "burbuja": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "soft glass bubble pop, bright and gentle, short user interface blip",
+      "duration_seconds": 0.5,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "f7e597e5d76716310e775463ee08fe820e4e332c6531bcbc32c41448091152ab",
+    "origen": "videos/NIETO-20-presentacion-canal/sonido (NIETO-21)"
+  },
+  "brillo": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "magical soft sparkle chime, short gentle twinkle, warm",
+      "duration_seconds": 1.5,
+      "prompt_influence": 0.5,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "2eda50353e199643ae065d7f9930c0e714c6b74e9b73e6523ef1fc4ea089281b",
+    "origen": "videos/NIETO-20-presentacion-canal/sonido (NIETO-21)"
+  },
+  "latido": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "slow muffled human heartbeat that gradually speeds up, anxious, close, no music",
+      "duration_seconds": 8.0,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "5b334fe8cb8cd58b8c7d91b63503927f42933020f389a54993346b227d8c63a3",
+    "origen": "videos/NIETO-20-presentacion-canal/sonido (NIETO-21)"
+  },
+  "tecleo": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "soft quick typing on a smartphone touchscreen keyboard, gentle taps, close and clean, no music",
+      "duration_seconds": 1.2,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "e20ea8e8b52fa24d7fb77d0fcf964938c0f4390faff095c60bcc38d6c5224aeb"
+  },
+  "llamada": {
+    "endpoint": "/v1/sound-generation",
+    "peticion": {
+      "text": "outgoing phone call ringback tone heard through a smartphone speaker, two long rings, calm",
+      "duration_seconds": 4.0,
+      "prompt_influence": 0.6,
+      "model_id": "eleven_text_to_sound_v2"
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "6b02177809727bc3be3dd8291a4e127b330f0e3e52c28e88a78c4950eec1b8cf"
+  },
+  "musica-tension": {
+    "endpoint": "/v1/music",
+    "peticion": {
+      "composition_plan": {
+        "chunks": [
+          {
+            "text": "[Hook] {instrumental}",
+            "duration_ms": 4552,
+            "positive_styles": [
+              "tense cinematic underscore",
+              "suspenseful",
+              "low pulsing synth bass",
+              "ticking clock pulse",
+              "starts immediately",
+              "instrumental",
+              "moderate tempo around 96 bpm"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "electric guitar",
+              "EDM",
+              "dubstep",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "happy",
+              "major key"
+            ],
+            "context_adherence": "high"
+          },
+          {
+            "text": "[The chat] {instrumental}",
+            "duration_ms": 11337,
+            "positive_styles": [
+              "quiet suspense",
+              "sparse plucked pizzicato",
+              "low tremolo strings",
+              "curious and uneasy",
+              "restrained"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "electric guitar",
+              "EDM",
+              "dubstep",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "loud",
+              "happy",
+              "melody"
+            ],
+            "context_adherence": "high"
+          },
+          {
+            "text": "[Pressure] {instrumental}",
+            "duration_ms": 7133,
+            "positive_styles": [
+              "tension builds steadily",
+              "faster ticking",
+              "rising tremolo strings",
+              "anxious",
+              "urgent but not loud"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "electric guitar",
+              "EDM",
+              "dubstep",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "beat drop",
+              "drums",
+              "happy",
+              "major key"
+            ],
+            "context_adherence": "medium"
+          }
+        ]
+      },
+      "model_id": "music_v2_5",
+      "seed": 1
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "dd39745e20d68814ee3c844d782f4febee1e66dfeee94e9e7a2e14e8be3fba16"
+  },
+  "musica-calma": {
+    "endpoint": "/v1/music",
+    "peticion": {
+      "composition_plan": {
+        "chunks": [
+          {
+            "text": "[What to do] {instrumental}",
+            "duration_ms": 3177,
+            "positive_styles": [
+              "starts almost silent",
+              "a single low sustained cello note",
+              "suspended stillness",
+              "no rhythm",
+              "warm cinematic documentary underscore",
+              "instrumental",
+              "moderate tempo around 84 bpm"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "electric guitar",
+              "EDM",
+              "dubstep",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "percussion",
+              "pizzicato",
+              "bright",
+              "loud"
+            ],
+            "context_adherence": "medium"
+          },
+          {
+            "text": "[Call the real number] {instrumental}",
+            "duration_ms": 6842,
+            "positive_styles": [
+              "warm soft felt piano enters",
+              "reassuring",
+              "gentle string pad",
+              "relief",
+              "major key"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "electric guitar",
+              "EDM",
+              "dubstep",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "drums"
+            ],
+            "context_adherence": "medium"
+          },
+          {
+            "text": "[The rule] {instrumental}",
+            "duration_ms": 4031,
+            "positive_styles": [
+              "steady gentle pulse",
+              "soft pizzicato and piano",
+              "clear and confident"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "electric guitar",
+              "EDM",
+              "dubstep",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "drums"
+            ],
+            "context_adherence": "high"
+          },
+          {
+            "text": "[Remember] {instrumental}",
+            "duration_ms": 6316,
+            "positive_styles": [
+              "calm and warm",
+              "piano and strings",
+              "patient"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "electric guitar",
+              "EDM",
+              "dubstep",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "drums",
+              "riser"
+            ],
+            "context_adherence": "high"
+          },
+          {
+            "text": "[Share and goodbye] {instrumental}",
+            "duration_ms": 10532,
+            "positive_styles": [
+              "warm uplifting resolution",
+              "piano and strings together",
+              "gentle final cadence",
+              "final chord ringing out"
+            ],
+            "negative_styles": [
+              "vocals",
+              "choir",
+              "singing",
+              "humming",
+              "drum kit",
+              "electric guitar",
+              "EDM",
+              "dubstep",
+              "aggressive",
+              "loud brass",
+              "sudden loud hits",
+              "drums",
+              "abrupt ending"
+            ],
+            "context_adherence": "medium"
+          }
+        ]
+      },
+      "model_id": "music_v2_5",
+      "seed": 1
+    },
+    "formato": "mp3_44100_128",
+    "sha256": "cc058c452b422d5ecd285433b9cdef1d7d89a177d4abd973a212500a06b64fd0"
+  }
+}
