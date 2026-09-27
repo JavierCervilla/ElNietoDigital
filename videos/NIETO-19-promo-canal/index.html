@@ -1,0 +1,1368 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>El Nieto Digital · presentación del canal (15 s)</title>
+    <!-- GSAP vendorizado: el Chrome headless del render no alcanza la CDN y así el vídeo no depende de la red. -->
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      /* Fuentes locales (OFL): el render no depende de la red. Nunito es variable (200-1000). */
+      @font-face {
+        font-family: "Nunito";
+        src: url("fonts/nunito-var-latin.woff2") format("woff2");
+        font-weight: 200 1000;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Atkinson Hyperlegible";
+        src: url("fonts/atkinson-700-latin.woff2") format("woff2");
+        font-weight: 700;
+        font-display: block;
+      }
+      @font-face {
+        font-family: "Atkinson Hyperlegible";
+        src: url("fonts/atkinson-400-latin.woff2") format("woff2");
+        font-weight: 400;
+        font-display: block;
+      }
+
+      /* Marca D7: tres colores y nada más. */
+      :root {
+        --naranja: #c8461f;
+        --azul: #1f2a44;
+        --crema: #fbf7f0;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #fbf7f0;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        font-family: "Nunito", sans-serif;
+        color: #1f2a44;
+      }
+      .scene,
+      .world,
+      .fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+      .scene {
+        overflow: hidden;
+      }
+      .fill.crema {
+        background: #fbf7f0;
+      }
+      .fill.azul {
+        background: #1f2a44;
+      }
+      .fill.naranja {
+        background: #c8461f;
+      }
+      #s3,
+      #s4,
+      #s5,
+      #s6 {
+        opacity: 0;
+      }
+      #s12 {
+        z-index: 1;
+      }
+      #s3 {
+        z-index: 2;
+      }
+      #s4 {
+        z-index: 3;
+      }
+      #s5 {
+        z-index: 4;
+      }
+      #iris {
+        z-index: 5;
+      }
+      #s6 {
+        z-index: 6;
+        clip-path: circle(0px at 1330px 600px);
+      }
+      #bands {
+        z-index: 20;
+      }
+
+      /* Texto que sube desde una máscara. */
+      .mask {
+        position: absolute;
+        overflow: hidden;
+        display: block;
+      }
+      .line {
+        display: block;
+        white-space: nowrap;
+      }
+      .eyebrow {
+        position: absolute;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 34px;
+        letter-spacing: 0.14em;
+        color: #c8461f;
+        white-space: nowrap;
+      }
+
+      /* ── S1 · el ruido ─────────────────────────────────────────── */
+      .pill {
+        position: absolute;
+        white-space: nowrap;
+        font-weight: 800;
+        line-height: 1;
+        padding: 0.3em 0.72em 0.34em;
+        border-radius: 999px;
+      }
+      .pill.o {
+        background: #fbf7f0;
+        color: #1f2a44;
+        border: 5px solid #1f2a44;
+      }
+      .pill.n {
+        background: #1f2a44;
+        color: #fbf7f0;
+      }
+      .pill.a {
+        background: #c8461f;
+        color: #fbf7f0;
+      }
+      .badge {
+        position: absolute;
+        right: -20px;
+        top: -24px;
+        min-width: 56px;
+        height: 56px;
+        padding: 0 12px;
+        border-radius: 28px;
+        border: 5px solid #fbf7f0;
+        background: #c8461f;
+        color: #fbf7f0;
+        font-weight: 900;
+        font-size: 28px;
+        line-height: 46px;
+        text-align: center;
+      }
+      #hero {
+        position: absolute;
+        left: 740px;
+        top: 320px;
+        width: 440px;
+        height: 440px;
+      }
+      #hero svg {
+        display: block;
+        width: 440px;
+        height: 440px;
+      }
+      #w12 {
+        transform-origin: 500px 430px;
+      }
+      .h2 {
+        font-weight: 900;
+        font-size: 150px;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+      }
+
+      /* ── S3 · de qué va ────────────────────────────────────────── */
+      .h3 {
+        font-weight: 900;
+        font-size: 112px;
+        line-height: 1.18;
+        letter-spacing: -0.02em;
+      }
+      .tile {
+        position: absolute;
+        top: 500px;
+        width: 306px;
+        height: 400px;
+        border-radius: 44px;
+        background: #1f2a44;
+        overflow: hidden;
+      }
+      .tile svg {
+        position: absolute;
+        left: 68px;
+        top: 56px;
+        width: 170px;
+        height: 170px;
+        overflow: visible;
+      }
+      .tile .lbl {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 70px;
+        text-align: center;
+        font-weight: 800;
+        font-size: 44px;
+        color: #fbf7f0;
+        white-space: nowrap;
+      }
+      .tile .bar {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 306px;
+        height: 22px;
+        background: #c8461f;
+        transform-origin: 0 50%;
+      }
+      .ico {
+        fill: none;
+        stroke: #fbf7f0;
+        stroke-width: 7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .ico-o {
+        fill: none;
+        stroke: #c8461f;
+        stroke-width: 9;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* ── S4 · una cosa nueva ───────────────────────────────────── */
+      #w4 {
+        transform-origin: 1310px 190px;
+      }
+      .h4 {
+        font-weight: 900;
+        font-size: 120px;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        color: #fbf7f0;
+      }
+      .mk {
+        position: relative;
+        display: inline-block;
+      }
+      .mk-bg {
+        position: absolute;
+        left: -0.14em;
+        right: -0.14em;
+        top: 0.2em;
+        bottom: 0.06em;
+        border-radius: 18px;
+        transform-origin: 0 50%;
+      }
+      .mk-t {
+        position: relative;
+      }
+      .step {
+        position: absolute;
+        left: 140px;
+        height: 96px;
+        display: flex;
+        align-items: center;
+        gap: 34px;
+        white-space: nowrap;
+      }
+      .step .num {
+        width: 92px;
+        height: 92px;
+        border-radius: 46px;
+        background: #c8461f;
+        color: #fbf7f0;
+        font-weight: 900;
+        font-size: 54px;
+        line-height: 92px;
+        text-align: center;
+        flex: none;
+      }
+      .step .txt {
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 48px;
+        color: #fbf7f0;
+      }
+      #rail {
+        position: absolute;
+        left: 182px;
+        top: 590px;
+        width: 8px;
+        height: 250px;
+        border-radius: 4px;
+        background: #c8461f;
+        transform-origin: 50% 0;
+      }
+      #phone {
+        position: absolute;
+        left: 1080px;
+        top: 90px;
+        width: 460px;
+        height: 900px;
+        border-radius: 72px;
+        background: #c8461f;
+      }
+      #screen {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        width: 420px;
+        height: 860px;
+        border-radius: 52px;
+        background: #fbf7f0;
+        overflow: hidden;
+      }
+      #appbar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 420px;
+        height: 124px;
+        background: #1f2a44;
+      }
+      #appbar .av {
+        position: absolute;
+        left: 30px;
+        top: 34px;
+        width: 64px;
+        height: 64px;
+      }
+      #appbar .nm {
+        position: absolute;
+        left: 112px;
+        top: 44px;
+        font-weight: 800;
+        font-size: 34px;
+        line-height: 1;
+        color: #fbf7f0;
+      }
+      #gbub {
+        position: absolute;
+        left: 22px;
+        top: 150px;
+        padding: 18px 24px;
+        border-radius: 28px 28px 28px 8px;
+        border: 4px solid #1f2a44;
+        background: #fbf7f0;
+        color: #1f2a44;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        white-space: nowrap;
+      }
+      #ubub {
+        position: absolute;
+        right: 22px;
+        top: 252px;
+        padding: 18px 24px;
+        border-radius: 28px 28px 8px 28px;
+        background: #1f2a44;
+        color: #fbf7f0;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        white-space: nowrap;
+        transform-origin: 100% 100%;
+      }
+      #abub {
+        position: absolute;
+        left: 22px;
+        top: 350px;
+        width: 330px;
+        height: 214px;
+        padding: 22px 24px;
+        border-radius: 28px 28px 28px 8px;
+        background: #fbf7f0;
+        border: 4px solid #1f2a44;
+        transform-origin: 0 100%;
+      }
+      #abub .hi {
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        color: #1f2a44;
+        white-space: nowrap;
+      }
+      #abub .sk {
+        display: block;
+        height: 14px;
+        margin-top: 20px;
+        border-radius: 7px;
+        background: #1f2a44;
+        opacity: 0.22;
+        transform-origin: 0 50%;
+      }
+      #field {
+        position: absolute;
+        left: 18px;
+        top: 762px;
+        width: 304px;
+        height: 76px;
+        border-radius: 38px;
+        border: 4px solid #1f2a44;
+        background: #fbf7f0;
+      }
+      #typed {
+        position: absolute;
+        left: 22px;
+        top: 17px;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 26px;
+        line-height: 34px;
+        color: #1f2a44;
+        white-space: nowrap;
+      }
+      #caret {
+        display: inline-block;
+        width: 3px;
+        height: 30px;
+        margin-left: 2px;
+        vertical-align: -6px;
+        background: #1f2a44;
+      }
+      #send {
+        position: absolute;
+        left: 332px;
+        top: 762px;
+        width: 76px;
+        height: 76px;
+        border-radius: 38px;
+        background: #c8461f;
+      }
+      #notif {
+        position: absolute;
+        left: 14px;
+        top: 14px;
+        width: 392px;
+        height: 132px;
+        border-radius: 32px;
+        background: #c8461f;
+        padding: 20px 24px;
+        color: #fbf7f0;
+      }
+      #notif .who {
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 1.2;
+      }
+      #notif .msg {
+        font-weight: 800;
+        font-size: 30px;
+        line-height: 1.25;
+        white-space: nowrap;
+      }
+      #touch {
+        position: absolute;
+        width: 96px;
+        height: 96px;
+        border-radius: 48px;
+        border: 6px solid #fbf7f0;
+        background: rgba(251, 247, 240, 0.28);
+      }
+      #ripple {
+        position: absolute;
+        width: 96px;
+        height: 96px;
+        border-radius: 48px;
+        border: 6px solid #fbf7f0;
+      }
+      #chip {
+        position: absolute;
+        left: 1582px;
+        top: 866px;
+        padding: 20px 30px 22px;
+        border-radius: 44px;
+        background: #fbf7f0;
+        color: #1f2a44;
+        font-weight: 900;
+        font-size: 38px;
+        line-height: 1;
+        white-space: nowrap;
+        transform-origin: 0 50%;
+      }
+      #chip::before {
+        content: "";
+        position: absolute;
+        left: -16px;
+        top: 26px;
+        border-top: 16px solid transparent;
+        border-bottom: 16px solid transparent;
+        border-right: 18px solid #fbf7f0;
+      }
+
+      /* ── S5 · un peligro nuevo ─────────────────────────────────── */
+      #alerta {
+        position: absolute;
+        left: 400px;
+        top: 112px;
+        height: 72px;
+        padding: 0 30px 0 22px;
+        border-radius: 36px;
+        background: #1f2a44;
+        color: #fbf7f0;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 32px;
+        letter-spacing: 0.14em;
+        white-space: nowrap;
+      }
+      #sbub {
+        position: absolute;
+        left: 400px;
+        top: 222px;
+        width: 1120px;
+        padding: 40px 56px 36px;
+        border-radius: 12px 48px 48px 48px;
+        background: #fbf7f0;
+        transform-origin: 0 0;
+      }
+      #sbub::before {
+        content: "";
+        position: absolute;
+        left: -26px;
+        top: 0;
+        border-top: 34px solid #fbf7f0;
+        border-left: 30px solid transparent;
+      }
+      #sbub .who {
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 36px;
+        color: #c8461f;
+      }
+      #sbub .msg {
+        margin-top: 10px;
+        font-weight: 800;
+        font-size: 78px;
+        line-height: 1.14;
+        color: #1f2a44;
+      }
+      #sbub .hr {
+        margin-top: 8px;
+        text-align: right;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        color: #1f2a44;
+      }
+      #stamp {
+        position: absolute;
+        left: 1030px;
+        top: 500px;
+        width: 600px;
+        height: 200px;
+        border-radius: 30px;
+        background: #1f2a44;
+      }
+      #stamp::after {
+        content: "";
+        position: absolute;
+        left: 14px;
+        top: 14px;
+        right: 14px;
+        bottom: 14px;
+        border-radius: 20px;
+        border: 5px solid #fbf7f0;
+      }
+      #stamp span {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 26px;
+        text-align: center;
+        font-weight: 900;
+        font-size: 128px;
+        line-height: 1;
+        letter-spacing: 0.06em;
+        color: #fbf7f0;
+      }
+      .ray {
+        position: absolute;
+        left: 1326px;
+        top: 600px;
+        width: 8px;
+        height: 0;
+      }
+      .ray i {
+        position: absolute;
+        left: -2px;
+        top: 0;
+        width: 12px;
+        height: 84px;
+        border-radius: 6px;
+        background: #fbf7f0;
+        transform-origin: 50% 0;
+      }
+      #shock {
+        position: absolute;
+        left: 1180px;
+        top: 450px;
+        width: 300px;
+        height: 300px;
+        border-radius: 150px;
+        border: 10px solid #fbf7f0;
+      }
+      .h5 {
+        font-weight: 900;
+        font-size: 78px;
+        line-height: 1.25;
+        color: #fbf7f0;
+      }
+
+      /* ── S6 · comunidad y cierre ───────────────────────────────── */
+      #iris {
+        position: absolute;
+        left: 1230px;
+        top: 500px;
+        width: 200px;
+        height: 200px;
+        border-radius: 100px;
+        background: #1f2a44;
+      }
+      .h6 {
+        font-weight: 900;
+        font-size: 132px;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        text-align: center;
+      }
+      .av6 {
+        position: absolute;
+        width: 128px;
+        height: 128px;
+        border-radius: 64px;
+        overflow: hidden;
+      }
+      .av6 svg {
+        display: block;
+        width: 128px;
+        height: 128px;
+      }
+      #net {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1920px;
+        height: 1080px;
+      }
+      #logo {
+        position: absolute;
+        left: 460px;
+        top: 222px;
+        width: 1000px;
+        height: 372px;
+        overflow: visible;
+      }
+      #tag {
+        font-weight: 800;
+        font-size: 58px;
+        line-height: 1.3;
+        text-align: center;
+        color: #1f2a44;
+      }
+      #plat {
+        position: absolute;
+        left: 0;
+        width: 1920px;
+        top: 760px;
+        text-align: center;
+        font-family: "Atkinson Hyperlegible", sans-serif;
+        font-weight: 700;
+        font-size: 36px;
+        letter-spacing: 0.04em;
+        color: #1f2a44;
+        white-space: nowrap;
+      }
+      #plat b {
+        color: #c8461f;
+        padding: 0 0.5em;
+      }
+
+      .band {
+        position: absolute;
+        left: -340px;
+        top: -40px;
+        width: 2600px;
+        height: 1160px;
+        transform: translateX(-2900px) skewX(-14deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="15"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="stage">
+        <!-- ═══ S1+S2 · el ruido → la calma (0 – 4,7 s) ═══ -->
+        <div id="s12" class="scene">
+          <div class="fill crema"></div>
+          <div id="w12" class="world">
+            <div id="w12in" class="world">
+              <div id="pills"></div>
+              <div id="hero">
+                <svg viewBox="0 0 120 120" aria-label="El Nieto Digital">
+                  <rect x="32" y="6" width="56" height="108" rx="14" fill="#C8461F" />
+                  <rect x="39" y="18" width="42" height="78" rx="7" fill="#FBF7F0" />
+                  <circle id="eyeL" cx="52" cy="46" r="5" fill="#1F2A44" />
+                  <circle id="eyeR" cx="68" cy="46" r="5" fill="#1F2A44" />
+                  <path
+                    id="mouth"
+                    d="M49 66 Q60 66 71 66"
+                    stroke="#1F2A44"
+                    stroke-width="5"
+                    fill="none"
+                    stroke-linecap="round"
+                  />
+                  <rect x="51" y="103" width="18" height="4" rx="2" fill="#FBF7F0" />
+                </svg>
+              </div>
+              <div class="mask" style="left: 820px; top: 336px; width: 980px; height: 184px">
+                <div id="s2-l1" class="line h2">El móvil</div>
+              </div>
+              <div class="mask" style="left: 820px; top: 516px; width: 980px; height: 184px">
+                <div id="s2-l2" class="line h2" style="color: #c8461f">no muerde.</div>
+              </div>
+              <svg
+                id="s2-under"
+                style="position: absolute; left: 826px; top: 694px; width: 860px; height: 44px; overflow: visible"
+                viewBox="0 0 860 44"
+              >
+                <path
+                  id="s2-under-p"
+                  d="M8 26 Q 430 6 852 22"
+                  pathLength="1"
+                  stroke="#C8461F"
+                  stroke-width="16"
+                  stroke-linecap="round"
+                  fill="none"
+                  stroke-dasharray="1"
+                  stroke-dashoffset="1"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ S3 · de qué va el canal (4,5 – 7,4 s) ═══ -->
+        <div id="s3" class="scene">
+          <div class="fill crema"></div>
+          <div id="w3" class="world">
+            <div id="s3-eb" class="eyebrow" style="left: 146px; top: 118px">DE QUÉ VA EL CANAL</div>
+            <div class="mask" style="left: 140px; top: 164px; width: 1640px; height: 134px">
+              <div id="s3-l1" class="line h3">La IA y el móvil,</div>
+            </div>
+            <div class="mask" style="left: 140px; top: 296px; width: 1640px; height: 134px">
+              <div id="s3-l2" class="line h3" style="color: #c8461f">sin jerga.</div>
+            </div>
+
+            <div class="tile" id="t1" style="left: 140px">
+              <svg viewBox="0 0 120 120">
+                <path class="ico draw" pathLength="1" d="M60 12 L98 26 V56 C98 82 82 100 60 108 C38 100 22 82 22 56 V26 Z" />
+                <path id="t1-chk" class="ico-o" pathLength="1" d="M42 60 L55 73 L79 47" stroke-dasharray="1" stroke-dashoffset="1" />
+              </svg>
+              <div class="lbl">Seguridad</div>
+              <div class="bar"></div>
+            </div>
+            <div class="tile" id="t2" style="left: 474px">
+              <svg viewBox="0 0 120 120">
+                <path
+                  class="ico draw"
+                  pathLength="1"
+                  d="M26 20 H94 A14 14 0 0 1 108 34 V70 A14 14 0 0 1 94 84 H56 L34 104 V84 H26 A14 14 0 0 1 12 70 V34 A14 14 0 0 1 26 20 Z"
+                />
+                <circle class="t2-dot" cx="40" cy="52" r="7" fill="#C8461F" />
+                <circle class="t2-dot" cx="60" cy="52" r="7" fill="#C8461F" />
+                <circle class="t2-dot" cx="80" cy="52" r="7" fill="#C8461F" />
+              </svg>
+              <div class="lbl">IA útil</div>
+              <div class="bar"></div>
+            </div>
+            <div class="tile" id="t3" style="left: 808px">
+              <svg viewBox="0 0 120 120">
+                <path class="ico draw" pathLength="1" d="M34 10 H72 L94 32 V104 A6 6 0 0 1 88 110 H34 A6 6 0 0 1 28 104 V16 A6 6 0 0 1 34 10 Z M72 10 V32 H94" />
+                <path class="ico t3-ln" pathLength="1" d="M42 52 H80" stroke-dasharray="1" stroke-dashoffset="1" />
+                <path class="ico t3-ln" pathLength="1" d="M42 68 H80" stroke-dasharray="1" stroke-dashoffset="1" />
+                <path class="ico t3-ln" pathLength="1" d="M42 84 H62" stroke-dasharray="1" stroke-dashoffset="1" />
+                <circle id="t3-seal" cx="84" cy="92" r="15" fill="#C8461F" />
+              </svg>
+              <div class="lbl">Trámites</div>
+              <div class="bar"></div>
+            </div>
+            <div class="tile" id="t4" style="left: 1142px">
+              <svg viewBox="0 0 120 120">
+                <path
+                  class="ico draw"
+                  pathLength="1"
+                  d="M60 102 C26 80 12 62 12 43 C12 27 24 16 39 16 C48 16 56 21 60 29 C64 21 72 16 81 16 C96 16 108 27 108 43 C108 62 94 80 60 102 Z"
+                />
+                <path
+                  id="t4-in"
+                  fill="#C8461F"
+                  d="M60 82 C40 69 32 58 32 47 C32 38 39 32 47 32 C53 32 57 35 60 40 C63 35 67 32 73 32 C81 32 88 38 88 47 C88 58 80 69 60 82 Z"
+                />
+              </svg>
+              <div class="lbl">Compañía</div>
+              <div class="bar"></div>
+            </div>
+            <div class="tile" id="t5" style="left: 1476px">
+              <svg viewBox="0 0 120 120">
+                <path class="ico draw" pathLength="1" d="M34 100 C34 80 45 68 60 68 C75 68 86 80 86 100" />
+                <path class="ico draw" pathLength="1" d="M10 100 C10 86 18 76 30 76 C36 76 40 78 43 81" />
+                <path class="ico draw" pathLength="1" d="M110 100 C110 86 102 76 90 76 C84 76 80 78 77 81" />
+                <circle class="t5-h" cx="30" cy="56" r="11" fill="#FBF7F0" />
+                <circle class="t5-h" cx="60" cy="42" r="15" fill="#C8461F" />
+                <circle class="t5-h" cx="90" cy="56" r="11" fill="#FBF7F0" />
+              </svg>
+              <div class="lbl">Comunidad</div>
+              <div class="bar"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ S4 · una cosa nueva, paso a paso (7,4 – 10 s) ═══ -->
+        <div id="s4" class="scene">
+          <div class="fill azul"></div>
+          <div id="w4" class="world">
+            <div class="mask" style="left: 120px; top: 132px; width: 940px; height: 148px; padding-left: 20px">
+              <div id="s4-l1" class="line h4">Paso a paso.</div>
+            </div>
+            <div class="mask" style="left: 120px; top: 276px; width: 940px; height: 148px; padding-left: 20px">
+              <div id="s4-l2" class="line h4">
+                <span class="mk"><span id="s4-mk" class="mk-bg" style="background: #c8461f"></span><span class="mk-t">Sin prisa.</span></span>
+              </div>
+            </div>
+
+            <div id="rail"></div>
+            <div class="step" id="st1" style="top: 540px"><div class="num">1</div><div class="txt">Abra la aplicación</div></div>
+            <div class="step" id="st2" style="top: 666px"><div class="num">2</div><div class="txt">Escriba lo que necesita</div></div>
+            <div class="step" id="st3" style="top: 792px"><div class="num">3</div><div class="txt">Pulse enviar</div></div>
+
+            <div id="phone">
+              <div id="screen">
+                <div id="appbar">
+                  <svg class="av" viewBox="0 0 64 64">
+                    <circle cx="32" cy="32" r="32" fill="#FBF7F0" />
+                    <circle cx="24" cy="27" r="4" fill="#1F2A44" />
+                    <circle cx="40" cy="27" r="4" fill="#1F2A44" />
+                    <path d="M22 38 Q32 48 42 38" stroke="#1F2A44" stroke-width="4" fill="none" stroke-linecap="round" />
+                  </svg>
+                  <div class="nm" data-layout-allow-overlap>Asistente</div>
+                </div>
+                <div id="gbub">¿En qué le ayudo?</div>
+                <div id="ubub">Escríbame una carta</div>
+                <div id="abub">
+                  <div class="hi">Estimados señores:</div>
+                  <span class="sk" style="width: 270px"></span>
+                  <span class="sk" style="width: 240px"></span>
+                  <span class="sk" style="width: 170px"></span>
+                </div>
+                <div id="field"><div id="typed"><span id="typed-t"></span><span id="caret"></span></div></div>
+                <div id="send">
+                  <svg viewBox="0 0 76 76" style="display: block; width: 76px; height: 76px">
+                    <path d="M38 54 V24 M26 35 L38 23 L50 35" stroke="#FBF7F0" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <div id="notif" data-layout-allow-overlap>
+                  <div class="who">Número desconocido</div>
+                  <div class="msg">Hola mamá, he cambi…</div>
+                </div>
+              </div>
+            </div>
+            <div id="ripple"></div>
+            <div id="touch"></div>
+            <div id="chip">Pulse aquí</div>
+          </div>
+        </div>
+
+        <!-- ═══ S5 · un peligro nuevo (9,8 – 12,3 s) ═══ -->
+        <div id="s5" class="scene">
+          <div class="fill naranja"></div>
+          <div id="w5" class="world">
+            <div id="alerta">
+              <svg id="warn" viewBox="0 0 40 40" style="width: 40px; height: 40px; display: block">
+                <path d="M20 5 L37 34 H3 Z" fill="none" stroke="#FBF7F0" stroke-width="4" stroke-linejoin="round" />
+                <path d="M20 15 V24" stroke="#FBF7F0" stroke-width="4" stroke-linecap="round" />
+                <circle cx="20" cy="29.5" r="2.4" fill="#FBF7F0" />
+              </svg>
+              ALERTA ESTAFA
+            </div>
+            <!-- Detrás de la burbuja: la onda y los rayos no pisan el texto del mensaje. -->
+            <div id="shock"></div>
+            <div id="rays"></div>
+            <div id="sbub">
+              <div class="who">Número desconocido</div>
+              <div class="msg">Hola mamá, he cambiado de número.</div>
+            </div>
+            <div id="stamp"><span>ESTAFA</span></div>
+            <div class="mask" style="left: 0; top: 808px; width: 1920px; height: 104px; text-align: center">
+              <div id="s5-cap" class="line h5">
+                Ante la duda,
+                <span class="mk"><span id="s5-mk" class="mk-bg" style="background: #1f2a44"></span><span class="mk-t">no toque nada.</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="iris"></div>
+
+        <!-- ═══ S6 · comunidad → logotipo (12 – 15 s) ═══ -->
+        <div id="s6" class="scene">
+          <div class="fill crema"></div>
+          <div id="w6" class="world">
+            <svg id="net" viewBox="0 0 1920 1080"></svg>
+            <div id="avs"></div>
+            <div id="s6-eb" class="eyebrow" style="left: 0; width: 1920px; top: 316px; text-align: center">UNA COMUNIDAD QUE SE AYUDA</div>
+            <div class="mask" style="left: 0; top: 372px; width: 1920px; height: 162px">
+              <div id="s6-l1" class="line h6">Nadie se queda</div>
+            </div>
+            <div class="mask" style="left: 0; top: 530px; width: 1920px; height: 162px">
+              <div id="s6-l2" class="line h6" style="color: #c8461f">atrás.</div>
+            </div>
+          </div>
+
+          <!-- Logotipo con los trazados exactos de marca/logo-horizontal-color.svg -->
+          <svg id="logo" viewBox="0 0 376 140">
+            <defs>
+              <clipPath id="lk-c1"><rect x="160" y="20" width="216" height="52" /></clipPath>
+              <clipPath id="lk-c2"><rect x="160" y="74" width="216" height="66" /></clipPath>
+            </defs>
+            <g id="lk-mascot">
+              <g transform="scale(1.1666667)">
+                <rect x="32" y="6" width="56" height="108" rx="14" fill="#C8461F" />
+                <rect x="39" y="18" width="42" height="78" rx="7" fill="#FBF7F0" />
+                <circle id="lk-eyeL" cx="52" cy="46" r="5" fill="#1F2A44" />
+                <circle id="lk-eyeR" cx="68" cy="46" r="5" fill="#1F2A44" />
+                <path d="M49 62 Q60 76 71 62" stroke="#1F2A44" stroke-width="5" fill="none" stroke-linecap="round" />
+                <rect x="51" y="103" width="18" height="4" rx="2" fill="#FBF7F0" />
+              </g>
+            </g>
+            <g clip-path="url(#lk-c1)">
+              <g id="lk-w1"><path transform="translate(168 66)" fill="#1F2A44" d="M8.21 0Q6.1 0 4.97 -1.13Q3.83 -2.27 3.83 -4.37V-33.7Q3.83 -35.8 4.97 -36.94Q6.1 -38.07 8.21 -38.07H27.05Q28.67 -38.07 29.51 -37.23Q30.35 -36.4 30.35 -34.83Q30.35 -33.21 29.51 -32.37Q28.67 -31.54 27.05 -31.54H11.83V-22.63H25.81Q27.49 -22.63 28.32 -21.79Q29.16 -20.95 29.16 -19.33Q29.16 -17.71 28.32 -16.88Q27.49 -16.04 25.81 -16.04H11.83V-6.53H27.05Q28.67 -6.53 29.51 -5.7Q30.35 -4.86 30.35 -3.29Q30.35 -1.67 29.51 -0.84Q28.67 0 27.05 0Z M44.82 0.59Q40.01 0.59 37.64 -2.08Q35.26 -4.75 35.26 -10.04V-34.4Q35.26 -36.45 36.31 -37.5Q37.37 -38.56 39.37 -38.56Q41.31 -38.56 42.36 -37.5Q43.42 -36.45 43.42 -34.4V-10.37Q43.42 -8.15 44.36 -7.1Q45.31 -6.05 46.87 -6.05Q47.3 -6.05 47.68 -6.1Q48.06 -6.16 48.49 -6.16Q49.36 -6.26 49.71 -5.64Q50.06 -5.02 50.06 -3.19Q50.06 -1.57 49.41 -0.73Q48.76 0.11 47.41 0.38Q46.87 0.43 46.17 0.51Q45.47 0.59 44.82 0.59Z M71.82 0.49Q69.93 0.49 68.93 -0.57Q67.93 -1.62 67.93 -3.56V-34.34Q67.93 -36.4 68.93 -37.48Q69.93 -38.56 71.6 -38.56Q73.06 -38.56 73.84 -37.99Q74.63 -37.42 75.65 -36.13L94.61 -11.99H93.15V-34.56Q93.15 -36.45 94.15 -37.5Q95.15 -38.56 97.04 -38.56Q98.93 -38.56 99.93 -37.5Q100.93 -36.45 100.93 -34.56V-3.4Q100.93 -1.62 100.01 -0.57Q99.09 0.49 97.52 0.49Q96.01 0.49 95.12 -0.11Q94.23 -0.7 93.2 -2L74.3 -26.14H75.71V-3.56Q75.71 -1.62 74.74 -0.57Q73.76 0.49 71.82 0.49Z M111.46 0.43Q109.46 0.43 108.41 -0.73Q107.35 -1.89 107.35 -4V-22.46Q107.35 -24.62 108.41 -25.78Q109.46 -26.95 111.46 -26.95Q113.4 -26.95 114.45 -25.78Q115.51 -24.62 115.51 -22.46V-4Q115.51 -1.89 114.48 -0.73Q113.45 0.43 111.46 0.43ZM111.46 -31.37Q109.19 -31.37 107.97 -32.43Q106.76 -33.48 106.76 -35.42Q106.76 -37.42 107.97 -38.47Q109.19 -39.53 111.46 -39.53Q113.72 -39.53 114.91 -38.47Q116.1 -37.42 116.1 -35.42Q116.1 -33.48 114.91 -32.43Q113.72 -31.37 111.46 -31.37Z M135.05 0.59Q130.36 0.59 126.98 -1.11Q123.61 -2.81 121.8 -5.91Q119.99 -9.02 119.99 -13.23Q119.99 -17.33 121.72 -20.44Q123.44 -23.54 126.55 -25.3Q129.65 -27.05 133.6 -27.05Q136.46 -27.05 138.78 -26.11Q141.1 -25.16 142.78 -23.41Q144.45 -21.65 145.31 -19.14Q146.18 -16.63 146.18 -13.55Q146.18 -12.53 145.53 -12.02Q144.88 -11.5 143.64 -11.5H126.68V-15.71H140.29L139.43 -14.96Q139.43 -17.17 138.78 -18.66Q138.13 -20.14 136.92 -20.9Q135.7 -21.65 133.92 -21.65Q131.92 -21.65 130.52 -20.74Q129.11 -19.82 128.36 -18.09Q127.6 -16.36 127.6 -13.93V-13.5Q127.6 -9.4 129.52 -7.45Q131.44 -5.51 135.22 -5.51Q136.51 -5.51 138.19 -5.83Q139.86 -6.16 141.32 -6.86Q142.56 -7.45 143.53 -7.26Q144.5 -7.07 145.04 -6.37Q145.58 -5.67 145.67 -4.75Q145.75 -3.83 145.26 -2.94Q144.77 -2.05 143.64 -1.46Q141.8 -0.43 139.51 0.08Q137.21 0.59 135.05 0.59Z M163.4 0.59Q159.68 0.59 157.17 -0.65Q154.66 -1.89 153.44 -4.27Q152.23 -6.64 152.23 -10.26V-20.41H149.96Q148.45 -20.41 147.61 -21.22Q146.77 -22.03 146.77 -23.44Q146.77 -24.95 147.61 -25.73Q148.45 -26.51 149.96 -26.51H152.23V-30.62Q152.23 -32.67 153.31 -33.72Q154.39 -34.78 156.33 -34.78Q158.33 -34.78 159.35 -33.72Q160.38 -32.67 160.38 -30.62V-26.51H165.51Q167.02 -26.51 167.83 -25.73Q168.64 -24.95 168.64 -23.44Q168.64 -22.03 167.83 -21.22Q167.02 -20.41 165.51 -20.41H160.38V-10.58Q160.38 -8.32 161.43 -7.18Q162.49 -6.05 164.81 -6.05Q165.62 -6.05 166.32 -6.21Q167.02 -6.37 167.62 -6.43Q168.37 -6.48 168.86 -5.97Q169.34 -5.45 169.34 -3.73Q169.34 -2.43 168.91 -1.46Q168.48 -0.49 167.4 -0.05Q166.7 0.22 165.48 0.4Q164.27 0.59 163.4 0.59Z M184.41 0.59Q180.14 0.59 176.99 -1.08Q173.83 -2.75 172.1 -5.89Q170.37 -9.02 170.37 -13.28Q170.37 -16.47 171.34 -19.01Q172.31 -21.55 174.18 -23.36Q176.04 -25.16 178.63 -26.11Q181.22 -27.05 184.41 -27.05Q188.68 -27.05 191.84 -25.38Q194.99 -23.71 196.75 -20.63Q198.5 -17.55 198.5 -13.28Q198.5 -10.04 197.51 -7.51Q196.51 -4.97 194.67 -3.13Q192.83 -1.3 190.22 -0.35Q187.6 0.59 184.41 0.59ZM184.41 -5.51Q186.19 -5.51 187.49 -6.37Q188.78 -7.24 189.54 -8.94Q190.3 -10.64 190.3 -13.28Q190.3 -17.23 188.68 -19.09Q187.06 -20.95 184.41 -20.95Q182.68 -20.95 181.36 -20.14Q180.04 -19.33 179.31 -17.63Q178.58 -15.93 178.58 -13.28Q178.58 -9.34 180.2 -7.43Q181.82 -5.51 184.41 -5.51Z" /></g>
+            </g>
+            <g clip-path="url(#lk-c2)">
+              <g id="lk-w2"><path transform="translate(168 120)" fill="#C8461F" d="M8.21 0Q6.1 0 4.97 -1.13Q3.83 -2.27 3.83 -4.37V-33.7Q3.83 -35.8 4.97 -36.94Q6.1 -38.07 8.21 -38.07H18.74Q28.51 -38.07 33.83 -33.13Q39.15 -28.19 39.15 -19.06Q39.15 -14.47 37.77 -10.93Q36.4 -7.4 33.8 -4.97Q31.21 -2.54 27.43 -1.27Q23.65 0 18.74 0ZM12.2 -6.86H18.25Q21.33 -6.86 23.6 -7.61Q25.87 -8.37 27.38 -9.88Q28.89 -11.39 29.65 -13.69Q30.4 -15.98 30.4 -19.06Q30.4 -25.22 27.35 -28.21Q24.3 -31.21 18.25 -31.21H12.2Z M48.49 0.43Q46.49 0.43 45.44 -0.73Q44.39 -1.89 44.39 -4V-22.46Q44.39 -24.62 45.44 -25.78Q46.49 -26.95 48.49 -26.95Q50.44 -26.95 51.49 -25.78Q52.54 -24.62 52.54 -22.46V-4Q52.54 -1.89 51.52 -0.73Q50.49 0.43 48.49 0.43ZM48.49 -31.37Q46.22 -31.37 45.01 -32.43Q43.79 -33.48 43.79 -35.42Q43.79 -37.42 45.01 -38.47Q46.22 -39.53 48.49 -39.53Q50.76 -39.53 51.95 -38.47Q53.14 -37.42 53.14 -35.42Q53.14 -33.48 51.95 -32.43Q50.76 -31.37 48.49 -31.37Z M71.06 10.31Q68.15 10.31 65.47 9.83Q62.8 9.34 60.75 8.37Q59.51 7.83 59 6.97Q58.48 6.1 58.56 5.13Q58.64 4.16 59.21 3.4Q59.78 2.65 60.64 2.35Q61.51 2.05 62.48 2.48Q64.85 3.56 66.88 3.89Q68.9 4.21 70.36 4.21Q73.82 4.21 75.55 2.65Q77.27 1.08 77.27 -2.16V-6.26H77.76Q76.95 -3.78 74.41 -2.21Q71.87 -0.65 68.8 -0.65Q65.23 -0.65 62.59 -2.29Q59.94 -3.94 58.48 -6.94Q57.02 -9.94 57.02 -13.88Q57.02 -16.85 57.86 -19.28Q58.7 -21.71 60.24 -23.44Q61.78 -25.16 63.96 -26.11Q66.15 -27.05 68.8 -27.05Q71.98 -27.05 74.44 -25.52Q76.9 -23.98 77.71 -21.49L77.17 -19.76V-22.84Q77.17 -24.84 78.22 -25.89Q79.27 -26.95 81.22 -26.95Q83.16 -26.95 84.19 -25.89Q85.21 -24.84 85.21 -22.84V-3.08Q85.21 3.56 81.57 6.94Q77.92 10.31 71.06 10.31ZM71.23 -6.75Q73.06 -6.75 74.38 -7.61Q75.71 -8.48 76.46 -10.07Q77.22 -11.66 77.22 -13.88Q77.22 -17.23 75.57 -19.09Q73.93 -20.95 71.23 -20.95Q69.39 -20.95 68.04 -20.11Q66.69 -19.28 65.96 -17.68Q65.23 -16.09 65.23 -13.88Q65.23 -10.53 66.85 -8.64Q68.47 -6.75 71.23 -6.75Z M95.09 0.43Q93.1 0.43 92.04 -0.73Q90.99 -1.89 90.99 -4V-22.46Q90.99 -24.62 92.04 -25.78Q93.1 -26.95 95.09 -26.95Q97.04 -26.95 98.09 -25.78Q99.14 -24.62 99.14 -22.46V-4Q99.14 -1.89 98.12 -0.73Q97.09 0.43 95.09 0.43ZM95.09 -31.37Q92.83 -31.37 91.61 -32.43Q90.4 -33.48 90.4 -35.42Q90.4 -37.42 91.61 -38.47Q92.83 -39.53 95.09 -39.53Q97.36 -39.53 98.55 -38.47Q99.74 -37.42 99.74 -35.42Q99.74 -33.48 98.55 -32.43Q97.36 -31.37 95.09 -31.37Z M117.94 0.59Q114.21 0.59 111.7 -0.65Q109.19 -1.89 107.97 -4.27Q106.76 -6.64 106.76 -10.26V-20.41H104.49Q102.98 -20.41 102.14 -21.22Q101.3 -22.03 101.3 -23.44Q101.3 -24.95 102.14 -25.73Q102.98 -26.51 104.49 -26.51H106.76V-30.62Q106.76 -32.67 107.84 -33.72Q108.92 -34.78 110.86 -34.78Q112.86 -34.78 113.89 -33.72Q114.91 -32.67 114.91 -30.62V-26.51H120.04Q121.55 -26.51 122.36 -25.73Q123.17 -24.95 123.17 -23.44Q123.17 -22.03 122.36 -21.22Q121.55 -20.41 120.04 -20.41H114.91V-10.58Q114.91 -8.32 115.97 -7.18Q117.02 -6.05 119.34 -6.05Q120.15 -6.05 120.85 -6.21Q121.55 -6.37 122.15 -6.43Q122.9 -6.48 123.39 -5.97Q123.88 -5.45 123.88 -3.73Q123.88 -2.43 123.44 -1.46Q123.01 -0.49 121.93 -0.05Q121.23 0.22 120.02 0.4Q118.8 0.59 117.94 0.59Z M135.16 0.59Q132.25 0.59 129.92 -0.54Q127.6 -1.67 126.31 -3.62Q125.01 -5.56 125.01 -7.99Q125.01 -10.91 126.52 -12.61Q128.03 -14.31 131.44 -15.04Q134.84 -15.77 140.45 -15.77H143.32V-11.56H140.51Q137.75 -11.56 136.05 -11.26Q134.35 -10.96 133.62 -10.26Q132.89 -9.56 132.89 -8.32Q132.89 -6.8 133.95 -5.83Q135 -4.86 137 -4.86Q138.56 -4.86 139.78 -5.59Q140.99 -6.32 141.7 -7.59Q142.4 -8.86 142.4 -10.48V-16.69Q142.4 -19.06 141.32 -20.06Q140.24 -21.06 137.65 -21.06Q136.19 -21.06 134.49 -20.71Q132.79 -20.36 130.73 -19.55Q129.55 -19.01 128.63 -19.3Q127.71 -19.6 127.22 -20.38Q126.74 -21.17 126.74 -22.11Q126.74 -23.06 127.28 -23.95Q127.82 -24.84 129.06 -25.27Q131.6 -26.3 133.84 -26.68Q136.08 -27.05 137.97 -27.05Q142.13 -27.05 144.8 -25.84Q147.47 -24.62 148.82 -22.11Q150.17 -19.6 150.17 -15.66V-3.67Q150.17 -1.67 149.2 -0.59Q148.23 0.49 146.39 0.49Q144.56 0.49 143.56 -0.59Q142.56 -1.67 142.56 -3.67V-5.67L142.94 -5.35Q142.61 -3.51 141.56 -2.19Q140.51 -0.86 138.89 -0.14Q137.27 0.59 135.16 0.59Z M165.29 0.59Q160.49 0.59 158.11 -2.08Q155.74 -4.75 155.74 -10.04V-34.4Q155.74 -36.45 156.79 -37.5Q157.84 -38.56 159.84 -38.56Q161.78 -38.56 162.84 -37.5Q163.89 -36.45 163.89 -34.4V-10.37Q163.89 -8.15 164.84 -7.1Q165.78 -6.05 167.35 -6.05Q167.78 -6.05 168.16 -6.1Q168.53 -6.16 168.97 -6.16Q169.83 -6.26 170.18 -5.64Q170.53 -5.02 170.53 -3.19Q170.53 -1.57 169.88 -0.73Q169.24 0.11 167.89 0.38Q167.35 0.43 166.64 0.51Q165.94 0.59 165.29 0.59Z" /></g>
+            </g>
+          </svg>
+          <div class="mask" style="left: 0; top: 644px; width: 1920px; height: 80px">
+            <div id="tag" class="line">La IA explicada para que no te dejen atrás.</div>
+          </div>
+          <div id="plat">YouTube<b>·</b>Facebook<b>·</b>Instagram<b>·</b>TikTok</div>
+        </div>
+
+        <div id="bands" class="world">
+          <div id="band-o" class="band" style="background: #c8461f"></div>
+          <div id="band-n" class="band" style="background: #1f2a44"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var NAR = "#C8461F",
+          AZU = "#1F2A44",
+          CRE = "#FBF7F0";
+        var CX = 960,
+          CY = 540;
+
+        // PRNG con semilla: nada de Math.random (el render busca fotograma a fotograma).
+        function mulberry32(a) {
+          return function () {
+            a |= 0;
+            a = (a + 0x6d2b79f5) | 0;
+            var t = Math.imul(a ^ (a >>> 15), 1 | a);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+          };
+        }
+        var rnd = mulberry32(19);
+
+        // ── S1: la jerga que agobia. [texto, x, y, cuerpo, variante, giro, insignia]
+        var PILLS = [
+          ["ChatGPT", 330, 150, 64, "n", -5, ""],
+          ["Código SMS", 840, 128, 46, "o", 3, "1"],
+          ["¡Actualice ya!", 1590, 132, 44, "o", 5, ""],
+          ["Cl@ve", 1270, 178, 54, "a", -4, ""],
+          ["Deepfake", 236, 348, 50, "o", 4, ""],
+          ["Paquete pendiente", 1440, 336, 46, "n", 2, "1"],
+          ["Contraseña", 660, 300, 44, "n", -3, ""],
+          ["Inteligencia artificial", 540, 574, 50, "o", -2, ""],
+          ["Bizum", 1400, 536, 50, "n", 5, ""],
+          ["Wifi", 124, 470, 46, "a", -6, ""],
+          ["La nube", 1700, 588, 44, "o", -4, ""],
+          ["Phishing", 300, 790, 52, "n", 3, ""],
+          ["Cookies", 790, 772, 44, "a", -5, ""],
+          ["Verificación en dos pasos", 1330, 772, 40, "o", 2, ""],
+          ["Certificado digital", 480, 962, 46, "o", -3, ""],
+          ["Descargar app", 1040, 948, 44, "n", 4, "3"],
+          ["Aceptar términos", 1500, 962, 42, "n", -2, "99+"],
+        ];
+        var pillsEl = document.getElementById("pills");
+        var pills = PILLS.map(function (p) {
+          var el = document.createElement("div");
+          el.className = "pill " + p[4];
+          el.style.left = p[1] + "px";
+          el.style.top = p[2] + "px";
+          el.style.fontSize = p[3] + "px";
+          el.textContent = p[0];
+          if (p[6]) {
+            var b = document.createElement("div");
+            b.className = "badge";
+            b.textContent = p[6];
+            el.appendChild(b);
+          }
+          pillsEl.appendChild(el);
+          return { el: el, badge: el.querySelector(".badge"), x: p[1], y: p[2], r: p[5], fx: (rnd() - 0.5) * 28, fy: (rnd() - 0.5) * 44 };
+        });
+
+        // ── S5: rayos del impacto del sello.
+        var raysEl = document.getElementById("rays");
+        var rays = [];
+        for (var i = 0; i < 12; i++) {
+          var w = document.createElement("div");
+          w.className = "ray";
+          w.style.transform = "rotate(" + (i * 30 + 15) + "deg)";
+          var inner = document.createElement("i");
+          w.appendChild(inner);
+          raysEl.appendChild(w);
+          rays.push(inner);
+        }
+
+        // ── S6: la red de personas (un hilo naranja que las une a todas).
+        var AVS = [
+          [1760, 540, AZU],
+          [1526, 816, NAR],
+          [960, 930, AZU],
+          [394, 816, NAR],
+          [160, 540, AZU],
+          [394, 264, NAR],
+          [960, 150, AZU],
+          [1526, 264, NAR],
+        ];
+        var avsEl = document.getElementById("avs");
+        var net = document.getElementById("net");
+        var avs = AVS.map(function (a, k) {
+          var el = document.createElement("div");
+          el.className = "av6";
+          el.style.left = a[0] - 64 + "px";
+          el.style.top = a[1] - 64 + "px";
+          el.style.background = a[2];
+          el.innerHTML =
+            '<svg viewBox="0 0 128 128"><circle cx="64" cy="50" r="19" fill="' +
+            CRE +
+            '"/><path d="M26 128 C26 94 44 78 64 78 C84 78 102 94 102 128 Z" fill="' +
+            CRE +
+            '"/></svg>';
+          avsEl.appendChild(el);
+          var b = AVS[(k + 1) % AVS.length];
+          var ln = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          ln.setAttribute("d", "M" + a[0] + " " + a[1] + " L" + b[0] + " " + b[1]);
+          ln.setAttribute("pathLength", "1");
+          ln.setAttribute("stroke", NAR);
+          ln.setAttribute("stroke-width", "7");
+          ln.setAttribute("stroke-linecap", "round");
+          ln.setAttribute("fill", "none");
+          ln.setAttribute("stroke-dasharray", "1");
+          ln.setAttribute("stroke-dashoffset", "1");
+          net.appendChild(ln);
+          return { el: el, ln: ln, x: a[0], y: a[1] };
+        });
+
+        var tl = gsap.timeline({ paused: true });
+        // Rise-from-mask: el texto sube desde su línea base.
+        function rise(sel, t, d) {
+          tl.fromTo(sel, { yPercent: 108 }, { yPercent: 0, duration: d || 0.6, ease: "expo.out" }, t);
+        }
+
+        // ═══ S1 · el ruido (0 – 1,7): la jerga se amontona, cada vez más deprisa ═══
+        tl.set(".pill", { xPercent: -50, yPercent: -50 }, 0);
+        tl.fromTo("#w12in", { scale: 1 }, { scale: 1.06, duration: 1.66, ease: "power1.in" }, 0);
+        pills.forEach(function (p, k) {
+          var t = 1.3 * Math.pow(k / (pills.length - 1), 0.62);
+          tl.fromTo(
+            p.el,
+            { scale: k === 0 ? 0.55 : 0.2, rotation: p.r * 3, opacity: k === 0 ? 1 : 0 },
+            { scale: 1, rotation: p.r, opacity: 1, duration: 0.38, ease: "back.out(2.4)" },
+            t,
+          );
+          tl.fromTo(p.el, { x: 0, y: 0 }, { x: p.fx, y: p.fy, duration: 1.7 - t, ease: "sine.inOut" }, t);
+          if (p.badge) tl.fromTo(p.badge, { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, t + 0.14);
+        });
+
+        // El móvil sonriente aparece y se lo traga todo (1,45 – 2,25).
+        tl.set("#hero", { transformOrigin: "50% 50%" }, 0);
+        tl.fromTo("#hero", { scale: 0 }, { scale: 1, duration: 0.5, ease: "back.out(1.8)" }, 1.42);
+        var maxD = 0;
+        pills.forEach(function (p) {
+          p.d = Math.hypot(p.x - CX, p.y - CY);
+          maxD = Math.max(maxD, p.d);
+        });
+        pills.forEach(function (p) {
+          var t = 1.62 + 0.14 * (p.d / maxD);
+          tl.fromTo(
+            p.el,
+            { x: p.fx, y: p.fy, scale: 1, rotation: p.r, filter: "blur(0px)", opacity: 1 },
+            {
+              x: CX - p.x,
+              y: CY - p.y,
+              scale: 0.06,
+              rotation: p.r + (p.x < CX ? 160 : -160),
+              filter: "blur(6px)",
+              opacity: 0.2,
+              duration: 0.46,
+              ease: "back.in(1.7)",
+              immediateRender: false,
+            },
+            t,
+          );
+          tl.set(p.el, { opacity: 0 }, t + 0.46);
+        });
+        tl.to("#w12in", { scale: 1, duration: 0.5, ease: "power2.out" }, 1.7);
+        // «Trago»: escala UNIFORME (la marca no se deforma).
+        tl.to("#hero", { scale: 1.1, duration: 0.08, ease: "power2.out" }, 2.19);
+        tl.to("#hero", { scale: 1, duration: 0.45, ease: "elastic.out(1, 0.4)" }, 2.27);
+
+        // ═══ S2 · la calma (2,25 – 4,2) ═══
+        tl.fromTo("#hero", { x: 0 }, { x: -460, duration: 0.62, ease: "power3.inOut" }, 2.3);
+        tl.fromTo(
+          "#mouth",
+          { attr: { d: "M49 66 Q60 66 71 66" } },
+          { attr: { d: "M49 62 Q60 76 71 62" }, duration: 0.5, ease: "back.out(2.6)" },
+          2.34,
+        );
+        rise("#s2-l1", 2.52, 0.7);
+        rise("#s2-l2", 2.66, 0.7);
+        tl.fromTo("#s2-under-p", { attr: { "stroke-dashoffset": 1 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.45, ease: "power2.inOut" }, 3.0);
+        // Parpadeo.
+        tl.to("#eyeL, #eyeR", { scaleY: 0.08, transformOrigin: "50% 50%", duration: 0.07, ease: "power2.in" }, 3.5);
+        tl.to("#eyeL, #eyeR", { scaleY: 1, duration: 0.13, ease: "power2.out" }, 3.57);
+
+        // ═══ Transición · zoom a través de la pantalla del móvil (4,2 – 4,7) ═══
+        tl.fromTo(
+          "#w12",
+          { scale: 1, x: 0, y: 0, filter: "blur(0px)", transformOrigin: "500px 430px" },
+          { scale: 14, x: 460, y: 110, filter: "blur(5px)", transformOrigin: "500px 430px", duration: 0.5, ease: "power3.in" },
+          4.2,
+        );
+        tl.fromTo("#s3", { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "none" }, 4.56);
+        tl.set("#s12", { opacity: 0 }, 4.7);
+
+        // ═══ S3 · de qué va el canal (4,6 – 7,0) ═══
+        tl.fromTo("#w3", { scale: 1.06 }, { scale: 1, duration: 2.9, ease: "power2.out" }, 4.56);
+        tl.fromTo("#s3-eb", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 4.62);
+        rise("#s3-l1", 4.64, 0.7);
+        rise("#s3-l2", 4.76, 0.7);
+        ["#t1", "#t2", "#t3", "#t4", "#t5"].forEach(function (id, k) {
+          var t = 4.84 + k * 0.07;
+          tl.fromTo(
+            id,
+            { y: 300, rotation: (k - 2) * 5, opacity: 0 },
+            { y: 0, rotation: 0, opacity: 1, duration: 0.75, ease: "back.out(1.5)" },
+            t,
+          );
+          tl.fromTo(
+            id + " .draw",
+            { attr: { "stroke-dasharray": 1, "stroke-dashoffset": 1 } },
+            { attr: { "stroke-dashoffset": 0 }, duration: 0.6, ease: "power2.inOut" },
+            t + 0.18,
+          );
+          tl.fromTo(id + " .bar", { scaleX: 0 }, { scaleX: 0, duration: 0.01 }, 0);
+        });
+        tl.fromTo(".t2-dot, #t3-seal, #t4-in, .t5-h", { scale: 0, transformOrigin: "50% 50%" }, { scale: 0, duration: 0.01 }, 0);
+        // La ola: cada tema se «completa» a su turno.
+        var W = 5.72,
+          G = 0.2;
+        ["#t1", "#t2", "#t3", "#t4", "#t5"].forEach(function (id, k) {
+          var t = W + k * G;
+          tl.to(id, { y: -30, duration: 0.18, ease: "power2.out" }, t);
+          tl.to(id, { y: 0, duration: 0.4, ease: "back.out(2)" }, t + 0.18);
+          tl.fromTo(id + " .bar", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out", immediateRender: false }, t + 0.04);
+        });
+        tl.to("#t1-chk", { attr: { "stroke-dashoffset": 0 }, duration: 0.3, ease: "power2.out" }, W + 0.06);
+        tl.to(".t2-dot", { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.06 }, W + G + 0.02);
+        tl.to(".t2-dot", { y: -9, duration: 0.14, ease: "power1.out", stagger: 0.06 }, W + G + 0.3);
+        tl.to(".t2-dot", { y: 0, duration: 0.2, ease: "power1.in", stagger: 0.06 }, W + G + 0.44);
+        tl.to(".t3-ln", { attr: { "stroke-dashoffset": 0 }, duration: 0.24, ease: "power2.out", stagger: 0.07 }, W + 2 * G + 0.02);
+        tl.to("#t3-seal", { scale: 1, duration: 0.35, ease: "back.out(3)" }, W + 2 * G + 0.2);
+        tl.to("#t4-in", { scale: 1.18, duration: 0.2, ease: "back.out(3)" }, W + 3 * G + 0.02);
+        tl.to("#t4-in", { scale: 0.92, duration: 0.12, ease: "power1.inOut" }, W + 3 * G + 0.22);
+        tl.to("#t4-in", { scale: 1, duration: 0.2, ease: "back.out(3)" }, W + 3 * G + 0.34);
+        tl.to(".t5-h", { scale: 1, duration: 0.32, ease: "back.out(3)", stagger: 0.07 }, W + 4 * G + 0.02);
+
+        // ═══ Transición · bandas de marca (7,0 – 7,4) ═══
+        tl.set("#band-o, #band-n", { x: -2900, skewX: -14 }, 0);
+        tl.to("#band-o", { x: 0, duration: 0.32, ease: "power3.inOut" }, 7.0);
+        tl.to("#band-n", { x: 0, duration: 0.32, ease: "power3.inOut" }, 7.08);
+        tl.set("#s3", { opacity: 0 }, 7.33);
+        tl.set("#s4", { opacity: 1 }, 7.33);
+        tl.set("#band-o, #band-n", { opacity: 0 }, 7.34);
+
+        // ═══ S4 · paso a paso, sin prisa (7,4 – 9,6) ═══
+        tl.fromTo("#w4", { scale: 1.04 }, { scale: 1, duration: 2.25, ease: "power2.out", immediateRender: false }, 7.33);
+        rise("#s4-l1", 7.34, 0.65);
+        rise("#s4-l2", 7.46, 0.65);
+        tl.fromTo("#s4-mk", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.inOut" }, 7.78);
+        tl.fromTo("#phone", { y: 900, rotation: 9 }, { y: 0, rotation: 0, duration: 0.8, ease: "back.out(1.15)" }, 7.36);
+        tl.fromTo("#rail", { scaleY: 0 }, { scaleY: 0, duration: 0.01 }, 0);
+        tl.fromTo("#ubub, #abub, #notif", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
+        tl.fromTo("#touch, #ripple, #chip", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
+        tl.fromTo("#caret", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
+
+        function step(id, t) {
+          tl.fromTo(id, { x: -50, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, t);
+          tl.fromTo(id + " .num", { scale: 0.3 }, { scale: 1, duration: 0.45, ease: "back.out(2.6)" }, t);
+        }
+        // Paso 1 · tocar el campo de texto.
+        step("#st1", 7.86);
+        tl.set("#touch", { x: 1222, y: 862, scale: 1.4 }, 7.86);
+        tl.to("#touch", { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" }, 7.9);
+        tl.to("#touch", { scale: 0.82, duration: 0.08, ease: "power2.in" }, 8.1);
+        tl.to("#touch", { scale: 1, duration: 0.14, ease: "back.out(3)" }, 8.18);
+        tl.set("#caret", { opacity: 1 }, 8.14);
+        // Paso 2 · escribir.
+        step("#st2", 8.22);
+        tl.to("#rail", { scaleY: 0.5, duration: 0.35, ease: "power2.inOut" }, 8.1);
+        tl.to("#touch", { opacity: 0, duration: 0.15 }, 8.3);
+        var TXT = "Escríbame una carta";
+        var typedT = document.getElementById("typed-t");
+        var typer = { n: 0 };
+        tl.fromTo(
+          typer,
+          { n: 0 },
+          {
+            n: TXT.length,
+            duration: 0.5,
+            ease: "none",
+            onUpdate: function () {
+              typedT.textContent = TXT.slice(0, Math.round(typer.n));
+            },
+          },
+          8.26,
+        );
+        // Paso 3 · pulsar enviar (con el círculo que enseña DÓNDE se pulsa).
+        step("#st3", 8.78);
+        tl.to("#rail", { scaleY: 1, duration: 0.35, ease: "power2.inOut" }, 8.66);
+        tl.set("#touch", { x: 1600, y: 1000, scale: 1 }, 8.74);
+        tl.to("#touch", { opacity: 1, duration: 0.12 }, 8.76);
+        tl.to("#touch", { x: 1422, y: 862, duration: 0.24, ease: "power2.inOut" }, 8.76);
+        tl.fromTo("#chip", { opacity: 0, scale: 0.4, x: -20 }, { opacity: 1, scale: 1, x: 0, duration: 0.4, ease: "back.out(2.2)", immediateRender: false }, 8.84);
+        tl.to("#touch", { scale: 0.8, duration: 0.07, ease: "power2.in" }, 9.0);
+        tl.to("#send", { scale: 0.86, duration: 0.07, ease: "power2.in" }, 9.0);
+        tl.to("#touch", { scale: 1, duration: 0.16, ease: "back.out(3)" }, 9.07);
+        tl.to("#send", { scale: 1, duration: 0.16, ease: "back.out(3)" }, 9.07);
+        tl.set("#ripple", { x: 1422, y: 862 }, 9.0);
+        tl.fromTo(
+          "#ripple",
+          { scale: 0.9, opacity: 0.9 },
+          { scale: 2.6, opacity: 0, duration: 0.42, ease: "power2.out", immediateRender: false },
+          9.06,
+        );
+        // Se envía: el texto sube a su burbuja y la IA contesta.
+        tl.set("#typed", { opacity: 0 }, 9.08);
+        tl.fromTo("#ubub", { opacity: 0, y: 480, scale: 0.7 }, { opacity: 1, y: 0, scale: 1, duration: 0.34, ease: "power3.out", immediateRender: false }, 9.08);
+        tl.fromTo("#abub", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.34, ease: "back.out(1.8)", immediateRender: false }, 9.22);
+        tl.fromTo("#abub .sk", { scaleX: 0 }, { scaleX: 1, duration: 0.24, ease: "power2.out", stagger: 0.05 }, 9.3);
+        tl.to("#chip, #touch", { opacity: 0, duration: 0.15 }, 9.4);
+        // … y en ese momento llega OTRO mensaje.
+        tl.fromTo("#notif", { opacity: 1, y: -170 }, { opacity: 1, y: 0, duration: 0.26, ease: "back.out(1.6)", immediateRender: false }, 9.42);
+        tl.to("#phone", { keyframes: [{ x: -9, duration: 0.03 }, { x: 8, duration: 0.03 }, { x: -6, duration: 0.03 }, { x: 5, duration: 0.03 }, { x: 0, duration: 0.03 }] }, 9.5);
+
+        // ═══ Transición · match cut: la cámara entra en la notificación (9,62 – 10,0) ═══
+        tl.to("#w4", { scale: 7, x: -350, y: 350, filter: "blur(6px)", transformOrigin: "1310px 190px", duration: 0.4, ease: "power3.in" }, 9.62);
+        tl.fromTo("#s5", { opacity: 0 }, { opacity: 1, duration: 0.1, ease: "none" }, 9.84);
+        tl.set("#s4", { opacity: 0 }, 10.0);
+
+        // ═══ S5 · alerta estafa (9,9 – 12,0) ═══
+        tl.fromTo("#sbub", { opacity: 0, scale: 0.55, y: -220 }, { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: "expo.out" }, 9.95);
+        tl.fromTo("#alerta", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 10.0);
+        tl.set("#warn", { transformOrigin: "50% 60%" }, 0);
+        tl.to("#warn", { keyframes: [{ rotation: -14, duration: 0.07 }, { rotation: 12, duration: 0.07 }, { rotation: -8, duration: 0.07 }, { rotation: 0, duration: 0.08 }] }, 10.2);
+        // El sello cae con peso.
+        tl.set("#stamp", { rotation: -10, transformOrigin: "50% 50%" }, 0);
+        tl.fromTo("#stamp", { opacity: 0, scale: 2.7, rotation: -24 }, { opacity: 1, scale: 1, rotation: -10, duration: 0.17, ease: "power4.in" }, 10.38);
+        var HIT = 10.55;
+        tl.to("#w5", { keyframes: [{ x: -20, y: 12, duration: 0.04 }, { x: 16, y: -9, duration: 0.04 }, { x: -10, y: 6, duration: 0.05 }, { x: 6, y: -3, duration: 0.05 }, { x: 0, y: 0, duration: 0.07 }] }, HIT);
+        tl.to("#sbub", { scale: 0.975, duration: 0.05, ease: "power2.out" }, HIT);
+        tl.to("#sbub", { scale: 1, duration: 0.3, ease: "elastic.out(1, 0.45)" }, HIT + 0.05);
+        tl.to("#stamp", { scale: 1.05, duration: 0.05 }, HIT);
+        tl.to("#stamp", { scale: 1, duration: 0.25, ease: "back.out(3)" }, HIT + 0.05);
+        rays.forEach(function (r) {
+          tl.fromTo(r, { y: 160, scaleY: 1, opacity: 1 }, { y: 360, scaleY: 0.15, duration: 0.4, ease: "power3.out", immediateRender: false }, HIT);
+          tl.to(r, { opacity: 0, duration: 0.12 }, HIT + 0.3);
+        });
+        tl.fromTo(".ray i", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
+        rise("#s5-cap", 10.8, 0.6);
+        tl.fromTo("#s5-mk", { scaleX: 0 }, { scaleX: 1, duration: 0.42, ease: "power3.inOut" }, 11.04);
+        tl.fromTo("#shock", { scale: 0.4, opacity: 1 }, { scale: 3.2, opacity: 0, duration: 0.5, ease: "power2.out", immediateRender: false }, HIT);
+        tl.fromTo("#shock", { opacity: 0 }, { opacity: 0, duration: 0.01 }, 0);
+        tl.fromTo("#w5", { scale: 1.05 }, { scale: 1, duration: 2.2, ease: "power2.out", immediateRender: false }, 9.86);
+
+        // ═══ Transición · iris desde el sello (12,0 – 12,45) ═══
+        tl.fromTo("#iris", { scale: 0 }, { scale: 17, duration: 0.34, ease: "power3.in" }, 11.96);
+        tl.set("#s6", { opacity: 1 }, 12.08);
+        tl.fromTo(
+          "#s6",
+          { clipPath: "circle(0px at 1330px 600px)" },
+          { clipPath: "circle(1520px at 1330px 600px)", duration: 0.46, ease: "power3.inOut", immediateRender: false },
+          12.08,
+        );
+        tl.set("#s5, #iris", { opacity: 0 }, 12.6);
+
+        // ═══ S6 · nadie se queda atrás (12,1 – 13,3) ═══
+        tl.fromTo("#w6", { scale: 1.08 }, { scale: 1, duration: 1.3, ease: "power2.out", immediateRender: false }, 12.08);
+        tl.fromTo("#s6-eb", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 12.3);
+        rise("#s6-l1", 12.3, 0.65);
+        rise("#s6-l2", 12.42, 0.65);
+        avs.forEach(function (a, k) {
+          tl.fromTo(a.el, { scale: 0 }, { scale: 1, duration: 0.45, ease: "back.out(2.2)" }, 12.22 + k * 0.045);
+          tl.to(a.ln, { attr: { "stroke-dashoffset": 0 }, duration: 0.3, ease: "power2.inOut" }, 12.34 + k * 0.035);
+        });
+
+        // Convergen en el móvil: la comunidad ES el canal (13,3 – 13,7).
+        var TX = 646,
+          TY = 416;
+        avs.forEach(function (a, k) {
+          tl.to(a.el, { x: TX - a.x, y: TY - a.y, scale: 0.15, duration: 0.36, ease: "power3.in" }, 13.28 + k * 0.015);
+          tl.to(a.el, { opacity: 0, duration: 0.06 }, 13.6 + k * 0.015);
+        });
+        tl.to("#net", { opacity: 0, duration: 0.25 }, 13.28);
+        tl.to("#s6-eb, #s6-l1, #s6-l2", { opacity: 0, scale: 0.94, duration: 0.3, ease: "power2.in" }, 13.28);
+
+        // ═══ Cierre · logotipo + lema + redes (13,55 – 15,0) ═══
+        tl.fromTo("#lk-mascot", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.5, ease: "back.out(2.2)" }, 13.56);
+        tl.fromTo("#lk-w1", { y: 52 }, { y: 0, duration: 0.6, ease: "expo.out" }, 13.68);
+        tl.fromTo("#lk-w2", { y: 66 }, { y: 0, duration: 0.6, ease: "expo.out" }, 13.78);
+        rise("#tag", 13.96, 0.7);
+        tl.fromTo("#plat", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 14.12);
+        // Guiño final.
+        tl.to("#lk-eyeR", { scaleY: 0.08, transformOrigin: "50% 50%", duration: 0.07, ease: "power2.in" }, 14.48);
+        tl.to("#lk-eyeR", { scaleY: 1, duration: 0.14, ease: "power2.out" }, 14.62);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

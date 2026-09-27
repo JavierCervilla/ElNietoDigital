@@ -37,8 +37,9 @@ RE_TEL='(\+34|0034)?[[:space:].-]?[6-9][0-9]{2}[[:space:].-]?[0-9]{3}[[:space:].
 RE_DNI='(^|[^A-Za-z0-9])([0-9]{8}[A-Za-z]|[XYZxyz][0-9]{7}[A-Za-z])([^A-Za-z0-9]|$)'
 RE_MAIL='[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
 # Ficheros que por naturaleza llevan dominios o correos de ejemplo legítimos se declaran aquí, no se
-# apagan con un flag: el propio gate lista las excepciones.
-PRIV_EXCLUDE='^(scripts/gate-contenido\.sh|docs/diagrams/.*)$'
+# apagan con un flag: el propio gate lista las excepciones. `videos/*/vendor/` es código de terceros
+# vendorizado tal cual (p. ej. GSAP), cuya cabecera de licencia lleva el correo público de su autor y no se toca.
+PRIV_EXCLUDE='^(scripts/gate-contenido\.sh|docs/diagrams/.*|videos/[^/]+/vendor/.*)$'
 
 gate() {
   local root="$1" rojo=0 f
@@ -107,6 +108,14 @@ self_test() {
   # Email → 1
   local t2="$tmp/mail"; cp -r "$ok" "$t2"; printf 'escribe a alguien@ejemplo.es\n' > "$t2/nota.md"
   ( gate "$t2" ) >/dev/null 2>&1; espera 1 "email" $?
+  # Código de terceros vendorizado en un vídeo (licencia con el correo de su autor) → 0
+  local tv="$tmp/vendor"; cp -r "$ok" "$tv"; mkdir -p "$tv/videos/v/vendor"
+  printf '/* @author: Autor, autor@ejemplo.com */\n' > "$tv/videos/v/vendor/lib.js"
+  ( gate "$tv" ) >/dev/null 2>&1; espera 0 "vendor de un vídeo excluido" $?
+  # … pero la excepción es estrecha: el mismo correo en la fuente del vídeo → 1
+  local tw="$tmp/video"; cp -r "$ok" "$tw"; mkdir -p "$tw/videos/v"
+  printf '<p>autor@ejemplo.com</p>\n' > "$tw/videos/v/index.html"
+  ( gate "$tw" ) >/dev/null 2>&1; espera 1 "email en la fuente de un vídeo" $?
   # DNI → 1
   local t3="$tmp/dni"; cp -r "$ok" "$t3"; printf 'DNI 12345678Z\n' > "$t3/nota.md"
   ( gate "$t3" ) >/dev/null 2>&1; espera 1 "DNI" $?
