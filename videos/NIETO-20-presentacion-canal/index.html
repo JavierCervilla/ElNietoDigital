@@ -1817,21 +1817,23 @@
         tl.fromTo("#ripple9", { scale: 0.4, opacity: 0.7 }, { scale: 4, opacity: 0, duration: 0.7, ease: "power2.out", immediateRender: false }, C.suscribase_toque);
         tl.set("#sb2", { opacity: 1 }, C.suscribase_toque + 0.06);
         tl.set("#sb1", { opacity: 0 }, C.suscribase_toque + 0.06);
-        tl.to("#hand9", { y: 0, duration: 0.7, ease: "power2.in" }, C.suscribase_toque + 0.35);
+        tl.to("#hand9", { y: 0, duration: 0.45, ease: "power2.in" }, C.suscribase_toque + 0.2);
         [0, 1, 2, 3].forEach(function (k) {
           tl.to("#bell", { rotation: k % 2 ? -14 : 14, svgOrigin: "46 14", duration: 0.07 }, C.suscribase_toque - 0.35 + k * 0.07);
         });
         tl.to("#bell", { rotation: 0, svgOrigin: "46 14", duration: 0.08 }, C.suscribase_toque - 0.07);
         // Logotipo final.
         var LF = C.logo_final;
-        tl.to("#subBtn", { scale: 0, opacity: 0, duration: 0.45, ease: "back.in(1.8)" }, LF - 0.35);
-        tl.set("#logo", { y: -40, scale: 0.9 }, LF - 0.3);
-        tl.set(["#lk-w1"], { y: 58 }, LF - 0.3);
-        tl.set(["#lk-w2"], { y: 70 }, LF - 0.3);
-        tl.set("#logoLayer", { opacity: 1 }, LF - 0.3);
-        tl.fromTo("#lk-m", { scale: 0, transformOrigin: "70px 70px" }, { scale: 1, duration: 0.6, ease: "back.out(1.9)", immediateRender: false }, LF - 0.25);
-        tl.to("#lk-w1", { y: 0, duration: 0.7, ease: "power4.out" }, LF + 0.1);
-        tl.to("#lk-w2", { y: 0, duration: 0.7, ease: "power4.out" }, LF + 0.35);
+        // El botón y la mano salen ANTES de que asome el logotipo: nada se pisa.
+        tl.to("#subBtn", { scale: 0, opacity: 0, duration: 0.35, ease: "back.in(1.8)" }, LF - 0.5);
+        tl.set("#logo", { y: -40, scale: 0.9 }, LF - 0.16);
+        tl.set(["#lk-w1"], { y: 58 }, LF - 0.16);
+        tl.set(["#lk-w2"], { y: 70 }, LF - 0.16);
+        tl.set("#lk-m", { scale: 0, transformOrigin: "70px 70px" }, LF - 0.16);
+        tl.set("#logoLayer", { opacity: 1 }, LF - 0.15);
+        tl.fromTo("#lk-m", { scale: 0, transformOrigin: "70px 70px" }, { scale: 1, duration: 0.6, ease: "back.out(1.9)", immediateRender: false }, LF - 0.12);
+        tl.to("#lk-w1", { y: 0, duration: 0.7, ease: "power4.out" }, LF + 0.15);
+        tl.to("#lk-w2", { y: 0, duration: 0.7, ease: "power4.out" }, LF + 0.4);
         tl.fromTo("#tag", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, LF + 0.8);
         tl.fromTo("#plat", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, T.lineas[8].t1 + 0.55);
         tl.to(["#lk-eyeL", "#lk-eyeR"], { scaleY: 0.1, transformOrigin: "50% 50%", duration: 0.07, yoyo: true, repeat: 1 }, C.guino - 1.4);
