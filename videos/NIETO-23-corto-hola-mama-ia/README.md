@@ -60,7 +60,7 @@ Mismo sistema que el tráiler (NIETO-20/21/22), a ritmo de corto:
 2. **Montaje.** `herramientas/montar_voz.py`:
    - afina la alineación contra el audio;
    - añade respiros;
-   - ralentiza al 88 % con Rubber Band.
+   - ralentiza al 88 % con PSOLA de Praat (NIETO-24: con Rubber Band la voz sonaba «un poco metálica»).
 
    Queda en ~2,6 palabras/s con pausas: la guía pide hablar despacio y esto aún cabe en 53 s.
 3. **Cues.** `herramientas/banda_sonora.py` deriva de las palabras los *cues* de pantalla (`cues.js`). Así cada
@@ -77,11 +77,12 @@ Mismo sistema que el tráiler (NIETO-20/21/22), a ritmo de corto:
    son nuevos: el tecleo y el tono de llamada.
 6. **Mezcla.**
    - La música se agacha bajo la voz con anticipación de 100 ms.
-   - En habla plena, la voz queda 23,4 dB por encima de la música (mediana) y 11,5 dB en el percentil 10.
+   - En habla plena, la voz queda 25,9 dB por encima de la música (mediana) y 14,1 dB en el percentil 10.
    - El latido se re-secuencia para que se acelere bajo la presión y se corta en seco antes de «Qué hacer:».
 
 ## Cómo regenerar el vídeo
-Necesita Node ≥ 22, FFmpeg (con rubberband), Chrome/Chromium y Python 3 con numpy y scipy.
+Necesita Node ≥ 22, FFmpeg, Chrome/Chromium y Python 3 con numpy, scipy y praat-parselmouth
+(`pip install praat-parselmouth`: el PSOLA que ralentiza la voz).
 
 ```bash
 cd videos/NIETO-23-corto-hola-mama-ia
